@@ -50,8 +50,11 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	initDInput(engine.hInstance, engine.hWnd);    // Inicializado de DirectInput
 
 //*---------------
-	params.scene->AddChild(new CObject(++params.ID,0,1.0,4.5,0,0,0,0.1,0.1,0.1,L"tiger.x", params.scene,params.engine));
-//	params.scene->lstChilds.front()->AddChild(new)
+	params.scene->AddChild(new CObject(++params.ID,2.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,L"tiger.x", params.scene,params.engine));
+	CObject* o = params.scene->find(params.ID);
+	o->AddChild(new CObject(++params.ID,0.0,3.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,L"tiger.x", o,params.engine));
+	 o = params.scene->find(params.ID);
+	o->AddChild(new CObject(++params.ID,0.0,3.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,L"airplane 2.x", o,params.engine));
 	
 
 	//Start Graphics and Networking threads
@@ -72,10 +75,30 @@ int index = 0; // index+=0.03f;
 		detect_input();    // actualizamos los datos de entrada del teclado antes de volver a hacer el rendereo del cuadro
 		//mover todo
 		
-		if(keystate[DIK_LEFT] & 0x80)
+		if(keystate[DIK_D] & 0x80)
+		{	params.scene->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			index += 1;
-		if(keystate[DIK_UP] & 0x80)
-			index -= 1;
+		}
+		if(keystate[DIK_A] & 0x80)
+		{	params.scene->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+			index += 1;
+		}
+		if(keystate[DIK_W] & 0x80)
+		{	params.scene->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+			index += 1;
+		}
+		if(keystate[DIK_S] & 0x80)
+		{	params.scene->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+			index += 1;
+		}
+		if(keystate[DIK_SPACE] & 0x80)
+		{	params.scene->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+			index += 1;
+		}
+		if(keystate[DIK_LCONTROL] & 0x80)
+		{	params.scene->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+			index += 1;
+		}
 		
 
 

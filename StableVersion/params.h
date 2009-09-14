@@ -41,7 +41,7 @@ public:
 		this->ID = ID;
 		D3DXMatrixTranslation(&translation,0.0,0.0,0.0);
 		D3DXMatrixRotationYawPitchRoll(&rotation, 0.0, 0.0, 0.0);
-		D3DXMatrixScaling(&scale, 0.0, 0.0, 0.0);
+		D3DXMatrixScaling(&scale, 1.0, 1.0, 1.0);
 
 		//file
 		this->fileName = NULL;
@@ -79,15 +79,10 @@ public:
         // Meshes are divided into subsets, one for each material. Render them in
         // a loop
 		//this->translation=this->pParent->translation*this->translation;
-		D3DXMATRIX translationTemp,scaleTemp,rotateTemp;
-		translationTemp=this->pParent->translation+this->translation;
-		rotateTemp=this->pParent->rotation+this->rotation;
+		
 		
 			//this->scale=this->pParent->scale*this->scale;
-
-		engine->d3ddev->SetTransform(D3DTS_WORLD,&translationTemp);
-		engine->d3ddev->SetTransform(D3DTS_WORLD,&this->scale);
-		engine->d3ddev->SetTransform(D3DTS_WORLD,&rotateTemp);
+		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->pParent->scale*this->scale) * (this->pParent->rotation*this->rotation) * (this->pParent->translation* this->translation)) ); //
 
 
         for( DWORD i = 0; i < dwNumMaterials; i++ )
@@ -123,6 +118,20 @@ public:
 			}
 		}
 		return NULL;
+	}
+	void move(float tX, float tY, float tZ, float rX, float rY, float rZ, float sX, float sY, float sZ)
+	{
+		D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
+		D3DXMatrixTranslation(&translationTemp,tX,tY,tZ);
+		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
+		D3DXMatrixScaling(&scaleTemp, sX, sY, sZ);
+		this->translation = this->translation*translationTemp;
+		this->rotation = this->rotation*rotationTemp;
+		this->scale = this->scale*rotationTemp;
+		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
+			CObject* o = *it;
+			o->move( tX,  tY,  tZ,  rX,  rY,  rZ,  sX,  sY, sZ);
+		}
 	}
 	HRESULT initializeMesh()
 	{
@@ -195,16 +204,18 @@ class Params
 {
 	
 	public:
+				//current ID
+		int ID;
 		//All the objects (tree)
 		CObject* scene;
 		//keep running graphics
 		int notQuit;
 		//We need the engine to run graphics
 		CEngine* engine;
-		//current ID
-		int ID;
+
 	Params()
 	{
+		ID = 0;
 		scene = new CObject();
 		notQuit = 1;
 		engine = NULL;

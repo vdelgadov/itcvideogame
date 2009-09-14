@@ -129,7 +129,7 @@ public:
 	void SetPerspective(float fovy, float n, float f) {
         D3DXMATRIX matProjection;
         D3DXMatrixPerspectiveFovLH(&matProjection, fovy,
-                (float)iWidth/iHeight,
+                1.0f,
 				n,f);
 
         d3ddev->SetTransform(D3DTS_PROJECTION, &matProjection);
