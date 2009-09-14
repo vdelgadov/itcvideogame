@@ -17,10 +17,20 @@ DWORD WINAPI graphics(LPVOID Param)
 	CEngine engine = *(params->engine);
 	
 	float index = 0.0f;
+	
+	engine.SetPerspective(D3DX_PI/4,1.0f,100.0f);
+
 	while (params->notQuit) {
 		engine.Clear();
 		engine.Begin();
 		
+		D3DXMATRIX matView;
+	    D3DXMatrixLookAtLH(&matView,
+                       &D3DXVECTOR3 (0.0f, 0.0f, -10.0f),    // eye
+                       &D3DXVECTOR3 (0.0f, 0.0f, 0.0f),    // at
+                       &D3DXVECTOR3 (0.0f, 1.0f, 0.0f));    // up
+		engine.d3ddev->SetTransform(D3DTS_VIEW, &matView);
+
 		for(list<CObject*>::iterator it = params->scene->lstChilds.begin(); it != params->scene->lstChilds.end(); ++it)
 		{
 			(*it)->render();
