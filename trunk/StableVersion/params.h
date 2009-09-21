@@ -10,14 +10,6 @@ public:
 	//ID
 	int ID;
 	D3DXMATRIX translation, rotation, scale;
-	/*//Object Position
-	float fPosX;
-	float fPosY;
-	float fPosZ;
-	//Object Rotation
-	float fRotX;
-	float fRotY;
-	float fRotZ;*/
 	//file
 	LPCTSTR fileName;
 	//Engine
@@ -54,7 +46,6 @@ public:
 		this->ID = ID;
 
 		D3DXMatrixTranslation(&translation,fPosX,fPosY,fPosZ);
-		
 		D3DXMatrixScaling(&scale, fScaleX, fScaleY, fScaleZ);
 		D3DXMatrixRotationYawPitchRoll(&rotation, fRotX, fRotY, fRotZ);
 
@@ -72,18 +63,7 @@ public:
 	}
 	virtual void render()
 	{
-		
-        // Setup the world, view, and projection matrices
-        //SetupMatrices(x,y,z);
-
-        // Meshes are divided into subsets, one for each material. Render them in
-        // a loop
-		//this->translation=this->pParent->translation*this->translation;
-		
-		
-			//this->scale=this->pParent->scale*this->scale;
-		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->pParent->scale*this->scale) * (this->pParent->rotation*this->rotation) * (this->pParent->translation* this->translation)) ); //
-
+		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); //
 
         for( DWORD i = 0; i < dwNumMaterials; i++ )
         {		
@@ -103,6 +83,9 @@ public:
 	void AddChild(CObject* pNode)
 	{
 		lstChilds.push_back(pNode);
+		pNode->translation = pNode->pParent->translation * pNode->translation;
+		pNode->rotation = pNode->pParent->rotation * pNode->rotation;
+		pNode->scale = pNode->pParent->scale * pNode->scale;
 	}
 	CObject* find(int id)
 	{
@@ -122,9 +105,11 @@ public:
 	void move(float tX, float tY, float tZ, float rX, float rY, float rZ, float sX, float sY, float sZ)
 	{
 		D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
+
 		D3DXMatrixTranslation(&translationTemp,tX,tY,tZ);
 		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		D3DXMatrixScaling(&scaleTemp, sX, sY, sZ);
+
 		this->translation = this->translation*translationTemp;
 		this->rotation = this->rotation*rotationTemp;
 		this->scale = this->scale*rotationTemp;
