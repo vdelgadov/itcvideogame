@@ -1,4 +1,4 @@
-// Engine.cpp : Defines the entry point for the application.#include "Engine.h"
+// Engine.cpp : Defines the entry point for the application.
 #include "Engine.h"
 #include "Debugging.h"
 #include "Graphics.h"
@@ -21,12 +21,12 @@ bool useDebugging = true;
 //mover!!!
 LPDIRECTINPUT8 din;    // El apuntador a nuestra interface de DirectInput
 LPDIRECTINPUTDEVICE8 dinkeyboard;    // El apuntador a keyboard device
+LPDIRECTINPUTDEVICE8 dinmouse;    // el apuntador al mouse device
 BYTE keystate[256];    // El arreglo de 256 bytes donde almacenaremos la informacion sobre el cambio de estado de cada tecla
+DIMOUSESTATE mousestate;    // el espacio de almacenamiento para la informacion del mouse
 void initDInput(HINSTANCE hInstance, HWND hWnd);    // Inicializamos DirectInput
 void detect_input(void);    // Esto captura el estatus correcto del input de teclado
 void cleanDInput(void);    // Cierra directInput y libera la memoria utilizada para administrar los cambios al teclado.
-#define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
-#define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 
 
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow)
@@ -50,11 +50,12 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	initDInput(engine.hInstance, engine.hWnd);    // Inicializado de DirectInput
 
 //*---------------
-	params.scene->AddChild(new CObject(++params.ID,2.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,L"tiger.x", params.scene,params.engine));
+	params.scene->AddChild(new CObject(++params.ID,2.0,0.0,0.0,45.0,0.0,0.0,1.0,1.0,1.0,L"tiger.x", params.scene,params.engine));
 	CObject* o = params.scene->find(params.ID);
-	o->AddChild(new CObject(++params.ID,0.0,3.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,L"tiger.x", o,params.engine));
+	o->AddChild(new CObject(++params.ID,0.0,3.0,0.0,-45.0,0.0,0.0,0.5,0.5,0.5,L"tiger.x", o,params.engine));
 	 o = params.scene->find(params.ID);
-	o->AddChild(new CObject(++params.ID,0.0,3.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,L"airplane 2.x", o,params.engine));
+
+	o->AddChild(new CObject(++params.ID,-5.0f,3.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,L"airplane 2.x", o,params.engine));
 	
 
 	//Start Graphics and Networking threads
@@ -74,12 +75,16 @@ int index = 0; // index+=0.03f;
 	{
 		detect_input();    // actualizamos los datos de entrada del teclado antes de volver a hacer el rendereo del cuadro
 		//mover todo
-		
-		if(keystate[DIK_D] & 0x80)
+		if(keystate[DIK_ESCAPE] & 0x80)
+		{	
+			params.engine->End();
+			return 0;
+		}
+		if(keystate[DIK_A] & 0x80)
 		{	params.scene->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			index += 1;
 		}
-		if(keystate[DIK_A] & 0x80)
+		if(keystate[DIK_D] & 0x80)
 		{	params.scene->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			index += 1;
 		}
@@ -99,6 +104,18 @@ int index = 0; // index+=0.03f;
 		{	params.scene->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			index += 1;
 		}
+		params.scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		params.scene->move(0.0,mousestate.lY * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		params.scene->move(0.0,0.0,mousestate.lZ * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
+/*
+			// set the world transform
+static float index = 0.0f;
+index += mousestate.lX * 0.003f;
+
+D3DXMATRIX matRotateY;
+D3DXMatrixRotationY(&matRotateY, index);
+d3ddev->SetTransform(D3DTS_WORLD, &(matRotateY));
+*/
 		
 
 
@@ -106,11 +123,11 @@ int index = 0; // index+=0.03f;
 		if(useDebugging)
 		{
 			printf("Esto lo escribio el thread principal (winMain)%i\n", index);
-			//printf("Esto lo escribio el thread principal (winMain)\n");
 			Sleep(100);
 		}
 	}
 	params.notQuit = 0;
+	engine.End();
 	cleanDInput();    // Liberamos DirectInput
 	return 0;
 }
@@ -138,17 +155,34 @@ void initDInput(HINSTANCE hInstance, HWND hWnd)
 
     // declaramos el control que utilizaremos como control de teclado
     dinkeyboard->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+
+	// creamos el dispositivo mouse
+    din->CreateDevice(GUID_SysMouse,
+                      &dinmouse,
+                      NULL);
+
+    // especificamos el tipo de datos que nos va a pasar el device mouse
+    dinmouse->SetDataFormat(&c_dfDIMouse);
+
+    // declaramos el control que utilizaremos como control del mouse device
+    dinmouse->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 }
 
 
 // Esta es la funcion que nos trae los datos de entrada mas actuales
 void detect_input(void)
 {
-    // solicitamos el acceso al teclado
+   // solicitamos el acceso al teclado
     dinkeyboard->Acquire();
+
+    // solicitamos el acceso al mouse
+    dinmouse->Acquire();
 
     // aqui sacamos los datos de entrada
     dinkeyboard->GetDeviceState(256, (LPVOID)keystate);
+
+    // aqui sacamos los datos de entrada del mouse
+    dinmouse->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mousestate);
 }
 
 
@@ -156,5 +190,6 @@ void detect_input(void)
 void cleanDInput(void)
 {
     dinkeyboard->Unacquire();    // rendimos el acquire del teclado
+    dinmouse->Unacquire();    // rendimos el acquire / acceso del mouse
     din->Release();    // cerramos directInput antes de salir
 }
