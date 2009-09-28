@@ -3,7 +3,6 @@
 #include "Params.h"
 
 
-
 struct CUSTOMVERTEX {
 	float X, Y, Z;
 	DWORD COLOR;
