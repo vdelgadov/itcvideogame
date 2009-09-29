@@ -1,6 +1,9 @@
+#ifndef OBJECT_DEF
+#define OBJECT_DEF
 #include <vector>
 #include <list>
-//#include "Engine.h"
+#include "Physics.h"
+#include "Engine.h"
 using namespace std;
 
 class CObject
@@ -21,6 +24,15 @@ public:
 	LPDIRECT3DTEXTURE9*		pMeshTextures; // Textures for our mesh
 	DWORD					dwNumMaterials; // Number of mesh materials
 	LPD3DXBUFFER			pD3DXMtrlBuffer;
+	
+	//Bounding Sphere needed by others
+	D3DXVECTOR3 Center;
+	FLOAT Radius;
+	
+	//cambiar por vehiculo!!!!
+	float x;
+	float y;
+	float z;
 
 	//Child list and parent
 	list<CObject*> lstChilds;
@@ -29,7 +41,7 @@ public:
 	CObject()
 	{
 		//id
-		this->ID = ID;
+		this->ID = 0;
 		D3DXMatrixTranslation(&translation,0.0,0.0,0.0);
 		D3DXMatrixRotationYawPitchRoll(&rotation, 0.0, 0.0, 0.0);
 		D3DXMatrixScaling(&scale, 1.0, 1.0, 1.0);
@@ -41,6 +53,11 @@ public:
 	}
 	CObject(int ID,float fPosX, float fPosY, float fPosZ, float fRotX, float fRotY, float fRotZ,float fScaleX,float fScaleY,float fScaleZ, LPCTSTR fileName, CObject* parent,CEngine* engine)
 	{
+		//quitar cambiar por vehiculo
+		this->x = fPosX;
+		this->y = fPosY;
+		this->z = fPosZ;
+
 		//id
 		this->ID = ID;
 
@@ -54,6 +71,21 @@ public:
 		this->pParent = parent;
 		this->engine = engine;
 		this->initializeMesh();
+		this->initializeBoundingSphere();
+		printf ( "Center%f Radius%f", Center.x,Radius) ;
+
+	}
+	void initializeBoundingSphere()
+	{
+		LPDIRECT3DVERTEXBUFFER9 VertexBuffer;
+		D3DXVECTOR3* Vertices;
+		DWORD FVFVertexSize = D3DXGetFVFVertexSize(pMesh->GetFVF());
+		pMesh->GetVertexBuffer(&VertexBuffer);
+		VertexBuffer->Lock(0,0,(VOID**) &Vertices,D3DLOCK_DISCARD);
+		D3DXComputeBoundingSphere(Vertices, pMesh->GetNumVertices(),FVFVertexSize,&Center, &Radius);
+		VertexBuffer->Unlock();
+
+		
 	}
 	virtual ~CObject() {
 		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
@@ -96,7 +128,11 @@ public:
 			}
 			else
 			{
-				return (*it)->find(id);
+				CObject* o = (*it)->find(id);
+				if (o)
+				{
+					return o;
+				}
 			}
 		}
 		return NULL;
@@ -104,12 +140,15 @@ public:
 	void move(float tX, float tY, float tZ, float rX, float rY, float rZ, float sX, float sY, float sZ)
 	{
 		D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
-
+		
 		D3DXMatrixTranslation(&translationTemp,tX,tY,tZ);
 		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		D3DXMatrixScaling(&scaleTemp, sX, sY, sZ);
-
+		
+		if(Physics::checkBoundingSphere(this, this->pParent)){
 		this->translation = this->translation*translationTemp;
+		}
+
 		this->rotation = this->rotation*rotationTemp;
 		this->scale = this->scale*rotationTemp;
 		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
@@ -179,3 +218,4 @@ public:
 	}
 
 };
+#endif
