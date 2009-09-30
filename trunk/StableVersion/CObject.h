@@ -147,6 +147,10 @@ public:
 		
 		if(Physics::checkBoundingSphere(this, this->pParent)){
 		this->translation = this->translation*translationTemp;
+		//cambiar por vehiculo
+		this->x = tX;
+		this->y = tY;
+		this->z = tZ;
 		}
 
 		this->rotation = this->rotation*rotationTemp;

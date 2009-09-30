@@ -88,9 +88,9 @@ class DirectInput
 		{	params->scene->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
-		params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		params->scene->move(0.0,mousestate.lY * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		params->scene->move(0.0,0.0,mousestate.lZ * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
+		//params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		//params->scene->move(0.0,mousestate.lY * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		//params->scene->move(0.0,0.0,mousestate.lZ * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
 		//params->scene
 		return 1;
 	}
