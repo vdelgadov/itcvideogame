@@ -35,29 +35,29 @@ class DirectInput
 		detect_input();
 //*****************************
 		if(keyDown(DIK_J))
-		{	params->scene->find(2)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(2)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_L))
-		{	params->scene->find(2)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(2)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_I))
-		{	params->scene->find(2)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(2)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_K))
-		{	params->scene->find(2)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(2)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
 		}
 
 		if(keyDown(DIK_F))
-		{	params->scene->find(3)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(3)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_H))
-		{	params->scene->find(3)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(3)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_T))
-		{	params->scene->find(3)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(3)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_G))
-		{	params->scene->find(3)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(3)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
 		}
 //*****************************
 		if(keystate[DIK_ESCAPE] & 0x80)
@@ -66,31 +66,31 @@ class DirectInput
 			return 0;
 		}
 		if(keyDown(DIK_A))
-		{	params->scene->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keystate[DIK_D] & 0x80)
-		{	params->scene->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_W] & 0x80)
-		{	params->scene->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_S] & 0x80)
-		{	params->scene->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_SPACE] & 0x80)
-		{	params->scene->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_LCONTROL] & 0x80)
-		{	params->scene->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
-		//params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		//params->scene->move(0.0,mousestate.lY * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		//params->scene->move(0.0,0.0,mousestate.lZ * -0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
+		//params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
+		//params->scene->move(0.0,mousestate.lY * -0.01f,0.0,0.0,0.0,0.0,0.0);
+		//params->scene->move(0.0,0.0,mousestate.lZ * -0.01f,0.0,0.0,0.0,0.0);
 		//params->scene
 		return 1;
 	}
