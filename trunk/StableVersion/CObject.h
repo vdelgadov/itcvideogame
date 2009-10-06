@@ -4,6 +4,7 @@
 #include <list>
 #include "Physics.h"
 #include "Engine.h"
+#include "Vehicle3D.h"
 using namespace std;
 
 class CObject
@@ -27,12 +28,20 @@ public:
 	
 	//Bounding Sphere needed by others
 	D3DXVECTOR3 Center;
-	FLOAT Radius;
+	float Radius;
 	
-	//cambiar por vehiculo!!!!
-	float x;
-	float y;
-	float z;
+	//
+	double fPosX;
+	double fPosY;
+	double fPosZ;
+	
+	double fRotX;
+	double fRotY;
+	double fRotZ;
+	
+	double fScale;
+	
+	Vehicle3D vehicle;
 
 	//Child list and parent
 	list<CObject*> lstChilds;
@@ -40,6 +49,16 @@ public:
 public:	
 	CObject()
 	{
+		this->fPosX = 0.0;
+		this->fPosY = 0.0;
+		this->fPosZ = 0.0;
+
+		this->fRotX = 0.0;
+		this->fRotY = 0.0;
+		this->fPosZ = 0.0;
+		
+		this->fScale = 1.0;
+		this->vehicle = Vehicle3D(1,Vector3D(0.0,0.0,0.0));
 		//id
 		this->ID = 0;
 		D3DXMatrixTranslation(&translation,0.0,0.0,0.0);
@@ -51,18 +70,24 @@ public:
 		//parent
 		this->pParent = NULL;
 	}
-	CObject(int ID,float fPosX, float fPosY, float fPosZ, float fRotX, float fRotY, float fRotZ,float fScaleX,float fScaleY,float fScaleZ, LPCTSTR fileName, CObject* parent,CEngine* engine)
+	CObject(int ID,float fPosX, float fPosY, float fPosZ, float fRotX, float fRotY, float fRotZ,float fScale, LPCTSTR fileName, CObject* parent,CEngine* engine)
 	{
 		//quitar cambiar por vehiculo
-		this->x = fPosX;
-		this->y = fPosY;
-		this->z = fPosZ;
+		this->fPosX = fPosX;
+		this->fPosY = fPosY;
+		this->fPosZ = fPosZ;
 
+		this->fRotX = fRotX;
+		this->fRotY = fRotY;
+		this->fPosZ = fRotZ;
+		
+		this->fScale = fScale;
+		//this->vehicle = Vehicle3D(1,Vector3D(fPosX,fPosY,fPosZ));
 		//id
 		this->ID = ID;
 
 		D3DXMatrixTranslation(&translation,fPosX,fPosY,fPosZ);
-		D3DXMatrixScaling(&scale, fScaleX, fScaleY, fScaleZ);
+		D3DXMatrixScaling(&scale, fScale, fScale, fScale);
 		D3DXMatrixRotationYawPitchRoll(&rotation, fRotX, fRotY, fRotZ);
 
 		//file
@@ -71,9 +96,22 @@ public:
 		this->pParent = parent;
 		this->engine = engine;
 		this->initializeMesh();
+		this->initializeWorldCoordinates();		
 		this->initializeBoundingSphere();
-		printf ( "Center%f Radius%f", Center.x,Radius) ;
 
+		printf ( "Centerx %f,Centery %f,Centerz %f, Radius%f\n", Center.x,Center.y,Center.z,Radius) ;
+
+	}
+	virtual void initializeWorldCoordinates()
+	{
+		CObject* o = this;
+		while(o != NULL)
+		{
+			Vector3D pos = Vector3D(o->fPosX,o->fPosY,o->fPosZ);
+			pos+=this->vehicle.getPos();
+			this->vehicle.setPos( pos  );
+			o = o->pParent;
+		}
 	}
 	void initializeBoundingSphere()
 	{
@@ -84,9 +122,12 @@ public:
 		VertexBuffer->Lock(0,0,(VOID**) &Vertices,D3DLOCK_DISCARD);
 		D3DXComputeBoundingSphere(Vertices, pMesh->GetNumVertices(),FVFVertexSize,&Center, &Radius);
 		VertexBuffer->Unlock();
+		this->Radius = this->Radius*(float)this->fScale;
+		this->Center = this->Center*(float)this->fScale;
 
 		
 	}
+	
 	virtual ~CObject() {
 		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
 			delete *it;
@@ -137,28 +178,60 @@ public:
 		}
 		return NULL;
 	}
-	void move(float tX, float tY, float tZ, float rX, float rY, float rZ, float sX, float sY, float sZ)
+	void move(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 	{
 		D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
 		
 		D3DXMatrixTranslation(&translationTemp,tX,tY,tZ);
 		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
-		D3DXMatrixScaling(&scaleTemp, sX, sY, sZ);
+		D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
 		
-		if(Physics::checkBoundingSphere(this, this->pParent)){
-		this->translation = this->translation*translationTemp;
-		//cambiar por vehiculo
-		this->x = tX;
-		this->y = tY;
-		this->z = tZ;
+		if(!Physics::checkBoundingSphere(this, this->pParent)) // if no intersections change pos
+		{
+			this->translation = this->translation*translationTemp;
+			//Update world and relative coordinates
+			Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
+			pos+=this->vehicle.getPos();
+			this->vehicle.setPos( pos  );
+			this->fPosX += tX;
+			this->fPosY += tY;
+			this->fPosZ += tZ;
+			
+
+			this->rotation = this->rotation*rotationTemp;
+			this->scale = this->scale*rotationTemp;
+			for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
+				CObject* o = *it;
+				o->moveNoChecks( tX,  tY,  tZ,  rX,  rY,  rZ,  scale);
+			}
 		}
+	}
+	void moveNoChecks(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
+	{
+		D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
+		
+		D3DXMatrixTranslation(&translationTemp,tX,tY,tZ);
+		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
+		D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
+		
+		
+		this->translation = this->translation*translationTemp;
+		//Update world and relative coordinates
+		Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
+		pos+=this->vehicle.getPos();
+		this->vehicle.setPos( pos  );
+		this->fPosX += tX;
+		this->fPosY += tY;
+		this->fPosZ += tZ;
+		
 
 		this->rotation = this->rotation*rotationTemp;
 		this->scale = this->scale*rotationTemp;
 		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
 			CObject* o = *it;
-			o->move( tX,  tY,  tZ,  rX,  rY,  rZ,  sX,  sY, sZ);
+			o->moveNoChecks( tX,  tY,  tZ,  rX,  rY,  rZ,  scale);
 		}
+		
 	}
 	HRESULT initializeMesh()
 	{
