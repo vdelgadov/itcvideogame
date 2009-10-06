@@ -186,8 +186,8 @@ public:
 		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
 		
-		if(!Physics::checkBoundingSphere(this, this->pParent)) // if no intersections change pos
-		{
+		//if(!Physics::checkBoundingSphere(this, this->pParent)) // if no intersections change pos
+		//{
 			this->translation = this->translation*translationTemp;
 			//Update world and relative coordinates
 			Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
@@ -204,7 +204,7 @@ public:
 				CObject* o = *it;
 				o->moveNoChecks( tX,  tY,  tZ,  rX,  rY,  rZ,  scale);
 			}
-		}
+		//}
 	}
 	void moveNoChecks(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 	{
