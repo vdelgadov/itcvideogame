@@ -10,12 +10,18 @@
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 
+//===============================================================
+// Clean up
+#define ReleaseCOM(x) { if(x){ x->Release();x = 0; } }
+
 
 //Dinput
 
 
 class CEngine {
 public:
+	D3DXMATRIX matProjection;
+	D3DXMATRIX matView;
 	HINSTANCE hInstance;
 	HWND hWnd;
 	LPDIRECT3D9 d3d;
@@ -128,7 +134,6 @@ public:
 	}
 
 	void SetPerspective(float fovy, float n, float f) {
-        D3DXMATRIX matProjection;
         D3DXMatrixPerspectiveFovLH(&matProjection, fovy,
                 1.0f,
 				n,f);
@@ -172,7 +177,4 @@ protected:
 	}
 
 };
-
-
-
 #endif
