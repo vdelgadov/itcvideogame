@@ -1,11 +1,21 @@
 #ifndef SIMPLE_ENGINE_H_
 #define SIMPLE_ENGINE_H_
+
+
+//#define WIN32_LEAN_AND_MEAN 
+
+
+
 #include <windows.h>
 #include <windowsx.h>
+
+
+
+
+
+
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <windows.h>
-#include <windows.h>
 #include <dinput.h>
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")

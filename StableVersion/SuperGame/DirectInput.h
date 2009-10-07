@@ -39,34 +39,39 @@ class DirectInput
 //*****************************
 		
 //*****************************
-		if(keystate[DIK_ESCAPE] & 0x80)
+		if(keyDown(DIK_ESCAPE))
 		{	
 			params->engine->End();
 			return 0;
 		}
 		if(keyDown(DIK_A))
-		{	params->scene->find(1)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{
+			params->myObject->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
-		if(keystate[DIK_D] & 0x80)
-		{	params->scene->find(1)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		if(keyDown(DIK_D))
+		{	params->myObject->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
-		if(keystate[DIK_W] & 0x80)
-		{	params->scene->find(1)->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
+		if(keyDown(DIK_W))
+		{	params->myObject->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
 			
 		}
-		if(keystate[DIK_S] & 0x80)
-		{	params->scene->find(1)->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
+		if(keyDown(DIK_S))
+		{	params->myObject->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
 			
 		}
-		if(keystate[DIK_SPACE] & 0x80)
-		{	params->scene->find(1)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
+		if(keyDown(DIK_SPACE))
+		{	params->myObject->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
-		if(keystate[DIK_LCONTROL] & 0x80)
-		{	params->scene->find(1)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
+		if(keyDown(DIK_LCONTROL))
+		{	params->myObject->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
+		/*D3DXMatrixLookAtLH(&(engine->matView),
+                       &D3DXVECTOR3 (0.0f, 5.0f, -10.0f),    // eye
+                       &D3DXVECTOR3 (0.0f, 0.0f, 0.0f),    // at
+                       &D3DXVECTOR3 (0.0f, 1.0f, 0.0f));    // up*/
 		//params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
 		//params->scene->move(0.0,mousestate.lY * -0.01f,0.0,0.0,0.0,0.0,0.0);
 		//params->scene->move(0.0,0.0,mousestate.lZ * -0.01f,0.0,0.0,0.0,0.0);

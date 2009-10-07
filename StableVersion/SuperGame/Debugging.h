@@ -1,8 +1,8 @@
-#include <windows.h>
+//#include <windows.h>
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <windowsx.h>
+//#include <windowsx.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <fcntl.h>

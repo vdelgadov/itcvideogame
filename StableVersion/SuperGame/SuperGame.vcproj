@@ -60,6 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="Ws2_32.lib Mswsock.lib Advapi32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -132,6 +133,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="Ws2_32.lib Mswsock.lib Advapi32.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -183,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Networking.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NormalMap.fx"
 				>
 			</File>
@@ -222,6 +228,10 @@
 			</File>
 			<File
 				RelativePath=".\Graphics.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Networking.h"
 				>
 			</File>
 			<File

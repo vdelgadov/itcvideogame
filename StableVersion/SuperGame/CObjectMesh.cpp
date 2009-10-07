@@ -1,5 +1,4 @@
 #include "CObject.h"
-
 class CObjectMesh : public CObject
 {
 public:
@@ -68,7 +67,6 @@ public:
 
 		//file
 		this->fileName = fileName;
-		
 		this->engine = engine;
 		this->initializeMesh();
 		this->initializeWorldCoordinates();		
