@@ -1,7 +1,9 @@
 // Engine.cpp : Defines the entry point for the application.
+#include "Networking.h"
 #include "Engine.h"
 #include "Debugging.h"
 #include "Graphics.h"
+
 #include "Params.h"
 #include "DirectInput.h"
 #include "CObjectMesh.cpp"
@@ -33,8 +35,8 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	}
 	DWORD ThreadIdGraphics;
 	HANDLE ThreadHandleGraphics;
-	//DWORD ThreadIdNetwork;
-	//HANDLE ThreadHandleNetwork;
+	DWORD ThreadIdNetwork;
+	HANDLE ThreadHandleNetwork;
 
 	Params params;
 	
@@ -47,16 +49,19 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 
 //*---------------
 	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine));
-	CObject* o = params.scene->find(params.ID);
+	//CObject* o = params.scene->find(params.ID);
 	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle.getPos().y,o->vehicle.getPos().z);
-	o->AddChild(new CObjectMesh(++params.ID,0.0,5.0,0.0,-45.0,0.0,0.0,0.5,L"tiger.x",params.engine));
+	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
+	CObject* o = params.scene->find(params.ID);
+	params.myObject = o;
+	//o->AddChild(new CObjectMesh(++params.ID,0.0,5.0,0.0,-45.0,0.0,0.0,0.5,L"tiger.x",params.engine));
 	// o = params.scene->find(params.ID);
 //	o->AddChild(new CObject(++params.ID,-5.0f,3.0f,0.0,0.0,0.0,0.0,0.1f,0.1f,0.1f,L"airplane 2.x", o,params.engine));
 	
 
 	//Start Graphics and Networking threads
 	ThreadHandleGraphics = CreateThread(NULL,0,graphics,&params,0,&ThreadIdGraphics);
-	//ThreadHandleNetwork = CreateThread(NULL,0,network,NULL,0,&ThreadIdNetwork);
+	ThreadHandleNetwork = CreateThread(NULL,0,networking,&params,0,&ThreadIdNetwork);
 	
 
 

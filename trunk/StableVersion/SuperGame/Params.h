@@ -1,8 +1,10 @@
-#include "Engine.h"
+#ifndef PARAMS_H_
+#define PARAMS_H_
 #include "CObject.h"
+#include "Engine.h"
+
 //#include "Physics.h"
 using namespace std;
-
 
 
 
@@ -18,7 +20,7 @@ class Params
 		int notQuit;
 		//We need the engine to run graphics
 		CEngine* engine;
-//		Physics* physics;
+		CObject* myObject;
 
 	Params()
 	{
@@ -28,8 +30,8 @@ class Params
 		notQuit = 1;
 		engine = NULL;
 		scene->pParent = NULL;
+		
 	}
 	
 };
-
-
+#endif PARAMS_H_

@@ -24,7 +24,7 @@ DWORD WINAPI graphics(LPVOID Param)
 		engine->Begin();
 		
 	    D3DXMatrixLookAtLH(&(engine->matView),
-                       &D3DXVECTOR3 (0.0f, 0.0f, -10.0f),    // eye
+                       &D3DXVECTOR3 (0.0f, 5.0f, -10.0f),    // eye
                        &D3DXVECTOR3 (0.0f, 0.0f, 0.0f),    // at
                        &D3DXVECTOR3 (0.0f, 1.0f, 0.0f));    // up
 		engine->d3ddev->SetTransform(D3DTS_VIEW, &(engine->matView));

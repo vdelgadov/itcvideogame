@@ -4,6 +4,7 @@
 #include <list>
 #include "Physics.h"
 #include "Engine.h"
+//#include "Params.h"
 #include "Vehicle.h"
 #include "Vertex.h"
 #include <iostream>
@@ -38,7 +39,6 @@ public:
 		D3DXMatrixRotationYawPitchRoll(&rotation, 0.0, 0.0, 0.0);
 		D3DXMatrixScaling(&scale, 1.0, 1.0, 1.0);
 		this->pParent = NULL;
-		this->engine = engine;
 		this->fPosX = 0.0;
 		this->fPosY = 0.0;
 		this->fPosZ = 0.0;
