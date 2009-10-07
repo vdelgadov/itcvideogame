@@ -159,8 +159,8 @@ public:
 		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); //
 
 		mFX->SetValue(mhLight, &mLight, sizeof(DirLight));
-		mFX->SetMatrix(mhWVP, &(mSceneWorld*engine->matProjection));
-		mFX->SetValue(mhEyePosW, &engine->matView, sizeof(D3DXVECTOR3));
+		//mFX->SetMatrix(mhWVP, &(mSceneWorld*engine->matProjection));
+		mFX->SetValue(mhEyePosW, &D3DXVECTOR3 (0.0f, 0.0f, -10.0f), sizeof(D3DXVECTOR3));
 	
 		UINT numPasses = 0;
 		mFX->Begin(&numPasses, 0);
