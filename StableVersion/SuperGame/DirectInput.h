@@ -9,7 +9,10 @@ DIMOUSESTATE mousestate;    // el espacio de almacenamiento para la informacion 
 
 class DirectInput
 {
+
 	public:
+	#define PI 3.14159265358979323846
+
 	Params* params;
 	LPDIRECTINPUT8 din;    // El apuntador a nuestra interface de DirectInput
 	LPDIRECTINPUTDEVICE8 dinkeyboard;    // El apuntador a keyboard device
@@ -42,26 +45,26 @@ class DirectInput
 			return 0;
 		}
 		if(keyDown(DIK_A))
-		{	params->scene->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(1)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keystate[DIK_D] & 0x80)
-		{	params->scene->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(1)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_W] & 0x80)
-		{	params->scene->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(1)->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_S] & 0x80)
-		{	params->scene->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(1)->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_SPACE] & 0x80)
-		{	params->scene->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(1)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keystate[DIK_LCONTROL] & 0x80)
-		{	params->scene->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
+		{	params->scene->find(1)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		//params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
