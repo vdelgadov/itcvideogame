@@ -67,7 +67,8 @@ public:
 
 		hWnd = CreateWindowEx(NULL, L"WindowClass", L"D3D nine",
 							  WS_OVERLAPPEDWINDOW, 0, 0, iWidth, iHeight,
-							  NULL, NULL, hInstance, NULL);
+							  0, 0, hInstance, 0);
+		//hWnd = CreateWindow(L"D3DWndClassNAme",L"jojo",WS_OVERLAPPEDWINDOW,100,100,800,600,0,0, hInstance,0);
 
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
 
@@ -75,30 +76,59 @@ public:
 
 	void init3D() {
 		d3d = Direct3DCreate9(D3D_SDK_VERSION);
-
 		D3DPRESENT_PARAMETERS d3dpp;
+		ZeroMemory(&d3dpp,sizeof(d3dpp));
+		// Step 2: Verify hardware support for specified formats in windowed and full screen modes.
+	
+		D3DDISPLAYMODE mode;
+		D3DDEVTYPE devType=(D3DDEVTYPE)D3DDEVTYPE_HAL;
+		d3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &mode);
+		d3d->CheckDeviceType(D3DADAPTER_DEFAULT, devType, mode.Format, mode.Format, true);
+		d3d->CheckDeviceType(D3DADAPTER_DEFAULT, devType, D3DFMT_X8R8G8B8, D3DFMT_X8R8G8B8, false);
 
-		ZeroMemory(&d3dpp, sizeof(d3dpp));
-		d3dpp.Windowed = TRUE;
-		d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-		d3dpp.hDeviceWindow = hWnd;
-		d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
-		d3dpp.BackBufferWidth = 0;
-		d3dpp.BackBufferHeight = 0;
-		d3dpp.EnableAutoDepthStencil = TRUE;
-		d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
-		d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
-		
-		d3d->CreateDevice(D3DADAPTER_DEFAULT,
-                      D3DDEVTYPE_HAL,
-                      hWnd,
-                      D3DCREATE_HARDWARE_VERTEXPROCESSING,
-                      &d3dpp,
-                      &d3ddev);
+		// Step 3: Check for requested vertex processing and pure device.
 
-	    d3ddev->SetRenderState(D3DRS_LIGHTING, TRUE);
-		d3ddev->SetRenderState(D3DRS_ZENABLE, TRUE);
-		d3ddev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+			D3DCAPS9 caps;
+			d3d->GetDeviceCaps(D3DADAPTER_DEFAULT, devType, &caps);
+
+			DWORD devBehaviorFlags = 0;
+			if( caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT )
+				devBehaviorFlags |= D3DCREATE_HARDWARE_VERTEXPROCESSING;
+			else
+				devBehaviorFlags |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+
+			// If pure device and HW T&L supported
+			if( caps.DevCaps & D3DDEVCAPS_PUREDEVICE &&
+				devBehaviorFlags & D3DCREATE_HARDWARE_VERTEXPROCESSING)
+					devBehaviorFlags |= D3DCREATE_PUREDEVICE;
+
+			// Step 4: Fill out the D3DPRESENT_PARAMETERS structure.
+
+			d3dpp.BackBufferWidth            = 0; 
+			d3dpp.BackBufferHeight           = 0;
+			d3dpp.BackBufferFormat           = D3DFMT_UNKNOWN;
+			d3dpp.BackBufferCount            = 1;
+			d3dpp.MultiSampleType            = D3DMULTISAMPLE_NONE;
+			d3dpp.MultiSampleQuality         = 0;
+			d3dpp.SwapEffect                 = D3DSWAPEFFECT_DISCARD; 
+			d3dpp.hDeviceWindow              = hWnd;
+			d3dpp.Windowed                   = true;
+			d3dpp.EnableAutoDepthStencil     = true; 
+			d3dpp.AutoDepthStencilFormat     = D3DFMT_D24S8;
+			d3dpp.Flags                      = 0;
+			d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+			d3dpp.PresentationInterval       = D3DPRESENT_INTERVAL_IMMEDIATE;
+
+
+			// Step 5: Create the device.
+
+			d3d->CreateDevice(
+				D3DADAPTER_DEFAULT, // primary adapter
+				D3DDEVTYPE_HAL,           // device type
+				hWnd,          // window associated with device
+				devBehaviorFlags,   // vertex processing
+				&d3dpp,            // present parameters
+				&d3ddev);      // return created device
 	}
 
 	void SetTrianglesVBuffer(const void *data, DWORD datasize, DWORD vertexsize, DWORD fvfflags) {
