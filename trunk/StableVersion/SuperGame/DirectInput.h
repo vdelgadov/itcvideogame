@@ -46,23 +46,23 @@ class DirectInput
 		}
 		if(keyDown(DIK_A))
 		{
-			networkMove(2,-1.0f,0.0f,0.0f,&params);
-			//params->myObject->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+			networkMove(params->myObject->ID,-1.0f,0.0f,0.0f,&params);
+			params->myObject->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_D))
-		{	networkMove(2,1.0f,0.0f,0.0f,&params);
-			//params->myObject->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	networkMove(params->myObject->ID,1.0f,0.0f,0.0f,&params);
+			params->myObject->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keyDown(DIK_W))
 		{	
-			networkMove(2,0.0f,0.0f,1.0f,&params);
-			//params->myObject->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
+			networkMove(params->myObject->ID,0.0f,0.0f,1.0f,&params);
+			params->myObject->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keyDown(DIK_S))
-		{	networkMove(2,0.0f,0.0f,-1.0f,&params);
-			//params->myObject->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
+		{	networkMove(params->myObject->ID,0.0f,0.0f,-1.0f,&params);
+			params->myObject->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keyDown(DIK_SPACE))
