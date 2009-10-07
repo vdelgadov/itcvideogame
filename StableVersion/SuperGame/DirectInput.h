@@ -46,26 +46,33 @@ class DirectInput
 		}
 		if(keyDown(DIK_A))
 		{
-			params->myObject->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+			networkMove(2,-1.0f,0.0f,0.0f,&params);
+			//params->myObject->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 		}
 		if(keyDown(DIK_D))
-		{	params->myObject->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
+		{	networkMove(2,1.0f,0.0f,0.0f,&params);
+			//params->myObject->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keyDown(DIK_W))
-		{	params->myObject->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
+		{	
+			networkMove(2,0.0f,0.0f,1.0f,&params);
+			//params->myObject->move(0.0,0.0,1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keyDown(DIK_S))
-		{	params->myObject->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
+		{	networkMove(2,0.0f,0.0f,-1.0f,&params);
+			//params->myObject->move(0.0,0.0,-1.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keyDown(DIK_SPACE))
-		{	params->myObject->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
+		{	//networkMove(2,1.0f,0.0f,0.0f,&params);
+			//params->myObject->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		if(keyDown(DIK_LCONTROL))
-		{	params->myObject->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
+		{	//networkMove(2,1.0f,0.0f,0.0f,&params);
+			//params->myObject->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
 		/*D3DXMatrixLookAtLH(&(engine->matView),

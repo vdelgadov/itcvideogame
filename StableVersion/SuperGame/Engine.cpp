@@ -58,7 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	// o = params.scene->find(params.ID);
 //	o->AddChild(new CObject(++params.ID,-5.0f,3.0f,0.0,0.0,0.0,0.0,0.1f,0.1f,0.1f,L"airplane 2.x", o,params.engine));
 	
-
+	
 	//Start Graphics and Networking threads
 	ThreadHandleGraphics = CreateThread(NULL,0,graphics,&params,0,&ThreadIdGraphics);
 	ThreadHandleNetwork = CreateThread(NULL,0,networking,&params,0,&ThreadIdNetwork);
