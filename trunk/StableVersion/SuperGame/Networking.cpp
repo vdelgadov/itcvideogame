@@ -3,294 +3,179 @@
 
 #define DEFAULT_BUFLEN 512
 char  default_port[3] = "50";
-char ip_address[21];
+char ip_address[21] = "127.0.0.1";
 
 DWORD WINAPI networking(LPVOID Param)
 {
 	Params* params = (Params*)Param;
-
-	while (params->notQuit) {
-
+	while (params->notQuit) 
+	{
 
 		WSADATA wsaData; 
-    SOCKET ListenSocket = INVALID_SOCKET,
-           ClientSocket = INVALID_SOCKET;
-    struct addrinfo *result = NULL,
-                    hints;
-    char recvbuf[DEFAULT_BUFLEN];
-    int iResult;
-    int recvbuflen = DEFAULT_BUFLEN;
-    
-	
-    // Initialize Winsock
-    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-    if (iResult != 0) {
-		printf("No se pudo inicializar el servidor\n");
-        return 1;
-    }
-	
+		SOCKET ListenSocket = INVALID_SOCKET,
+			   ClientSocket = INVALID_SOCKET;
+		struct addrinfo *result = NULL,
+						hints;
+		char recvbuf[DEFAULT_BUFLEN];
+		int iResult;
+		int recvbuflen = DEFAULT_BUFLEN;
+	    
+		
+		// Initialize Winsock
+		iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+		if (iResult != 0) {
+			printf("No se pudo inicializar el servidor WinSock problem\n");
+			return 1;
+		}
+		ZeroMemory(&hints, sizeof(hints));
+		hints.ai_family = AF_INET;
+		hints.ai_socktype = SOCK_STREAM;
+		hints.ai_protocol = 0;//IPPROTO_TCP;
+		hints.ai_flags = AI_PASSIVE;
 
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = 0;//IPPROTO_TCP;
-    hints.ai_flags = AI_PASSIVE;
+		while(true)
+		{
+		// Resolve the server address and port
+		iResult = getaddrinfo(NULL, default_port, &hints, &result);
+		if ( iResult != 0 ) {
+			printf("No se pudo inicializar el servidor Server problem\n");
+			WSACleanup();
+			return 1;
+		}
 
-    while(true)
-	{
-	// Resolve the server address and port
-    iResult = getaddrinfo(NULL, default_port, &hints, &result);
-    if ( iResult != 0 ) {
-        printf("No se pudo inicializar el servidor\n");
-        WSACleanup();
-        return 1;
-    }
+		// Create a SOCKET for connecting to server
+		ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+		if (ListenSocket == INVALID_SOCKET) {
+			printf("No se pudo inicializar el servidor Socket creation problem\n");
+			freeaddrinfo(result);
+			WSACleanup();
+			return 1;
+		}
 
+		// Setup the TCP listening socket
+		iResult = bind( ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+		if (iResult == SOCKET_ERROR) {
+			printf("No se pudo inicializar el servidor\n");
+			freeaddrinfo(result);
+			closesocket(ListenSocket);
+			WSACleanup();
+			return 1;
+		}
 
-    // Create a SOCKET for connecting to server
-	
-    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-    if (ListenSocket == INVALID_SOCKET) {
-        printf("No se pudo inicializar el servidor\n");
-        freeaddrinfo(result);
-        WSACleanup();
-        return 1;
-    }
+		freeaddrinfo(result);
+		
+		iResult = listen(ListenSocket, SOMAXCONN);
+		if (iResult == SOCKET_ERROR) {
+			printf("No se pudo inicializar el servidor\n");
+			closesocket(ListenSocket);
+			WSACleanup();
+			return 1;
+		}
 
-    // Setup the TCP listening socket
-    iResult = bind( ListenSocket, result->ai_addr, (int)result->ai_addrlen);
-    if (iResult == SOCKET_ERROR) {
-        printf("No se pudo inicializar el servidor\n");
-        freeaddrinfo(result);
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
+		// Accept a client socket
+		ClientSocket = accept(ListenSocket, NULL, NULL);
+		if (ClientSocket == INVALID_SOCKET) {
+			printf("No se pudo inicializar el servidor\n");
+			closesocket(ListenSocket);
+			WSACleanup();
+			return 1;
+		}
 
-    freeaddrinfo(result);
-	
-    iResult = listen(ListenSocket, SOMAXCONN);
-    if (iResult == SOCKET_ERROR) {
-        printf("No se pudo inicializar el servidor\n");
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
+		// No longer need server socket
+		closesocket(ListenSocket);
+		ZeroMemory(recvbuf, DEFAULT_BUFLEN);
+		// Receive until the peer shuts down the connection
+		do {
 
-    // Accept a client socket
-    ClientSocket = accept(ListenSocket, NULL, NULL);
-    if (ClientSocket == INVALID_SOCKET) {
-        printf("No se pudo inicializar el servidor\n");
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    // No longer need server socket
-    closesocket(ListenSocket);
-	ZeroMemory(recvbuf, DEFAULT_BUFLEN);
-    // Receive until the peer shuts down the connection
-    do {
-
-        iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-        if (iResult > 0) {
-//--------------------------------------------------------------------------------------
-			//printf("recibido: %s\n",recvbuf);
-			char resto[512];
-			char cacho[512];
-			for(int i =strlen(recvbuf)-1;i>-1;i--)
-			{
-				if(recvbuf[i]=='@')
+			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+			if (iResult > 0) {
+	//--------------------------------------------------------------------------------------
+				//printf("recibido: %s\n",recvbuf);
+				char resto[512];
+				char cacho[512];
+				for(int i =strlen(recvbuf)-1;i>-1;i--)
 				{
-					strcpy(resto,&recvbuf[i+1]);
-					recvbuf[i]='\0';
-					break;
-				}
-			}
-			strcpy(cacho,recvbuf);
-			
-
-			if(strcmp (cacho,"Coneccion") == 0){
-				printf("Se inicio conneccion\n");
-				send(ClientSocket,"Coneccion",DEFAULT_BUFLEN,0);
-			}
-			/*else if(strcmp (cacho,"Obtener ruta") == 0)
-			{
-				STARTUPINFO si;
-				PROCESS_INFORMATION pi;
-				ZeroMemory(&si, sizeof(si));
-				si.cb = sizeof(si);
-				ZeroMemory(&pi, sizeof(pi));
-   
-				if(!CreateProcess(NULL,L"obtenerRuta.bat",NULL,NULL,FALSE,0,NULL,NULL,&si,&pi)) // crea el proceso (en este caso nuestro programa main.exe)
-				{
-					fprintf(stderr, "Error, no se creo el proceso"); // si no se crea el proceso nos presenta un error
-				}
-				else
-				{
-					char rutax[512];
-					char mensaje[512];
-					FILE *fichero;
-					char nombre[20] = "ruta.txt";
-					char linea[512]="";
-					fopen_s(&fichero, nombre, "r" );
-					fgets(rutax,512,fichero);
-					if(rutax[0]!=' '&&rutax[0]!='\n')
+					if(recvbuf[i]=='@')
 					{
-						rutax[strlen(rutax)-1]='\0';
+						strcpy_s(resto,&recvbuf[i+1]);
+						recvbuf[i]='\0';
+						break;
 					}
-					strcpy_s(ruta, 512, rutax);
-					//strcat_s(mensaje, 512, ruta);
-
-					fclose(fichero);
-					strcpy_s(mensaje, 512, "La ruta@");
-					strcat_s(mensaje, 512, rutax);
-					strcat_s(mensaje, 512, "\\");
-					//printf("%s",mensaje);
-					//enviarA(mensaje,ip_address);
-					
-					send(ClientSocket,mensaje,DEFAULT_BUFLEN,0);
 				}
-					send(ClientSocket,"Error",DEFAULT_BUFLEN,0);
-			}
-			else if(strcmp (cacho,"Crear archivo") == 0)
-			{
-				char comando[512]  = "crearArchivo.bat ";
-				strcat(comando,resto);
-				system(comando);
+				strcpy_s(cacho,recvbuf);
 				
 
-				send(ClientSocket,"Fallo0",DEFAULT_BUFLEN,0);
+				if(strcmp (cacho,"Coneccion") == 0){
+					printf("Se inicio conneccion\n");
+					send(ClientSocket,"Coneccion",DEFAULT_BUFLEN,0);
+				}
 
-			}
-			else if(strcmp (cacho,"Crear directorio") == 0)
-			{
-				char comando[512]  = "crearDirectorio.bat ";
-				strcat(comando,resto);
-				system(comando);
-				
-				send(ClientSocket,"Fallo0",DEFAULT_BUFLEN,0);
-			}
-			else if(strcmp (cacho,"Eliminar archivo") == 0)
-			{
-				char comando[512]  = "eliminarArchivo.bat ";
-				strcat(comando,resto);
-				system(comando);
+				else if(strcmp (cacho,"Move") == 0)
+				{
+					char* objID = strtok(resto,"%");
+					char* x = strtok(NULL,"%");
+					char* y = strtok(NULL,"%");
+					char* z = strtok(NULL,"%");
+					std::istringstream sID(objID);
+					float iID;
+					sID >> iID;
+					std::istringstream sx(x);
+					float iX;
+					sx >> iX;
+					std::istringstream sy(y);
+					float iY;
+					sy >> iY;
+					std::istringstream sz(z);
+					float iZ;
+					sz >> iZ;
+					params->scene->find(iID)->move(iX,iY,iZ,0.0,0.0,0.0,1.0);
 
-					send(ClientSocket,"Fallo0",DEFAULT_BUFLEN,0);
-			}
-			else if(strcmp (cacho,"Eliminar directorio") == 0)
-			{
-				char comando[512]  = "borrarDirectorio.bat ";
-				strcat(comando,resto);
-				system(comando);
-				send(ClientSocket,"Fallo0",DEFAULT_BUFLEN,0);
-					
-			}
-			else if(strcmp (cacho,"Renombrar archivo") == 0)
-			{
-				char comando[512]  = "renombrar.bat ";
-				strcat(comando,resto);
-				system(comando);
-				send(ClientSocket,"Fallo0",DEFAULT_BUFLEN,0);
-					
-			}
-			else if(strcmp (cacho,"Ver archivos") == 0)
-			{
-				char comando[512]  = "listar.bat ";
-				system(comando);
+					//send(ClientSocket,a.c_str(),strlen(a.c_str()),0);
+		
+					/*char comando[512]  = "listar.bat ";
 					string a = "Ver archivos@";
 					string lista = getfile("listado.txt ");
 					a += lista;
 					//printf("%s",a.c_str());
-					send(ClientSocket,a.c_str(),strlen(a.c_str()),0);
-			}
-			else if(strcmp (cacho,"Ver directorio actual") == 0)
-			{
-					char mensaje[512];
-					strcpy_s(mensaje, 512, "Ver directorio actual@");
-					strcat_s(mensaje, 512, ruta);
-					//printf("%s",a.c_str());
-					send(ClientSocket,mensaje,512,0);
-			}
-			else if(strcmp (cacho,"Cambiar directorio") == 0)
-			{
+					send(ClientSocket,a.c_str(),strlen(a.c_str()),0);*/
+				}
 				
-				char comando[512]  = "cambiar.bat ";
-				strcat(comando,resto);
-				printf("++%s++",comando);
-				system(comando);
+				
+	//-----------------------------------------------------------------------------------
+				//printf("Mensaje recibido: %s de %d y length %d\n", recvbuf, iResult, recvbuflen);
+				//send( ClientSocket, "cosa", iResult, 0 );
 
-//---
-				char rutax[512];
-					char mensaje[512];
-					FILE *fichero;
-					char nombre[20] = "cambio.txt";
-					char linea[512]="";
-					fopen_s(&fichero, nombre, "r" );
-					fgets(rutax,512,fichero);
-					if(rutax[0]!=' '&&rutax[0]!='\n')
-					{
-						rutax[strlen(rutax)-1]='\0';
-					}
+			}
+			else if (iResult == 0);
+			else  {
+				printf("recv failed: %d\n", WSAGetLastError());
+				closesocket(ClientSocket);
+				WSACleanup();
+				return 1;
+			}
 
-					fclose(fichero);
-					strcpy_s(mensaje, 512, "La ruta@");
-					strcat_s(mensaje, 512, rutax);
-					strcat_s(mensaje, 512, "\\");
-					//printf("%s",mensaje);
-					//enviarA(mensaje,ip_address);
-					send(ClientSocket,mensaje,DEFAULT_BUFLEN,0);
-//---
-					
-			}*/
-			
-//-----------------------------------------------------------------------------------
-			//printf("Mensaje recibido: %s de %d y length %d\n", recvbuf, iResult, recvbuflen);
-			//send( ClientSocket, "cosa", iResult, 0 );
-
-        /*
-            iSendResult = send( ClientSocket, recvbuf, iResult, 0 );
-            if (iSendResult == SOCKET_ERROR) {
-                printf("send failed: %d\n", WSAGetLastError());
-                closesocket(ClientSocket);
-                WSACleanup();
-                return 1;
-            }
-            printf("Bytes sent: %d\n", iSendResult);
-			*/
-        }
-        else if (iResult == 0);
-        else  {
-            printf("recv failed: %d\n", WSAGetLastError());
-            closesocket(ClientSocket);
-            WSACleanup();
-            return 1;
-        }
-
-    } while (iResult > 0);
-	
-    // shutdown the connection since we're done
-    iResult = shutdown(ClientSocket, SD_SEND);
-    if (iResult == SOCKET_ERROR) {
-        printf("shutdown failed: %d\n", WSAGetLastError());
-        closesocket(ClientSocket);
-        WSACleanup();
-        return 1;
-    }
-	
+		} while (iResult > 0);
+		
+		// shutdown the connection since we're done
+		iResult = shutdown(ClientSocket, SD_SEND);
+		if (iResult == SOCKET_ERROR) {
+			printf("shutdown failed: %d\n", WSAGetLastError());
+			closesocket(ClientSocket);
+			WSACleanup();
+			return 1;
+		}
+		
+		}
+		// cleanup
+		closesocket(ClientSocket);
+		WSACleanup();
+		return 0;
 	}
-    // cleanup
-    closesocket(ClientSocket);
-    WSACleanup();
-    return 0;
-}
-
-
 	return 0;
 }
 int __cdecl enviarA(char * mensaje,char * destinatario) 
 {
+	int actionResult = 0;
     WSADATA wsaData;
     SOCKET ConnectSocket = INVALID_SOCKET;
     struct addrinfo *result = NULL,
@@ -315,7 +200,7 @@ int __cdecl enviarA(char * mensaje,char * destinatario)
     hints.ai_protocol = IPPROTO_TCP;
 
     // Resolve the server address and port
-    iResult = getaddrinfo(ip_address, default_port, &hints, &result);
+    iResult = getaddrinfo(destinatario, default_port, &hints, &result);
     if ( iResult != 0 ) {
         printf("getaddrinfo failed: %d\n", iResult);
         WSACleanup();
@@ -361,8 +246,7 @@ int __cdecl enviarA(char * mensaje,char * destinatario)
         WSACleanup();
         return 1;
     }
-
-iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+//iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 	if (iResult > 0) {
 //----------------------------------------------
 	//lo recibimos de respuesta
@@ -372,43 +256,54 @@ iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 	if(strcmp(cacho,"Exito") == 0)
 	{
 		printf("\nAcciones realizadas con exito\n");
+		actionResult = 0;
 	}
-	
+	else if(strcmp (cacho,"Move") == 0)
+	{
+		printf("No se pudieron realizar las acciones requeridas");
+		actionResult = 1;
+	}
 	else if(strcmp (cacho,"Fallo") == 0)
 	{
 		printf("No se pudieron realizar las acciones requeridas");
-	}
-
-	else if(strcmp (cacho,"Coneccion") == 0)
-	{
-		printf("Se inicio coneccion\n");
-	}
-	
-	else if(strcmp (cacho,"Ver archivos") == 0)
-	{
-		cacho = strtok (NULL,"");
-		printf("%s",cacho);
-
-	}
-	else if(strcmp (cacho,"Ver directorio actual") == 0)
-	{
-		cacho = strtok (NULL,"");
-		printf("%s",cacho);
-		printf("\n");
-
+		actionResult = 1;
 	}
 //--------------------------------------
 	}	
-
     // cleanup
     closesocket(ConnectSocket);
     WSACleanup();
+	return actionResult;
+}
 
-
-
-
-
-
+std::string float_to_str(float f)
+{
+std::stringstream stream;
+stream << f;
+return stream.str();
+}
+bool networkMove(int objectID, float x, float y, float z, LPVOID Param)
+{
+	Params* params = (Params*)Param;
+	char mensaje[512];
+	strcpy_s(mensaje, 512, "Move@");
+	strcat_s(mensaje, 512, float_to_str(objectID).c_str());
+	strcat_s(mensaje, 512, "%");
+	strcat_s(mensaje, 512, float_to_str(x).c_str());
+	strcat_s(mensaje, 512, "%");
+	strcat_s(mensaje, 512, float_to_str(y).c_str());
+	strcat_s(mensaje, 512, "%");
+	strcat_s(mensaje, 512, float_to_str(z).c_str());
+	printf("%s",mensaje);
+	if(enviarA(mensaje,ip_address) == 0)
+	{
+		return true;
 	}
+	else
+	{
+		return false;
+	}
+	return 0;
+}
 
 

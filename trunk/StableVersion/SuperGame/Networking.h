@@ -15,9 +15,11 @@
 #include <conio.h>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 
 DWORD WINAPI networking(LPVOID Param);
 int __cdecl enviarA(char * mensaje,char * destinatario);
+bool networkMove(int objectID, float x, float y, float z, LPVOID param);
 
 #endif NETWORKING_H_
