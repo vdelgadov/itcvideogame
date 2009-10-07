@@ -21,7 +21,7 @@ struct DirLight
 };
 
 uniform extern float4x4 gWorldInv;
-uniform extern float4x4 gWVP;
+float4x4 gWVP={{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
 uniform extern Mtrl     gMtrl;
 uniform extern DirLight gLight;
 uniform extern float3   gEyePosW;
