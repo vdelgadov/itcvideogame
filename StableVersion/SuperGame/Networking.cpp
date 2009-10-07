@@ -3,7 +3,7 @@
 
 #define DEFAULT_BUFLEN 512
 char  default_port[3] = "50";
-char ip_address[21] = "127.0.0.1";
+char ip_address[21] = "10.40.49.182";
 
 DWORD WINAPI networking(LPVOID Param)
 {
