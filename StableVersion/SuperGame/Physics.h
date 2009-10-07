@@ -6,6 +6,7 @@ class CObjectMesh;
 class Physics{
 //	Params* params;
 public:
+	static bool checkBoundingSphere(CObjectMesh* o);
 	static bool checkBoundingSphere(CObjectMesh* o, CObjectMesh* o2);
 	
 

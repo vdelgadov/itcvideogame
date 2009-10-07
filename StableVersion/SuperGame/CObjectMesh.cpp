@@ -46,7 +46,7 @@ private:
 	ID3DXBuffer* adjBuffer;
 	//FIN DE DECLARACIONES Y HANDLERS PARA SHADERS
 public:	
-	CObjectMesh(int ID,float fPosX, float fPosY, float fPosZ, float fRotX, float fRotY, float fRotZ,float fScale, LPCTSTR fileName, CObject* parent,CEngine* engine)
+	CObjectMesh(int ID,float fPosX, float fPosY, float fPosZ, float fRotX, float fRotY, float fRotZ,float fScale, LPCTSTR fileName,CEngine* engine)
 	{
 		//quitar cambiar por vehiculo
 		this->fPosX = fPosX;
@@ -68,8 +68,7 @@ public:
 
 		//file
 		this->fileName = fileName;
-		//parent
-		this->pParent = parent;
+		
 		this->engine = engine;
 		this->initializeMesh();
 		this->initializeWorldCoordinates();		
