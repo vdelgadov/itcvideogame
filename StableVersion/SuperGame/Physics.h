@@ -2,11 +2,11 @@
 #define PHYSICS_DEF
 
 //#include "Params.h"
-class CObject;
+class CObjectMesh;
 class Physics{
 //	Params* params;
 public:
-	static bool checkBoundingSphere(CObject* o, CObject* o2);
+	static bool checkBoundingSphere(CObjectMesh* o, CObjectMesh* o2);
 	
 
 };

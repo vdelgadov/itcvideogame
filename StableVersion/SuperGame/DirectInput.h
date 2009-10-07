@@ -34,31 +34,7 @@ class DirectInput
 	{
 		detect_input();
 //*****************************
-		if(keyDown(DIK_J))
-		{	params->scene->find(2)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		}
-		if(keyDown(DIK_L))
-		{	params->scene->find(2)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		}
-		if(keyDown(DIK_I))
-		{	params->scene->find(2)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
-		}
-		if(keyDown(DIK_K))
-		{	params->scene->find(2)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
-		}
-
-		if(keyDown(DIK_F))
-		{	params->scene->find(3)->move(-1.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		}
-		if(keyDown(DIK_H))
-		{	params->scene->find(3)->move(1.0,0.0,0.0,0.0,0.0,0.0,0.0);
-		}
-		if(keyDown(DIK_T))
-		{	params->scene->find(3)->move(0.0,1.0,0.0,0.0,0.0,0.0,0.0);
-		}
-		if(keyDown(DIK_G))
-		{	params->scene->find(3)->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
-		}
+		
 //*****************************
 		if(keystate[DIK_ESCAPE] & 0x80)
 		{	

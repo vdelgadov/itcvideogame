@@ -82,20 +82,21 @@ public:
 		d3dpp.Windowed = TRUE;
 		d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		d3dpp.hDeviceWindow = hWnd;
-		d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-		d3dpp.BackBufferWidth = iWidth;
-		d3dpp.BackBufferHeight = iHeight;
+		d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+		d3dpp.BackBufferWidth = 0;
+		d3dpp.BackBufferHeight = 0;
 		d3dpp.EnableAutoDepthStencil = TRUE;
-		d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+		d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
+		d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
 		
 		d3d->CreateDevice(D3DADAPTER_DEFAULT,
                       D3DDEVTYPE_HAL,
                       hWnd,
-                      D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+                      D3DCREATE_HARDWARE_VERTEXPROCESSING,
                       &d3dpp,
                       &d3ddev);
 
-	    d3ddev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	    d3ddev->SetRenderState(D3DRS_LIGHTING, TRUE);
 		d3ddev->SetRenderState(D3DRS_ZENABLE, TRUE);
 		d3ddev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	}
