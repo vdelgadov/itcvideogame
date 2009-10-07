@@ -171,11 +171,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\CObjectMesh.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Engine.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Graphics.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NormalMap.fx"
 				>
 			</File>
 			<File
@@ -229,7 +237,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Vehicle3D.h"
+				RelativePath=".\Vehicle.h"
 				>
 			</File>
 			<File
