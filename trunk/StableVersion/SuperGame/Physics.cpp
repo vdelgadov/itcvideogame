@@ -1,6 +1,9 @@
 #include "Physics.h"
 #include "CObjectMesh.cpp"
-
+bool Physics::checkBoundingSphere(CObjectMesh* obj)
+{
+	return checkBoundingSphere(obj,obj);
+}
 bool Physics::checkBoundingSphere(CObjectMesh* obj1, CObjectMesh* obj2)
 {
 	if(!obj2 || obj2->ID == 0)

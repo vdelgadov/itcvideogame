@@ -18,6 +18,7 @@ public:
 	D3DXMATRIX translation, rotation, scale;
 	CEngine* engine;
 	CObject* pParent;
+	
 
 	//Relative position
 	double fPosX;
@@ -55,9 +56,11 @@ public:
 	void AddChild(CObject* pNode)
 	{
 		lstChilds.push_back(pNode);
+		pNode->pParent = this;
 		pNode->translation = pNode->pParent->translation * pNode->translation;
 		pNode->rotation = pNode->pParent->rotation * pNode->rotation;
 		pNode->scale = pNode->pParent->scale * pNode->scale;
+		
 	}
 	CObject* find(int id)
 	{
@@ -85,7 +88,7 @@ public:
 		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
 		
-		//if(!Physics::checkBoundingSphere(this, this->pParent)) // if no intersections change pos
+		//if(!Physics::checkBoundingSphere(this)) // if no intersections change pos
 		//{
 			this->translation = this->translation*translationTemp;
 			//Update world and relative coordinates

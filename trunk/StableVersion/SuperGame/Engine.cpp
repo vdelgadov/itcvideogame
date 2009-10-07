@@ -46,10 +46,10 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 
 
 //*---------------
-	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.scene,params.engine));
+	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine));
 	CObject* o = params.scene->find(params.ID);
 	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle.getPos().y,o->vehicle.getPos().z);
-	//o->AddChild(new CObject(++params.ID,0.0,5.0,0.0,-45.0,0.0,0.0,0.5,L"tiger.x", o,params.engine));
+	o->AddChild(new CObjectMesh(++params.ID,0.0,5.0,0.0,-45.0,0.0,0.0,0.5,L"tiger.x",params.engine));
 	// o = params.scene->find(params.ID);
 //	o->AddChild(new CObject(++params.ID,-5.0f,3.0f,0.0,0.0,0.0,0.0,0.1f,0.1f,0.1f,L"airplane 2.x", o,params.engine));
 	
