@@ -104,7 +104,12 @@ public:
 
 	void render()
 	{
-	
+		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
+		D3DXMatrixTranslation(&translation,this->vehicle.getPos().x,this->vehicle.getPos().y,this->vehicle.getPos().z);
+		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
+		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
+		
+
 		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); 
 		mLight.dirW.x = 0.0f;
 		mLight.dirW.y = 0.0f;

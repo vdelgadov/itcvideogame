@@ -82,20 +82,24 @@ public:
 		}
 		return NULL;
 	}
-	void moveVehicle(Vector3D delta)
+	void move(Vector3D deltaMove)
 	{
-		this->vehicle.setPos(this->vehicle.getPos() + delta);
+		this->vehicle.setPos(this->vehicle.getPos() + deltaMove);
+		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
+				CObject* o = *it;
+				o->move( deltaMove);
+			}
 	}
-	void move(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
+	void moveOld(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 	{
-		D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
-		D3DXMatrixTranslation(&translationTemp,tX,tY,tZ);
-		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
-		D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
 		
+		//D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
+		//D3DXMatrixTranslation(&translationTemp,this->vehicle.getPos().x,this->vehicle.getPos().y,this->vehicle.getPos().z);
+		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
+		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
 		//if(!Physics::checkBoundingSphere(this)) // if no intersections change pos
 		//{
-			this->translation = this->translation*translationTemp;
+			//this->translation = this->translation*translationTemp;
 			//Update world and relative coordinates
 			Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
 			pos+=this->vehicle.getPos();
@@ -105,8 +109,8 @@ public:
 			this->fPosZ += tZ;
 			
 
-			this->rotation = this->rotation*rotationTemp;
-			this->scale = this->scale*rotationTemp;
+			//this->rotation = this->rotation*rotationTemp;
+			//this->scale = this->scale*rotationTemp;
 			for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
 				CObject* o = *it;
 				o->moveNoChecks( tX,  tY,  tZ,  rX,  rY,  rZ,  scale);
