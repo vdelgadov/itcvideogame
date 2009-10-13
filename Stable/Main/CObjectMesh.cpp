@@ -104,6 +104,7 @@ public:
 
 	void render()
 	{
+	
 		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); 
 		mLight.dirW.x = 0.0f;
 		mLight.dirW.y = 0.0f;
