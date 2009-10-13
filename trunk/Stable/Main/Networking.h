@@ -1,12 +1,12 @@
 #ifndef NETWORKING_H_
 #define NETWORKING_H_
-//#define _WINSOCKAPI_
-//#define _WINSOCK2API_
+
 //#pragma once
 #include <winsock2.h>
 #include <ws2tcpip.h>
-
-#include "engine.h"
+//#define _WINSOCKAPI_
+//dd#define _WINSOCK2API_
+#include "Engine.h"
 
 #include <stdlib.h>
 

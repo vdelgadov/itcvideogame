@@ -6,7 +6,7 @@
 //=============================================================================
 
 #include <d3dx9.h>
-#include "engine.h"
+#include "Engine.h"
 
 #ifndef VERTEX_H
 #define VERTEX_H

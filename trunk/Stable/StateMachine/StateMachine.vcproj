@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="SuperGame"
-	ProjectGUID="{64D86D7E-4E6C-4770-8F51-3F88968F6E62}"
-	RootNamespace="SuperGame"
+	Name="StateMachine"
+	ProjectGUID="{20A00010-2076-4424-96CB-B14910E943A8}"
+	RootNamespace="StateMachine"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -60,10 +60,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="Ws2_32.lib Mswsock.lib Advapi32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -115,7 +114,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -133,10 +132,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="Ws2_32.lib Mswsock.lib Advapi32.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -173,31 +171,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\CObjectMesh.cpp"
+				RelativePath=".\main_states.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Engine.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Graphics.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Networking.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\NormalMap.fx"
-				>
-			</File>
-			<File
-				RelativePath=".\Physics.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Vertex.cpp"
+				RelativePath=".\MockEntity.cpp"
 				>
 			</File>
 		</Filter>
@@ -207,51 +185,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\CControler.h"
+				RelativePath=".\FSM.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Debugging.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DirectInput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Engine.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Graphics.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Networking.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Params.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Physics.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Vector3D.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Vehicle.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Vertex.h"
+				RelativePath=".\states.h"
 				>
 			</File>
 		</Filter>

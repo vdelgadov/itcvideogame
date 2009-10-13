@@ -2,12 +2,13 @@
 #define OBJECT_DEF
 #include <vector>
 #include <list>
+#include "Vector3D.h"
 #include "Physics.h"
 #include "Engine.h"
 //#include "Params.h"
-#include "Vehicle.h"
 #include "Vertex.h"
 #include <iostream>
+#include "../SteeringBehaviors/Vehicle.h"
 using namespace std;
 
 class CObject
@@ -15,7 +16,7 @@ class CObject
 public:
 	//ID
 	int ID;
-	Vehicle vehicle;
+	Vehicle<Vector3D> vehicle;
 	D3DXMATRIX translation, rotation, scale;
 	CEngine* engine;
 	CObject* pParent;
@@ -34,7 +35,7 @@ public:
 	{
 		//id
 		this->ID = 0;
-		this->vehicle = Vehicle(1,Vector3D(0.0,0.0,0.0));
+		this->vehicle = Vehicle<Vector3D>(1,Vector3D(0.0,0.0,0.0));
 		D3DXMatrixTranslation(&translation,0.0,0.0,0.0);
 		D3DXMatrixRotationYawPitchRoll(&rotation, 0.0, 0.0, 0.0);
 		D3DXMatrixScaling(&scale, 1.0, 1.0, 1.0);
@@ -80,6 +81,10 @@ public:
 			}
 		}
 		return NULL;
+	}
+	void moveVehicle(Vector3D delta)
+	{
+		this->vehicle.setPos(this->vehicle.getPos() + delta);
 	}
 	void move(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 	{
@@ -138,6 +143,9 @@ public:
 	virtual void render()
 	{
 		return;
+	}
+
+	void update(double time=0){
 	}
 
 };

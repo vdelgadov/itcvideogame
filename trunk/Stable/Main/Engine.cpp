@@ -6,7 +6,9 @@
 
 #include "Params.h"
 #include "DirectInput.h"
-#include "CObjectMesh.cpp"
+//#include "CObjectMesh.cpp"
+#include "../AIController/Actor.h"
+#include "../AIController/AIController.cpp"
 //#include "Physics.h"
 
 
@@ -52,13 +54,49 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	//CObject* o = params.scene->find(params.ID);
 	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle.getPos().y,o->vehicle.getPos().z);
 	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
+	
 	params.scene->AddChild(new CObjectMesh(++params.ID,3.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
 	CObject* o = params.scene->find(params.ID);
 	params.myObject = o;
-	//o->AddChild(new CObjectMesh(++params.ID,0.0,5.0,0.0,-45.0,0.0,0.0,0.5,L"tiger.x",params.engine));
-	// o = params.scene->find(params.ID);
-//	o->AddChild(new CObject(++params.ID,-5.0f,3.0f,0.0,0.0,0.0,0.0,0.1f,0.1f,0.1f,L"airplane 2.x", o,params.engine));
 	
+	params.scene->AddChild(new Actor(++params.ID,-3.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
+	AIController a_c(dynamic_cast<Actor*>(params.scene->find(params.ID)));
+	Waypoint<Vector2D>* a = new Waypoint<Vector2D>("a", Vector2D());
+	Waypoint<Vector2D>* b = new Waypoint<Vector2D>("b", Vector2D(0.0, 0.05));
+	Waypoint<Vector2D>* c = new Waypoint<Vector2D>("c", Vector2D(0.05, 0.0));
+	Waypoint<Vector2D>* d = new Waypoint<Vector2D>("d", Vector2D(0.10, 0.0));
+	Waypoint<Vector2D>* e = new Waypoint<Vector2D>("e", Vector2D(0.075, -0.05));
+	Waypoint<Vector2D>* f = new Waypoint<Vector2D>("f", Vector2D(0.075, 0.05));
+	Waypoint<Vector2D>* g = new Waypoint<Vector2D>("g", Vector2D(0.10, -0.05));
+	Waypoint<Vector2D>* h = new Waypoint<Vector2D>("h", Vector2D(0.10, -0.10));
+	
+	a_c.getActor()->getVehicle()->setMaxSpeed(0.0001);
+
+
+	AIController::s_lMap.push_front(a);
+	AIController::s_lMap.push_front(b);
+	AIController::s_lMap.push_front(c);
+	AIController::s_lMap.push_front(d);
+	AIController::s_lMap.push_front(e);
+	AIController::s_lMap.push_front(f);
+	AIController::s_lMap.push_front(g);
+	AIController::s_lMap.push_front(h);
+
+	a->addNbor(b);
+	a->addNbor(c);
+	c->addNbor(d);
+	c->addNbor(e);
+	e->addNbor(g);
+	g->addNbor(h);
+
+	//b->addNbor(e);
+	b->addNbor(b);
+
+	a_c.planPath(b);
+
+	//a_c.planPath(e);
+	a_c.traversePath();
+
 	
 	//Start Graphics and Networking threads
 	ThreadHandleGraphics = CreateThread(NULL,0,graphics,&params,0,&ThreadIdGraphics);
