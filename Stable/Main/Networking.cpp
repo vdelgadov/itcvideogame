@@ -128,7 +128,7 @@ DWORD WINAPI networking(LPVOID Param)
 					std::istringstream sz(z);
 					float iZ;
 					sz >> iZ;
-					params->scene->find(iID)->move(iX,iY,iZ,0.0,0.0,0.0,1.0);
+					params->scene->find(iID)->move(Vector3D(iX,iY,iZ));
 
 					//send(ClientSocket,a.c_str(),strlen(a.c_str()),0);
 		

@@ -32,7 +32,7 @@ public:
 	}
 
 	void update(double time){
-		cout << "updating" << endl;
+		//cout << "updating" << endl;
 	
 		this->m_pVeh->update(time);
 		D3DXMATRIX translationTemp;
@@ -42,7 +42,7 @@ public:
 
 
 	void render(){
-		cout << "render II " << endl;
+		//cout << "render II " << endl;
 		this->getController()->getFSM()->update();
 		CObjectMesh::render();
 	}

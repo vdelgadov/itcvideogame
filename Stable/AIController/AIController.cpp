@@ -36,7 +36,7 @@ public:
 		Vector2D norm_vel = actor->getVehicle()->getCurrVel();
 		norm_vel += stf;
 		norm_vel.normalize();
-		cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
+		//cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
 		actor->getVehicle()->setCurrVel(norm_vel*actor->getVehicle()->getMaxSpeed());
 		actor->update(actor->getController()->getFSM()->getTime());
 			
