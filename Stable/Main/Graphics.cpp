@@ -31,6 +31,7 @@ DWORD WINAPI graphics(LPVOID Param)
 
 		for(list<CObject*>::iterator it = params->scene->lstChilds.begin(); it != params->scene->lstChilds.end(); ++it)
 		{
+			
 			(*it)->render();
 		}
 		engine->End();

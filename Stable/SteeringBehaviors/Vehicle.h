@@ -48,7 +48,7 @@ public:
 	}
 
 	 V getHeading(){
-		Vector2D heading = this->m_vVel;
+		V heading = this->m_vVel;
 		heading.normalize();
 		return heading;
 		// return this->m_vHeading;

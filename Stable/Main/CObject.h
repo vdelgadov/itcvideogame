@@ -149,7 +149,8 @@ public:
 		return;
 	}
 
-	void update(double time=0){
+	virtual void update(double time=0){
+		//cout << "updating cobject" << endl;
 	}
 
 };

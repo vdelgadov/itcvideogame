@@ -2,7 +2,7 @@
 #include "Actor.h"
 #include "../SteeringBehaviors/Behaviors.h"
 
-list<Waypoint<Vector2D>*> AIController::s_lMap;
+list<Waypoint<Vector3D>*> AIController::s_lMap;
 
 
 class Idle : public AState<Actor>{
@@ -32,15 +32,13 @@ public:
 			return;
 		}
 
-		Vector2D stf = SteeringBehaviors<Vector2D>::seek(m_pCurrent->getPos(), actor->getVehicle());
-		Vector2D norm_vel = actor->getVehicle()->getCurrVel();
+		Vector3D stf = SteeringBehaviors<Vector3D>::seek(m_pCurrent->getPos(), actor->getVehicle());
+		Vector3D norm_vel = actor->getVehicle()->getCurrVel();
 		norm_vel += stf;
 		norm_vel.normalize();
-		//cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
+		cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
 		actor->getVehicle()->setCurrVel(norm_vel*actor->getVehicle()->getMaxSpeed());
-		actor->update(actor->getController()->getFSM()->getTime());
-			
-		//	getVehicle()->update(actor->getController()->getFSM()->getTime());
+		actor->getVehicle()->update(actor->getController()->getFSM()->getTime());
 	}
 
 	
@@ -52,10 +50,13 @@ public:
 	}
 
 private:
-	Waypoint<Vector2D>* m_pCurrent;
+	Waypoint<Vector3D>* m_pCurrent;
 	
 
 };
+
+
+
 
 
 AIController::AIController(Actor* owner){
@@ -77,7 +78,7 @@ void AIController::update(double time){
 	this->m_pFsm->update();
 }
 
-void AIController::planPath(Waypoint<Vector2D>* w){
+void AIController::planPath(Waypoint<Vector3D>* w){
 	this->m_lPath.clear();
 /*	list<WaypointEdge> visited;
 	list<Waypoint*>::iterator it;
@@ -104,8 +105,7 @@ void AIController::planPath(Waypoint<Vector2D>* w){
 			this->buildPath(start, current);
 			return;
 		}
-		//if(visited.
-		cout << "here" <<endl;
+		
 		for(it = current.m_pTo->m_lNbors.begin(); it != current.m_pTo->m_lNbors.end(); ++it){
 			pq.push(WaypointEdge(current.m_pTo, (*it), current.m_pTo->sqDistanceTo((*it)->getPos())+current.m_fCost));
 		}
@@ -115,10 +115,10 @@ void AIController::planPath(Waypoint<Vector2D>* w){
 
 	return;*/
 
-	Waypoint<Vector2D>* last = this->findClosestWaypoint();
+	Waypoint<Vector3D>* last = this->findClosestWaypoint();
 	m_lPath.push_back(last);
 	while(true){
-		Waypoint<Vector2D>* next = last->closestNborTo(w->getPos());
+		Waypoint<Vector3D>* next = last->closestNborTo(w->getPos());
 		if(next == last){
 			break;
 		}
@@ -127,8 +127,8 @@ void AIController::planPath(Waypoint<Vector2D>* w){
 	}
 }
 
-void AIController::buildPath(Waypoint<Vector2D>* start, WaypointEdge<Vector2D> end){
-	Waypoint<Vector2D>* from = end.m_pFrom;
+void AIController::buildPath(Waypoint<Vector3D>* start, WaypointEdge<Vector3D> end){
+	Waypoint<Vector3D>* from = end.m_pFrom;
 	cout << "Screwed" <<endl;
 	/*while(start != from){
 		this->m_lPath.push_back(from);
@@ -136,9 +136,9 @@ void AIController::buildPath(Waypoint<Vector2D>* start, WaypointEdge<Vector2D> e
 		
 }
 
-Waypoint<Vector2D>* AIController::findClosestWaypoint(){
-	list<Waypoint<Vector2D> *>::iterator it;
-	Waypoint<Vector2D>* closest;
+Waypoint<Vector3D>* AIController::findClosestWaypoint(){
+	list<Waypoint<Vector3D> *>::iterator it;
+	Waypoint<Vector3D>* closest;
 	double lowest_dist = 99999;
 	for(it = AIController::s_lMap.begin();it != AIController::s_lMap.end(); ++it){
 		double it_dist = (*it)->sqDistanceTo(this->getActor()->getVehicle()->getPos());

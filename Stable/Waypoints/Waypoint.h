@@ -4,8 +4,9 @@
 #include <list>
 #include <string>
 #include "../SteeringBehaviors/Vector2D.h"
+#include "../SteeringBehaviors/Vector3D.h"
 
-
+//struct Vector3D{};
 
 using namespace std;
 template <class V>
@@ -35,9 +36,9 @@ public:
 			return ((to.x - this->m_vPos.x)*(to.x - this->m_vPos.x) + (to.y - this->m_vPos.y)*(to.y - this->m_vPos.y));
 		}
 
-	/*	double sqDistanceTo(Vector3D to){
-			return 0;
-		}*/
+		double sqDistanceTo(Vector3D to){
+			return ((to.x - this->m_vPos.x)*(to.x - this->m_vPos.x) + (to.y - this->m_vPos.y)*(to.y - this->m_vPos.y));
+		}
 
 
 

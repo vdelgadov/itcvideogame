@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ScriptedState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\states.h"
 				>
 			</File>

@@ -230,6 +230,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Main\Vector3D.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Vehicle.h"
 				>
 			</File>
