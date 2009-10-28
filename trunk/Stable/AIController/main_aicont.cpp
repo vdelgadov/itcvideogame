@@ -2,7 +2,7 @@
 #include "Actor.h"
 
 int main(){
-	/*AIController a_c = AIController(new Actor());
+	AIController a_c = AIController(new Actor());
 	
 	Waypoint<Vector2D>* a = new Waypoint<Vector2D>("a", Vector2D());
 	Waypoint<Vector2D>* b = new Waypoint<Vector2D>("b", Vector2D(0.0, 5.0));
@@ -43,9 +43,6 @@ int main(){
 
 	while(true){
 		a_c.update(1);
-	};*/
-
-
-	
+	};
 
 }

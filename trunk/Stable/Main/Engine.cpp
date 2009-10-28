@@ -61,14 +61,14 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	
 	params.scene->AddChild(new Actor(++params.ID,-3.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
 	AIController a_c(dynamic_cast<Actor*>(params.scene->find(params.ID)));
-	Waypoint<Vector2D>* a = new Waypoint<Vector2D>("a", Vector2D());
-	Waypoint<Vector2D>* b = new Waypoint<Vector2D>("b", Vector2D(0.0, 0.05));
-	Waypoint<Vector2D>* c = new Waypoint<Vector2D>("c", Vector2D(0.05, 0.0));
-	Waypoint<Vector2D>* d = new Waypoint<Vector2D>("d", Vector2D(0.10, 0.0));
-	Waypoint<Vector2D>* e = new Waypoint<Vector2D>("e", Vector2D(0.075, -0.05));
-	Waypoint<Vector2D>* f = new Waypoint<Vector2D>("f", Vector2D(0.075, 0.05));
-	Waypoint<Vector2D>* g = new Waypoint<Vector2D>("g", Vector2D(0.10, -0.05));
-	Waypoint<Vector2D>* h = new Waypoint<Vector2D>("h", Vector2D(0.10, -0.10));
+	Waypoint<Vector3D>* a = new Waypoint<Vector3D>("a", Vector3D());
+	Waypoint<Vector3D>* b = new Waypoint<Vector3D>("b", Vector3D(10.0, 10.05, 10.0));
+	Waypoint<Vector3D>* c = new Waypoint<Vector3D>("c", Vector3D(0.05, 0.0, 0.0));
+	Waypoint<Vector3D>* d = new Waypoint<Vector3D>("d", Vector3D(0.10, 0.0, 0.0));
+	Waypoint<Vector3D>* e = new Waypoint<Vector3D>("e", Vector3D(0.075, -0.05, 0.0));
+	Waypoint<Vector3D>* f = new Waypoint<Vector3D>("f", Vector3D(0.075, 0.05, 0.0));
+	Waypoint<Vector3D>* g = new Waypoint<Vector3D>("g", Vector3D(0.10, -0.05, 0.0));
+	Waypoint<Vector3D>* h = new Waypoint<Vector3D>("h", Vector3D(0.10, -0.10, 0.0));
 	
 	a_c.getActor()->getVehicle()->setMaxSpeed(0.0001);
 
@@ -135,6 +135,10 @@ int index = 0; // index+=0.03f;
 		{
 			//printf("Esto lo escribio el thread principal (winMain)%i\n", index);
 			Sleep(100);
+		}
+		for(list<CObject*>::iterator it = params.scene->lstChilds.begin(); it != params.scene->lstChilds.end(); ++it)
+		{
+			(*it)->update(1);
 		}
 	}
 	params.notQuit = 0;

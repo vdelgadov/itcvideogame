@@ -67,31 +67,31 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	Actor actors[n_particles];
 
 	for (int i = 0; i < n_particles; i++) {
-		actors[i].getVehicle()->setCurrVel(Vector2D(float(rand())/RAND_MAX * 50 - 25, float(rand())/RAND_MAX * 50 - 25));
-		actors[i].getVehicle()->setPos(Vector2D(float(rand())/RAND_MAX, float(rand()/RAND_MAX)));
+		actors[i].getVehicle()->setCurrVel(Vector3D(float(rand())/RAND_MAX * 50 - 25, float(rand())/RAND_MAX * 50 - 25));
+		actors[i].getVehicle()->setPos(Vector3D(float(rand())/RAND_MAX, float(rand()/RAND_MAX)));
 		float rad = float(i)/n_particles * M_PI * 2 - M_PI;
 		float speed = float(rand())/RAND_MAX * 0.5+0.1;
 		if (i == 0){
 			speed = 0.8;
-			actors[i].getVehicle()->setPos(Vector2D(10.0, -12.5));
+			actors[i].getVehicle()->setPos(Vector3D(10.0, -12.5));
 			
 		}
 		actors[i].getVehicle()->setMaxSpeed(speed);
-		actors[i].getVehicle()->setCurrVel(Vector2D(0, 0));
+		actors[i].getVehicle()->setCurrVel(Vector3D(0, 0));
 	}
 
 
 	Vector2D stf, norm_vel;
 
 	AIController a_c = AIController(&(actors[0]));
-	Waypoint<Vector2D>* a = new Waypoint<Vector2D>("a", Vector2D());
-	Waypoint<Vector2D>* b = new Waypoint<Vector2D>("b", Vector2D(0.0, 5.0));
-	Waypoint<Vector2D>* c = new Waypoint<Vector2D>("c", Vector2D(5.0, 0.0));
-	Waypoint<Vector2D>* d = new Waypoint<Vector2D>("d", Vector2D(10.0, 0.0));
-	Waypoint<Vector2D>* e = new Waypoint<Vector2D>("e", Vector2D(7.5, -5.0));
-	Waypoint<Vector2D>* f = new Waypoint<Vector2D>("f", Vector2D(7.5, 5.0));
-	Waypoint<Vector2D>* g = new Waypoint<Vector2D>("g", Vector2D(10.0, -5.0));
-	Waypoint<Vector2D>* h = new Waypoint<Vector2D>("h", Vector2D(10.0, -10.0));
+	Waypoint<Vector3D>* a = new Waypoint<Vector3D>("a", Vector3D());
+	Waypoint<Vector3D>* b = new Waypoint<Vector3D>("b", Vector3D(0.0, 5.0));
+	Waypoint<Vector3D>* c = new Waypoint<Vector3D>("c", Vector3D(5.0, 0.0));
+	Waypoint<Vector3D>* d = new Waypoint<Vector3D>("d", Vector3D(10.0, 0.0));
+	Waypoint<Vector3D>* e = new Waypoint<Vector3D>("e", Vector3D(7.5, -5.0));
+	Waypoint<Vector3D>* f = new Waypoint<Vector3D>("f", Vector3D(7.5, 5.0));
+	Waypoint<Vector3D>* g = new Waypoint<Vector3D>("g", Vector3D(10.0, -5.0));
+	Waypoint<Vector3D>* h = new Waypoint<Vector3D>("h", Vector3D(10.0, -10.0));
 	AIController::s_lMap.push_front(a);
 	AIController::s_lMap.push_front(b);
 	AIController::s_lMap.push_front(c);
@@ -133,7 +133,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		engine.d3ddev->SetTransform(D3DTS_WORLD, &matRotate);
 		for (int i = 0; i < n_particles; i++) {
 			D3DXMatrixTranslation(&matTranslate, actors[i].getVehicle()->getPos().x, actors[i].getVehicle()->getPos().y, 0);
-			Vector2D heading = actors[i].getVehicle()->getHeading();
+			Vector3D heading = actors[i].getVehicle()->getHeading();
 			float angle = -atan2(heading.x, heading.y);
 			D3DXMatrixRotationYawPitchRoll(&matRotate, 0, 0, angle);
 			D3DXMatrixScaling(&matScale, 0.125, 0.125, 0.125);
