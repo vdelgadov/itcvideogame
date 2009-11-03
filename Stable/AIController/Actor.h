@@ -38,9 +38,9 @@ public:
 	}
 
 	void update(double time){
-		cout << "updating" << endl;
+		//cout << "updating" << endl;
 		this->m_pController->update(time);
-	//	this->render();
+		this->render();
 	}
 
 	FSM<Actor>* getFSM(){

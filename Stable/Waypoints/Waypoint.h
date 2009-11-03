@@ -37,7 +37,7 @@ public:
 		}
 
 		double sqDistanceTo(Vector3D to){
-			return ((to.x - this->m_vPos.x)*(to.x - this->m_vPos.x) + (to.y - this->m_vPos.y)*(to.y - this->m_vPos.y));
+			return ((to.x - this->m_vPos.x)*(to.x - this->m_vPos.x) + (to.y - this->m_vPos.y)*(to.y - this->m_vPos.y) + (to.z - this->m_vPos.z)*(to.z - this->m_vPos.z));
 		}
 
 

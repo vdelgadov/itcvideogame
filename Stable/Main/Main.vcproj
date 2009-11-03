@@ -305,6 +305,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\ball.x"
+			>
+		</File>
+		<File
 			RelativePath=".\BasicColumnScene.x"
 			>
 		</File>

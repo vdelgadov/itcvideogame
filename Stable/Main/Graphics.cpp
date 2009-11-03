@@ -31,8 +31,8 @@ DWORD WINAPI graphics(LPVOID Param)
 
 		for(list<CObject*>::iterator it = params->scene->lstChilds.begin(); it != params->scene->lstChilds.end(); ++it)
 		{
-			
-			(*it)->render();
+			(*it)->update();
+			//cout << "posX: " << (*it)->vehicle.getPos().x << "posY: " << (*it)->vehicle.getPos().y << "posZ: " << (*it)->vehicle.getPos().z << endl;
 		}
 		engine->End();
 	}

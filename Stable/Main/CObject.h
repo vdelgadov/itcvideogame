@@ -13,13 +13,16 @@ using namespace std;
 
 class CObject
 {
+private:
+	Vehicle<Vector3D> vehicle;
 public:
 	//ID
 	int ID;
-	Vehicle<Vector3D> vehicle;
+	
 	D3DXMATRIX translation, rotation, scale;
 	CEngine* engine;
 	CObject* pParent;
+	CObject* pScene;
 	
 
 	//Relative position
@@ -29,7 +32,12 @@ public:
 
 	//Child list and parent
 	list<CObject*> lstChilds;
-	
+
+	//Bounding Sphere needed by others
+	D3DXVECTOR3 Center;
+	float Radius;
+	bool boundingSphere;
+
 public:	
 	CObject()
 	{
@@ -43,6 +51,7 @@ public:
 		this->fPosX = 0.0;
 		this->fPosY = 0.0;
 		this->fPosZ = 0.0;
+		this->boundingSphere = false;
 
 		//parent
 		this->pParent = NULL;
@@ -84,11 +93,16 @@ public:
 	}
 	void move(Vector3D deltaMove)
 	{
-		this->vehicle.setPos(this->vehicle.getPos() + deltaMove);
-		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
+		this->getVehicle()->setCurrVel(deltaMove);
+		if(!Physics::checkBoundingSphereCollision(this)) // if no intersections change pos
+		{
+			this->vehicle.setPos(this->vehicle.getPos() + deltaMove);
+			for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
+			{
 				CObject* o = *it;
 				o->move( deltaMove);
 			}
+		}
 	}
 	void moveOld(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 	{
@@ -148,7 +162,9 @@ public:
 	{
 		return;
 	}
-
+	virtual Vehicle<Vector3D>* getVehicle(){
+		return &(this->vehicle);
+	}
 	virtual void update(double time=0){
 		//cout << "updating cobject" << endl;
 	}

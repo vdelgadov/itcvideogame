@@ -73,6 +73,7 @@ public:
 
 
 	void update(double time=1){
+	//	cout << "UPDATING FSM" << endl;
 		this->m_dTime = time;
 		m_pCurrState->execute(m_pOwner);
 	}

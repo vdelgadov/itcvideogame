@@ -23,6 +23,11 @@ public:
 	}
 
 	void execute(Actor* actor){
+		/*cout << "executing" << endl;
+		cout << "distance: " << m_pCurrent->sqDistanceTo(actor->getVehicle()->getPos()) << endl;
+		cout << "Pos: "<< actor->getVehicle()->getPos().x << " " << actor->getVehicle()->getPos().y << " " << actor->getVehicle()->getPos().z << endl;
+		cout << "cur pos: "<< m_pCurrent->getPos().x << " " << m_pCurrent->getPos().y << " " << m_pCurrent->getPos().z << endl; 
+		*/
 		if(this->m_pCurrent->sqDistanceTo(actor->getVehicle()->getPos()) < actor->getVehicle()->getMaxSpeed()){
 			if(actor->getController()->m_lPath.size() < 1){
 				actor->getController()->getFSM()->changeState(new Idle());
@@ -36,7 +41,7 @@ public:
 		Vector3D norm_vel = actor->getVehicle()->getCurrVel();
 		norm_vel += stf;
 		norm_vel.normalize();
-		cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
+		//cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<" "<<actor->getVehicle()->getCurrVel().z << endl;
 		actor->getVehicle()->setCurrVel(norm_vel*actor->getVehicle()->getMaxSpeed());
 		actor->getVehicle()->update(actor->getController()->getFSM()->getTime());
 	}
