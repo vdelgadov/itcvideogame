@@ -3,7 +3,7 @@
 #include "CObject.h"
 #include "Engine.h"
 
-//#include "Physics.h"
+#include "Physics.h"
 using namespace std;
 
 
@@ -21,6 +21,7 @@ class Params
 		//We need the engine to run graphics
 		CEngine* engine;
 		CObject* myObject;
+		//Physics* physics;
 
 	Params()
 	{
@@ -30,6 +31,7 @@ class Params
 		notQuit = 1;
 		engine = NULL;
 		scene->pParent = NULL;
+		
 		
 	}
 	

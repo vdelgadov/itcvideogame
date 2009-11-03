@@ -1,5 +1,3 @@
-
-
 LPDIRECTINPUT8 din;    // El apuntador a nuestra interface de DirectInput
 LPDIRECTINPUTDEVICE8 dinkeyboard;    // El apuntador a keyboard device
 LPDIRECTINPUTDEVICE8 dinmouse;    // el apuntador al mouse device
@@ -36,9 +34,7 @@ class DirectInput
 	int Update()
 	{
 		detect_input();
-//*****************************
-		
-//*****************************
+
 		if(keyDown(DIK_ESCAPE))
 		{	
 			params->engine->End();
@@ -47,23 +43,20 @@ class DirectInput
 		if(keyDown(DIK_A))
 		{
 			//networkMove(params->myObject->ID,-1.0f,0.0f,0.0f,&params);
-			params->myObject->move(Vector3D(-1.0,0.0,0.0));
+			params->myObject->move(Vector3D(-1.0,0.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_D))
 		{	//networkMove(params->myObject->ID,1.0f,0.0f,0.0f,&params);
-			params->myObject->move(Vector3D(1.0,0.0,0.0));
-			
+			params->myObject->move(Vector3D(1.0,0.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_W))
 		{	
 			//networkMove(params->myObject->ID,0.0f,0.0f,1.0f,&params);
-			params->myObject->move(Vector3D(0.0,0.0,1.0));
-			
+			params->myObject->move(Vector3D(0.0,0.0,1.0)* params->myObject->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_S))
 		{	//networkMove(params->myObject->ID,0.0f,0.0f,-1.0f,&params);
-			params->myObject->move(Vector3D(0.0,0.0,-1.0));
-			
+			params->myObject->move(Vector3D(0.0,0.0,-1.0)* params->myObject->getVehicle()->getMaxSpeed());	
 		}
 		if(keyDown(DIK_SPACE))
 		{	//networkMove(2,1.0f,0.0f,0.0f,&params);
@@ -75,14 +68,9 @@ class DirectInput
 			//params->myObject->move(0.0,-1.0,0.0,0.0,0.0,0.0,0.0);
 			
 		}
-		/*D3DXMatrixLookAtLH(&(engine->matView),
-                       &D3DXVECTOR3 (0.0f, 5.0f, -10.0f),    // eye
-                       &D3DXVECTOR3 (0.0f, 0.0f, 0.0f),    // at
-                       &D3DXVECTOR3 (0.0f, 1.0f, 0.0f));    // up*/
 		//params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
 		//params->scene->move(0.0,mousestate.lY * -0.01f,0.0,0.0,0.0,0.0,0.0);
 		//params->scene->move(0.0,0.0,mousestate.lZ * -0.01f,0.0,0.0,0.0,0.0);
-		//params->scene
 		return 1;
 	}
 

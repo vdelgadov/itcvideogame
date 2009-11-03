@@ -12,9 +12,7 @@ public:
 	DWORD					dwNumMaterials; // Number of mesh materials
 	LPD3DXBUFFER			pD3DXMtrlBuffer;
 	
-	//Bounding Sphere needed by others
-	D3DXVECTOR3 Center;
-	float Radius;
+
 	
 	
 	double fRotX;
@@ -72,7 +70,8 @@ public:
 		this->initializeWorldCoordinates();		
 		this->initializeBoundingSphere();
 		this->initializeShaders();
-		printf ( "Centerx %f,Centery %f,Centerz %f, Radius%f\n", Center.x,Center.y,Center.z,Radius) ;
+		//printf ( "Centerx %f,Centery %f,Centerz %f, Radius%f\n", Center.x,Center.y,Center.z,Radius) ;
+		this->boundingSphere = false;
 
 	}
 	virtual void initializeWorldCoordinates()
@@ -81,8 +80,8 @@ public:
 		while(o != NULL)
 		{
 			Vector3D pos = Vector3D(o->fPosX,o->fPosY,o->fPosZ);
-			pos+=this->vehicle.getPos();
-			this->vehicle.setPos( pos  );
+			pos+=this->getVehicle()->getPos();
+			this->getVehicle()->setPos( pos  );
 			o = o->pParent;
 		}
 	}
@@ -104,8 +103,9 @@ public:
 
 	void render()
 	{
+		//cout << "render" << endl;
 		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
-		D3DXMatrixTranslation(&translation,this->vehicle.getPos().x,this->vehicle.getPos().y,this->vehicle.getPos().z);
+		D3DXMatrixTranslation(&translation,(float)this->getVehicle()->getPos().x,(float)this->getVehicle()->getPos().y,(float)this->getVehicle()->getPos().z);
 		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
 		
@@ -158,10 +158,7 @@ public:
 		mFX->EndPass();
 		mFX->End();
 		//render all childs
-		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
-		{
-			(*it)->render();
-		}
+		
 
 	}
 	
@@ -342,5 +339,12 @@ public:
 		mFX->SetMatrix(mhWorldInv, &mSceneWorldInv);
 		mFX->SetTechnique(mhTech);
 	}
-
+	virtual void update(double time=0){
+		//cout << "updating cobject meSH!!!" << endl;
+		this->render();
+		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
+		{
+			(*it)->update(1);
+		}
+	}
 };
