@@ -72,6 +72,10 @@ public:
 		this->initializeShaders();
 		//printf ( "Centerx %f,Centery %f,Centerz %f, Radius%f\n", Center.x,Center.y,Center.z,Radius) ;
 		this->boundingSphere = false;
+		
+		if ( FAILED (D3DXCreateTextureFromFileA( this->engine->d3ddev,"white.jpg",&mWhiteTex))){
+			cout << "bla" << endl ;}
+
 
 	}
 	virtual void initializeWorldCoordinates()
@@ -148,8 +152,16 @@ public:
 			{
 				mFX->SetTexture(mhTex, mWhiteTex);
 			}
-	
-			mFX->SetTexture(mhNormalMap, this->pMeshNormalMapTextures[i]);
+			if(this->pMeshNormalMapTextures[i] != 0)
+			{
+				mFX->SetTexture(mhNormalMap, this->pMeshNormalMapTextures[i]);
+			}
+			else
+			{
+				mFX->SetTexture(mhNormalMap, mWhiteTex);
+			}
+
+			
 
 			mFX->CommitChanges();
             // Draw the mesh subset
@@ -206,6 +218,7 @@ public:
 			pMeshMaterials[i].Ambient = pMeshMaterials[i].Diffuse;
 
 			pMeshTextures[i] = NULL;
+			pMeshNormalMapTextures[i] = NULL;
 			if( d3dxMaterials[i].pTextureFilename != NULL &&
 				lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
 			{
@@ -224,7 +237,8 @@ public:
 															strTexture,
 															&pMeshTextures[i] ) ) )
 					{
-						MessageBox( NULL, L"Could not find texture map", L"Meshes.exe", MB_OK );
+						MessageBox( NULL, L"No se puede encontrar el archivo", L"Meshes.exe", MB_OK );
+						return E_FAIL;
 					}
 				}
 			//SHADERS
@@ -234,7 +248,7 @@ public:
 			CHAR strNormalMapTexture[MAX_PATH];
 			strcpy_s( strNormalMapTexture, MAX_PATH, strNormalMapPrefix );
 			strcat_s( strNormalMapTexture, MAX_PATH, d3dxMaterials[i].pTextureFilename );
-
+			
 				if( FAILED( D3DXCreateTextureFromFileA( this->engine->d3ddev,
 														strNormalMapTexture,
 														&pMeshNormalMapTextures[i] ) ) )
@@ -249,7 +263,8 @@ public:
 															strTextureNM,
 															&pMeshNormalMapTextures[i] ) ) )
 					{
-						MessageBox( NULL, L"Could not find Normal Texture map", L"Meshes.exe", MB_OK );
+						MessageBox( NULL, L"No se puede encontrar el archivo", L"Meshes.exe", MB_OK );
+						return E_FAIL;
 					}
 				}
 			}
