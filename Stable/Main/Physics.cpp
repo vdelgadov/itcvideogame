@@ -48,7 +48,7 @@ bool Physics::checkBoundingSphereCollision(CObject* obj1, CObject* obj2)
   //(1)Check if the spheres are already intersecting
   if ( pp < 0 ) 
   {
-	  return true;
+	  return false;
   }
 
   //dP*dV
