@@ -6,7 +6,10 @@ list<Waypoint<Vector3D>*> AIController::s_lMap;
 
 
 class Idle : public AState<Actor>{
-	void enter(Actor* a){ cout << "Entering Idle" <<endl;}
+	void enter(Actor* a)
+	{ 
+		//cout << "Entering Idle" <<endl;
+	}
 	void execute(Actor* a){
 
 	}
