@@ -19,7 +19,9 @@
 
 
 DWORD WINAPI networking(LPVOID Param);
-int __cdecl enviarA(char * mensaje,char * destinatario);
+void constantRun();
+DWORD WINAPI RecvThread(LPVOID Whatever);    // The RecvThread() prototype
 bool networkMove(int objectID, float x, float y, float z, LPVOID param);
+void networkRecvMove(char* RecvBuffer);
 
 #endif NETWORKING_H_
