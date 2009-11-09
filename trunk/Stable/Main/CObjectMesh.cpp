@@ -1,4 +1,4 @@
-#include "CObject.h"
+#include "Engine.h"
 class CObjectMesh : public CObject
 {
 public:
@@ -119,7 +119,7 @@ public:
 		mLight.dirW.y = 0.0f;
 		mLight.dirW.z = -5.0f;
 		D3DXVec3Normalize(&mLight.dirW,&mLight.dirW);
-		
+ 
 		D3DXMATRIX matWorld,matView,matProj;
 		D3DXVECTOR3 eyePosition;
 		engine->d3ddev->GetTransform(D3DTS_WORLD,&matWorld);
@@ -166,6 +166,7 @@ public:
 			mFX->CommitChanges();
             // Draw the mesh subset
             pMesh->DrawSubset( i );
+			this->en
         }
 		mFX->EndPass();
 		mFX->End();
