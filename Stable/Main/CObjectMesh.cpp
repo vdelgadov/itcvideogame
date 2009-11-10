@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "CObject.h"
 class CObjectMesh : public CObject
 {
 public:
@@ -37,7 +37,9 @@ private:
 	D3DXHANDLE   mhMtrl; //Handler del material
 	D3DXHANDLE   mhLight; //Handler de TODAS las luces
 	D3DXHANDLE   mhNormalMap; //Handler para el mapa normal
-	DirLight mLight;	//Struct para todos  los tipos de luces
+
+	DirLight mLight;	//Se debe quitar de aquí
+
 	LPDIRECT3DTEXTURE9* pMeshNormalMapTextures; //Apuntador a arreglo donde se almacenan los normal maps.
 	std::vector<Mtrl> mShaderMtrls;
 	ID3DXBuffer* adjBuffer;
@@ -119,7 +121,7 @@ public:
 		mLight.dirW.y = 0.0f;
 		mLight.dirW.z = -5.0f;
 		D3DXVec3Normalize(&mLight.dirW,&mLight.dirW);
- 
+		
 		D3DXMATRIX matWorld,matView,matProj;
 		D3DXVECTOR3 eyePosition;
 		engine->d3ddev->GetTransform(D3DTS_WORLD,&matWorld);
@@ -131,6 +133,7 @@ public:
 		D3DXMATRIX matWorldViewProj = matWorld*matView*matProj;
 		mFX->SetValue(mhLight, &mLight, sizeof(DirLight));
 		mFX->SetMatrix(mhWVP, &(mSceneWorld*matWorldViewProj));
+		mFX->SetMatrix(mhWorldInv, &mSceneWorldInv);
 		mFX->SetValue(mhEyePosW, &eyePosition, sizeof(D3DXVECTOR3));
 	
 		UINT numPasses = 0;
@@ -166,7 +169,6 @@ public:
 			mFX->CommitChanges();
             // Draw the mesh subset
             pMesh->DrawSubset( i );
-			this->en
         }
 		mFX->EndPass();
 		mFX->End();
@@ -331,6 +333,7 @@ public:
 			
 	}
 
+
 	void buildFX(){
 		// Create the FX from a .fx file.
 		ID3DXBuffer* errors = 0;
@@ -352,7 +355,6 @@ public:
 		// Set parameters that do not vary:
 
 		// World is the identity, so inverse is also identity.
-		mFX->SetMatrix(mhWorldInv, &mSceneWorldInv);
 		mFX->SetTechnique(mhTech);
 	}
 	virtual void update(double time=0){
