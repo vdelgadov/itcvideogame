@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "Debugging.h"
 #include "Graphics.h"
+//#include "Scripting.h"
 
 #include "Params.h"
 #include "DirectInput.h"

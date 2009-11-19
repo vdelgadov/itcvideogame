@@ -243,6 +243,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scripting.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Vector2D.h"
 				>
 			</File>

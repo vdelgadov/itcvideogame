@@ -6,7 +6,9 @@
 #include <ws2tcpip.h>
 //#define _WINSOCKAPI_
 //dd#define _WINSOCK2API_
+
 #include "Engine.h"
+
 
 #include <stdlib.h>
 
@@ -23,5 +25,8 @@ void constantRun();
 DWORD WINAPI RecvThread(LPVOID Whatever);    // The RecvThread() prototype
 bool networkMove(int objectID, float x, float y, float z, LPVOID param);
 void networkRecvMove(char* RecvBuffer);
+void networkClient();
+void networkServer();
+void networkProcessPacket(char* RecvBuffer);
 
 #endif NETWORKING_H_

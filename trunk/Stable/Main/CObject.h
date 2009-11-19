@@ -104,6 +104,11 @@ public:
 			}
 		}
 	}
+	void setPosition(Vector3D deltaMove)
+	{
+		this->getVehicle()->setCurrVel(Vector3D(0,0,0));
+		this->vehicle.setPos(deltaMove);
+	}
 	void moveOld(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 	{
 		
@@ -127,34 +132,18 @@ public:
 			//this->scale = this->scale*rotationTemp;
 			for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
 				CObject* o = *it;
-				o->moveNoChecks( tX,  tY,  tZ,  rX,  rY,  rZ,  scale);
+				//o->moveNoChecks( tX,  tY,  tZ,  rX,  rY,  rZ,  scale);
 			}
 		//}
 	}
-	void moveNoChecks(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
+	void moveNoChecks(Vector3D deltaMove)
 	{
-		D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
-		
-		D3DXMatrixTranslation(&translationTemp,tX,tY,tZ);
-		D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
-		D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
-		
-		
-		this->translation = this->translation*translationTemp;
-		//Update world and relative coordinates
-		Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
-		pos+=this->vehicle.getPos();
-		this->vehicle.setPos( pos  );
-		this->fPosX += tX;
-		this->fPosY += tY;
-		this->fPosZ += tZ;
-		
-
-		this->rotation = this->rotation*rotationTemp;
-		this->scale = this->scale*rotationTemp;
-		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
+		this->getVehicle()->setCurrVel(deltaMove);
+		this->vehicle.setPos(this->vehicle.getPos() + deltaMove);
+		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
+		{
 			CObject* o = *it;
-			o->moveNoChecks( tX,  tY,  tZ,  rX,  rY,  rZ,  scale);
+			o->moveNoChecks( deltaMove);
 		}
 		
 	}
