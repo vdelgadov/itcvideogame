@@ -42,32 +42,32 @@ class DirectInput
 		}
 		if(keyDown(DIK_A))
 		{
-			networkMove(params->myObject->ID,-1.0f,0.0f,0.0f,&params);
+			//networkMove(params->myObject->ID,-1.0f,0.0f,0.0f,&params);
 			params->myObject->move(Vector3D(-1.0,0.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_D))
-		{	networkMove(params->myObject->ID,1.0f,0.0f,0.0f,&params);
+		{	//networkMove(params->myObject->ID,1.0f,0.0f,0.0f,&params);
 			params->myObject->move(Vector3D(1.0,0.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_W))
 		{	
-			networkMove(params->myObject->ID,0.0f,0.0f,1.0f,&params);
+			//networkMove(params->myObject->ID,0.0f,0.0f,1.0f,&params);
 			params->myObject->move(Vector3D(0.0,0.0,1.0)* params->myObject->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_S))
 		{	
-			networkMove(params->myObject->ID,0.0f,0.0f,-1.0f,&params);
+			//networkMove(params->myObject->ID,0.0f,0.0f,-1.0f,&params);
 			params->myObject->move(Vector3D(0.0,0.0,-1.0)* params->myObject->getVehicle()->getMaxSpeed());	
 		}
 		if(keyDown(DIK_SPACE))
 		{	
-			networkMove(params->myObject->ID,0.0f,-1.0f,0.0f,&params);
+			//networkMove(params->myObject->ID,0.0f,-1.0f,0.0f,&params);
 			params->myObject->move(Vector3D(0.0,-1.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
 			
 		}
 		if(keyDown(DIK_LCONTROL))
 		{	
-			networkMove(params->myObject->ID,0.0f,-1.0f,0.0f,&params);
+			//networkMove(params->myObject->ID,0.0f,-1.0f,0.0f,&params);
 			params->myObject->move(Vector3D(0.0,-1.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());			
 		}
 		//params->scene->move(mousestate.lX * 0.01f,0.0,0.0,0.0,0.0,0.0,0.0);
