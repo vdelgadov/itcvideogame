@@ -1,4 +1,5 @@
 #include "CObject.h"
+#include "Effect.h"
 class CObjectMesh : public CObject
 {
 public:
@@ -28,6 +29,7 @@ private:
 	D3DXMATRIX mSceneWorldInv; //Matriz Inversa para calcular el mundo
 
 	IDirect3DTexture9* mWhiteTex; //Textura en blanco para cuando no existen, no truenen los shaders
+	Effect effect;
 	ID3DXEffect* mFX; //EFECTO
 	D3DXHANDLE   mhTech; //Handler de la tecnica
 	D3DXHANDLE   mhWVP; //Handler World View Projection
@@ -102,8 +104,22 @@ public:
 		
 	}
 	
-
 	void render()
+	{
+		//cout << "render" << endl;
+		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
+		D3DXMatrixTranslation(&translation,(float)this->getVehicle()->getPos().x,(float)this->getVehicle()->getPos().y,(float)this->getVehicle()->getPos().z);
+		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
+		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
+		
+
+		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); 
+		
+		effect.renderObject(this->pMesh,this->dwNumMaterials,this->mShaderMtrls,this->pMeshTextures,this->pMeshNormalMapTextures,NULL);
+		
+
+	}
+	void render2()
 	{
 		//cout << "render" << endl;
 		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
@@ -210,6 +226,7 @@ public:
 			pMeshMaterials[i].Ambient = pMeshMaterials[i].Diffuse;
 
 			pMeshTextures[i] = NULL;
+			pMeshNormalMapTextures[i] = NULL;
 			if( d3dxMaterials[i].pTextureFilename != NULL &&
 				lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
 			{
@@ -253,7 +270,7 @@ public:
 															strTextureNM,
 															&pMeshNormalMapTextures[i] ) ) )
 					{
-						MessageBox( NULL, L"Could not find Normal Texture map", L"Meshes.exe", MB_OK );
+						pMeshNormalMapTextures[i]=NULL;
 					}
 				}
 			}
@@ -314,7 +331,8 @@ public:
 		D3DXMatrixIdentity(&mSceneWorld);
 		D3DXMatrixIdentity(&mSceneWorldInv);
 
-		buildFX();
+		//buildFX();
+		effect = Effect(this->engine,BUMP_MAPPING);
 		return S_OK;
 			
 	}
