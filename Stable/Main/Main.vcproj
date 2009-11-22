@@ -177,6 +177,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Effect.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Engine.cpp"
 				>
 			</File>
@@ -220,6 +224,10 @@
 			</File>
 			<File
 				RelativePath=".\DirectInput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Effect.h"
 				>
 			</File>
 			<File
