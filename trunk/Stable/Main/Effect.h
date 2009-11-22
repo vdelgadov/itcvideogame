@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Graphics.h"
 #include "Params.h"
+#include "CObject.h"
 
 #define BLINN_PHONG 1
 #define BUMP_MAPPING 2
@@ -11,6 +12,7 @@ private:
 	ID3DXEffect* mFX;
 	CEngine* engine;
 public:
+	Effect();
 	Effect(CEngine* engine);
 	Effect(CEngine* engine, int effect_type);
 	~Effect();
@@ -23,7 +25,14 @@ public:
 	D3DXHANDLE   mhMtrl; //Handler del material
 	D3DXHANDLE   mhLight; //Handler de TODAS las luces
 	D3DXHANDLE   mhNormalMap; //Handler para el mapa normal
+	D3DXVECTOR3 eyePosition;
+	IDirect3DTexture9* mWhiteTex;
 	DirLight mLight;	//Struct para todos  los tipos de luces
 	void buildFX(int effect_type);
-	void renderObject();
+	void renderObject(  LPD3DXMESH pMesh,
+						DWORD dwNumMaterials,
+						std::vector<Mtrl> mShaderMtrls,
+						LPDIRECT3DTEXTURE9* pMeshTextures,
+						LPDIRECT3DTEXTURE9* pMeshNormalMapTextures,
+						LPDIRECT3DTEXTURE9* pMeshSpecularTextures);
 };
