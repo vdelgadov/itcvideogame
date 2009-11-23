@@ -23,6 +23,7 @@ public:
 	double fScale;
 
 
+
 private:
 	//DECLARACIONES Y HANDLERS PARA SHADERS
 	D3DXMATRIX mSceneWorld; //Matriz para calcular el mundo
@@ -76,6 +77,7 @@ public:
 		this->initializeShaders();
 		//printf ( "Centerx %f,Centery %f,Centerz %f, Radius%f\n", Center.x,Center.y,Center.z,Radius) ;
 		this->boundingSphere = false;
+		this->isRendereable= true;
 
 	}
 	virtual void initializeWorldCoordinates()
@@ -363,10 +365,13 @@ public:
 	}
 	virtual void update(double time=0){
 		//cout << "updating cobject meSH!!!" << endl;
-		this->render();
-		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
+		if(this->isRendereable)
 		{
-			(*it)->update(1);
+			this->render();
+			for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
+			{
+				(*it)->update(1);
+			}
 		}
 	}
 };

@@ -196,10 +196,6 @@
 				RelativePath=".\Physics.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\Vertex.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -347,6 +343,10 @@
 		</File>
 		<File
 			RelativePath=".\tiger.x"
+			>
+		</File>
+		<File
+			RelativePath=".\Vertex.cpp"
 			>
 		</File>
 	</Files>
