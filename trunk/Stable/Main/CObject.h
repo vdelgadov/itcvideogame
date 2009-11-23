@@ -37,6 +37,7 @@ public:
 	D3DXVECTOR3 Center;
 	float Radius;
 	bool boundingSphere;
+	bool isRendereable;
 
 public:	
 	CObject()

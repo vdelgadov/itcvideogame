@@ -50,22 +50,29 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	DirectInput* DI = new DirectInput(&params);
 
 //*---------------
-	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine));
-	CObject* o = params.scene->find(params.ID);
-	o->pScene = params.scene;
+	CObject* o;
+	for(int i=0;i <MAXCLIENTS;i++)//max number of network clients defined in networking.h
+	{
+		params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
+		o = params.scene->find(params.ID);
+		o->pScene = params.scene;
+		o->getVehicle()->setMaxSpeed(0.05);
+		o->isRendereable = false;
+		//o->boundingSphere = false;
+	}
 	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle.getPos().y,o->vehicle.getPos().z);
 	//params.scene->AddChild(new CObjectMesh(++params.ID,-2.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
 	
-	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"Ball.x",params.engine));
+	/*params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"Ball.x",params.engine));
 	o = params.scene->find(params.ID);
 	o->pScene = params.scene;
 	o->boundingSphere = true;
+	*/
 
 	params.scene->AddChild(new CObjectMesh(++params.ID,-3.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
 	o = params.scene->find(params.ID);
 	o->pScene = params.scene;
 	o->boundingSphere = true;
-	o->getVehicle()->setMaxSpeed(0.05);
 	params.myObject = o;
 
 	params.scene->AddChild(new CObjectMesh(++params.ID,4.0,1.0,0.0,-PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
@@ -73,6 +80,9 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	o->pScene = params.scene;
 	o->boundingSphere = true;
 
+	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine));
+	
+	o->pScene = params.scene;
 
 
 	params.scene->AddChild(new Actor(++params.ID,-4.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));

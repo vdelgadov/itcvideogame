@@ -18,6 +18,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#define MAXCLIENTS 8
 
 
 DWORD WINAPI networking(LPVOID Param);
@@ -28,5 +29,8 @@ void networkRecvMove(char* RecvBuffer);
 void networkClient();
 void networkServer();
 void networkProcessPacket(char* RecvBuffer);
+void networkQuit();
+void networkSendActiveClients(int client); //function to send the clients that are active
+void networkActivateClient(char* RecvBuffer); //function to receive and activate clients
 
 #endif NETWORKING_H_
