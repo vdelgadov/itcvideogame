@@ -1,6 +1,7 @@
 #ifndef _VEHICLE_H
 #define _VEHICLE_H
 #include "Vector3D.h"
+#include "Netwroking.h"
 class Vehicle{
 
 public:
