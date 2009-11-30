@@ -1,11 +1,16 @@
 #ifndef _ART
 #define _ART
 #include "Actor_States.cpp"
-InfluenceMap* AIController::s_InfluenceMap;
-class ArtEngaging : public AState{
+
+
+//InfluenceMap* AIController::s_InfluenceMap = NULL;
+
+
+
+class ArtEngaging : public AState<Actor>{
 private:
-	
-	const double attacking_range = 3;
+
+    static const double attacking_range;	
  
 public:
 	void enter(Actor* a){ 
@@ -16,17 +21,17 @@ public:
 	}
 	void execute(Actor* a){
 		Actor* Enemy = a->getController()->getEnemy();
-		if(!*Enemy){
+		if(!Enemy){
 			a->getFSM()->changeState("Idle");
 			return;
 		}
 			
-		Vector 3D stf;
+		Vector3D stf;
 		int x, y;
 		getBestPosition(a, &x, &y);
-		double real_x = (x+0.5)*(Engine.getWidth() / AIController::s_InfluenceMap->getMapWidth());
-		double real_y = (y+0.5)*(Engine.getWidth() / AIController::s_InfluenceMap->getMapHeight());
-		stf = SteeringBehaviors<Vector3D>::seek(Vector3D(real_x, real_y, a->getVehicle()->getPos().z), a->getVehicle);
+		double real_x = (x+0.5)*(/*Engine.getWidth()*/ 100.0 / AIController::s_InfluenceMap->getMapWidth());
+		double real_y = (y+0.5)*(/*Engine.getWidth()*/ 100.0 / AIController::s_InfluenceMap->getMapHeight());
+		stf = SteeringBehaviors<Vector3D>::seek(Vector3D(real_x, real_y, a->getVehicle()->getPos().z), a->getVehicle());
 		stf += a->getVehicle()->getCurrVel();
 
 		if((Enemy->getVehicle()->getPos() - a->getVehicle()->getPos()).magnitude() < 1)
@@ -51,14 +56,14 @@ public:
 		AIController::s_InfluenceMap->mapCoords(a->getVehicle()->getPos(), &a_x, &a_y);
 		*x = a_x;
 		*y = a_y;
-		vr = a->getViewRadius();
+		int vr = a->getViewRadius();
 
 		int up, down, left, right;
 			up = a_y-vr;
 			down = a_y+vr;
 			left = a_x-vr;
 			right = a_x+vr;
-			while(down >= AIController::s_InfluenceMap->getMapHeight)
+			while(down >= AIController::s_InfluenceMap->getMapHeight())
 				down--;
 			
 			while(up< 0)
@@ -67,7 +72,7 @@ public:
 			while(left < 0)
 				left++;
 
-			while(right >= AIController::s_InfluenceMap->getMapWidth)
+			while(right >= AIController::s_InfluenceMap->getMapWidth())
 				right--;
 			
 			
@@ -82,9 +87,10 @@ public:
 	}
 
 };
+const double ArtEngaging::attacking_range = 3.0;
 
 
-class ArtAttack : public AState {
+class ArtAttack : public AState<Actor> {
 
 	void enter(Actor* a){
 		cout << "Entering Artillery Attack" << endl;

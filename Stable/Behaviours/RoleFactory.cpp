@@ -4,7 +4,7 @@
 
 
 #include "Actor_States.cpp"
-
+InfluenceMap* AIController::s_InfluenceMap;
 #include "Brute.cpp"
 #include "Artillery.cpp"
 #include "Skirk.cpp"
@@ -14,21 +14,21 @@
 class RoleFactory{
 	
 public:
-	enum state_t {ATTACK, ENGANGE};
-	static AState* CreateRoleState(role_t r, state_t s ){
-		switch(role_t){
-			case BRUTE:
+	enum state_t {ATTACK, ENGAGE};
+	static AState<Actor>* CreateRoleState(AIController::role_t r, state_t s ){
+		switch(r){
+			case AIController::BRUTE:
 				return CreateBruteState(s);
-			case ARTILLERY:
+			case AIController::ARTILLERY:
 				return CreateArtState(s);
-			case SKIRKMISHER:
+			case AIController::SKIRKMISHER:
 				return CreateSkirkState(s);
 		
 		}
 	
 	}
 
-	AState* CreateBruteState(state_t s){
+	static AState<Actor>* CreateBruteState(state_t s){
 		
 		if(s == ATTACK)
 			return new BruteAttack();
@@ -36,7 +36,7 @@ public:
 	
 	}
 	
-	AState* CreateArtState(state_t s){
+	static AState<Actor>* CreateArtState(state_t s){
 		
 		if(s == ATTACK)
 			return new ArtAttack();
@@ -44,7 +44,7 @@ public:
 	
 	}
 
-	AState* CreateSkirkState(state_t s){
+	static AState<Actor>* CreateSkirkState(state_t s){
 		
 		if(s == ATTACK)
 			return new SkirkAttack();

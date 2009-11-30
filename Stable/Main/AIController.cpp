@@ -18,16 +18,17 @@
 
 
 list<Waypoint<Vector3D>*> AIController::s_lMap;
-InfluenceMap* AIController::s_InfluenceMap;
+//InfluenceMap* AIController::s_InfluenceMap;
 
-map<string, ScriptedState<Actor>, ltstr> fillFSM(role_t rol){
-	map<string, ScriptedState<Actor>, ltstr> states;
-	states["Attack"] = RoleFactory::CreateRoleState(rol, ATTACK);
-	states["Engage"] =  RoleFactory::CreateRoleState(rol, ENGAGE);
+map<string, AState<Actor>*, ltstr> fillFSM(AIController::role_t rol){
+	map<string, AState<Actor>*, ltstr> states;
+	states["Idle"] = new Idle();
+	states["Attack"] = RoleFactory::CreateRoleState(rol, RoleFactory::ATTACK);
+	states["Engage"] = RoleFactory::CreateRoleState(rol, RoleFactory::ENGAGE);
 
 	return states;
 }
-class Idle : public AState<Actor>{
+/*class Idle : public AState<Actor>{
 	void enter(Actor* a)
 	{ 
 		//cout << "Entering Idle" <<endl;
@@ -36,7 +37,7 @@ class Idle : public AState<Actor>{
 
 	}
 	void exit(Actor* a){}
-};
+};*/
 
 class FollowingWaypoint : public AState<Actor>{
 public:
@@ -61,7 +62,7 @@ public:
 		Vector3D norm_vel = actor->getVehicle()->getCurrVel();
 		norm_vel += stf;
 		norm_vel.normalize();
-		cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
+		//cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
 		actor->getVehicle()->setCurrVel(norm_vel*actor->getVehicle()->getMaxSpeed());
 //		actor->getVehicle()->update(actor->getController()->getFSM()->getTime());
 	}
@@ -90,7 +91,7 @@ private:
 
 
 
-AIController::AIController(Actor* owner, category_t cat=BAD_GUY, role_t rol=BRUTE, int irad=1){
+AIController::AIController(Actor* owner, category_t cat, role_t rol, int irad){
 //	m_pFsm = new FSM<Actor>(owner);
 	m_pFsm = new FSM<Actor>(fillFSM(rol), "Idle", owner);	
 	m_pFsm->setStart(new Idle());
@@ -99,8 +100,8 @@ AIController::AIController(Actor* owner, category_t cat=BAD_GUY, role_t rol=BRUT
 	this->m_Category = cat;
 	this->m_Role = rol;
 	if(!AIController::s_InfluenceMap)
-		AIController::s_InfluenceMap = new InfluenceMap(10, 10, 200, 200); //NECESITO PREGUNTARLE AL ENGINE LAS DIMENSIONES DEL MAPA
-	AIController::s_InfluenceMap->addActor(this);
+		AIController::s_InfluenceMap = new InfluenceMap(50, 50, 100, 100); //NECESITO PREGUNTARLE AL ENGINE LAS DIMENSIONES DEL MAPA
+	AIController::s_InfluenceMap->addActor(owner);
 	this->m_iInfluenceRadius = irad;
 }
 
@@ -122,7 +123,7 @@ void AIController::setFSM(FSM<Actor>* fsm){
 }
 
 void AIController::update(double time){
-	this->m_pEnemy = null; //Engine ...
+	this->m_pEnemy = NULL; //Engine ...
 	this->m_pFsm->update();
 
 }

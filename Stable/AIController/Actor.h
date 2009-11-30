@@ -10,7 +10,7 @@
 
 #include "../SteeringBehaviors/Vehicle.h"
 
-#include "../SteeringBehaviors/Vector3D.h"
+#include "../Main/Vector3D.h"
 
 #include "../Main/CObjectMesh.cpp"
 

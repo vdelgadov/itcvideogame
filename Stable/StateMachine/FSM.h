@@ -22,7 +22,7 @@ private:
 		AState<T>* m_pLastState;
 		T* m_pOwner;
 		double m_dTime;
-		map<string, ScriptedState<T>, ltstr> m_mStates;
+		map<string, AState<T>*, ltstr> m_mStates;
 
 
 public:
@@ -38,9 +38,9 @@ public:
 			m_pOwner = owner;
 			m_pCurrState->enter(m_pOwner);
 		}
-	FSM(map<string, ScriptedState<T>, ltstr> states, string start, T* owner){
+	FSM(map<string, AState<T>*, ltstr> states, string start, T* owner){
 		m_mStates = states;		
-		m_pCurrState = &(this->m_mStates[start]);
+		m_pCurrState = (this->m_mStates[start]);
 		m_pLastState = NULL;
 		m_pOwner = owner;
 		m_pCurrState->enter(m_pOwner);
@@ -68,7 +68,7 @@ public:
 	}
 
 	void changeState(string name){
-		this->changeState(&(this->m_mStates[name]));
+		this->changeState(this->m_mStates[name]);
 	}
 
 

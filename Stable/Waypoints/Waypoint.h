@@ -3,8 +3,8 @@
 #include <iostream>
 #include <list>
 #include <string>
-#include "../SteeringBehaviors/Vector2D.h"
-#include "../SteeringBehaviors/Vector3D.h"
+#include "../Main/Vector2D.h"
+#include "../Main/Vector3D.h"
 
 //struct Vector3D{};
 
