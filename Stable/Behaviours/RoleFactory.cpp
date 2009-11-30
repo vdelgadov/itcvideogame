@@ -1,6 +1,10 @@
-#ifndef _ROLEFACT
-#define _ROLEFACT
+#pragma once
+
+
+
+
 #include "Actor_States.cpp"
+
 #include "Brute.cpp"
 #include "Artillery.cpp"
 #include "Skirk.cpp"
@@ -49,4 +53,3 @@ public:
 	}
 
 };
-#endif

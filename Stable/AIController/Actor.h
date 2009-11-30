@@ -1,10 +1,18 @@
-#ifndef _VJ_ACTOR_H
-#define _VJ_ACTOR_H
-#include "AIController.h"
-#include "../SteeringBehaviors/Vehicle.h"
-#include "../SteeringBehaviors/Vector3D.h"
-#include "../Main/CObjectMesh.cpp"
 
+
+#pragma once
+
+
+
+#include "AIController.h"
+
+
+
+#include "../SteeringBehaviors/Vehicle.h"
+
+#include "../SteeringBehaviors/Vector3D.h"
+
+#include "../Main/CObjectMesh.cpp"
 
 
 
@@ -55,4 +63,3 @@ private:
 	AIController* m_pController;
 	unsigned int m_iViewRadius;
 };
-#endif

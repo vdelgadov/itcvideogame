@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "Networking.h"
 #include <conio.h>
-#include "Params.h"*
+#include "Params.h"
 
 #pragma comment(lib, "Ws2_32.lib")    // WinSock Library
 //I'M A CLIENT.
@@ -63,7 +63,7 @@ DWORD WINAPI RecvThread(LPVOID Whatever)
         char msgTail[BUFFLEN];
 		char msgStart[BUFFLEN];
 		cout << "Recibido: " << RecvBuffer <<endl;
-		for(int i =0; i < (strlen(RecvBuffer));i++)
+		for(unsigned int i =0; i < (strlen(RecvBuffer));i++)
 		//for(int i =strlen(RecvBuffer)-1;i>-1;i--)
 		{
 			if(RecvBuffer[i]=='@')
@@ -95,7 +95,7 @@ DWORD WINAPI RecvThread(LPVOID Whatever)
 		if(strcmp (msgStart,"MyObject") == 0)
 		{
 			std::istringstream sID(msgTail);
-			float iID;
+			int iID;
 			sID >> iID;
 			//params.myObject = o;
 			params->myObject = params->scene->find(iID);
@@ -284,7 +284,7 @@ void networkProcessPacket(char* RecvBuffer)
 	char response[BUFFLEN];
 	char msgTail[BUFFLEN];
 	char msgStart[BUFFLEN];
-	for(int i =0;i<strlen(RecvBuffer);i++)
+	for(unsigned int i =0;i<strlen(RecvBuffer);i++)
 	{
 		if(RecvBuffer[i]=='@')
 		{

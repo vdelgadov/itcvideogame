@@ -1,10 +1,21 @@
-#ifndef _INFLUENCE_MAP
-#define _INFLUENCE_MAP
+#pragma once
+
+
+
 #include <list>
 #include <math.h>
+
+
+
 #include "../AIController/Actor.h"
+
 #include "../AIController/AIController.cpp"
+
+ASDFNJASDKJN
+#pragma warning "FUCKING JAVA"
+
 #include "../SteeringBehaviors/Vector2D.h"
+
 #include "../SteeringBehaviors/Vector3D.h"
 using namespace std;
 class InfluenceMap {
@@ -109,4 +120,3 @@ public:
 	}
 
 };
-#endif

@@ -1,10 +1,11 @@
-#ifndef AI_CONT_H
-#define AI_CONT_H
+#pragma once
+
 #include <list>
 #include <queue>
 #include "../Waypoints/Waypoint.h"
 #include "../StateMachine/FSM.h"
 #include "../InfluenceMaps/InfluenceMap.h"
+
 
 class Actor;
 
@@ -15,7 +16,7 @@ public:
 
 };
 
-class AIController {//: public Controller {
+class AIController {  
 
 	public:
 		enum category_t {BAD_GUY, GOOD_GUY};
@@ -81,8 +82,4 @@ private:
 		role_t m_Role;
 		unsigned int m_iInfluenceRadius; //Chevychev Distance
 
-
-
-		
 };
-#endif 

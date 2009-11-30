@@ -1,5 +1,5 @@
-#ifndef SIMPLE_ENGINE_H_
-#define SIMPLE_ENGINE_H_
+#ifndef SIMPLE_ENGINE_H
+#define SIMPLE_ENGINE_H
 
 
 //#define WIN32_LEAN_AND_MEAN 

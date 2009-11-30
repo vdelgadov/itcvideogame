@@ -1,7 +1,21 @@
+
+
 #include "AIController.h"
+
+
+
 #include "Actor.h"
+
+
+
 #include "../SteeringBehaviors/Behaviors.h"
+
+
 #include "../Behaviours/RoleFactory.cpp"
+
+
+
+
 
 list<Waypoint<Vector3D>*> AIController::s_lMap;
 InfluenceMap* AIController::s_InfluenceMap;
