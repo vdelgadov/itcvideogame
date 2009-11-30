@@ -1,10 +1,10 @@
 
 
-#include "AIController.h"
+#include "../AIController/AIController.h"
 
 
 
-#include "Actor.h"
+#include "../AIController/Actor.h"
 
 
 

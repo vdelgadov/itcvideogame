@@ -7,23 +7,23 @@
 
 
 
-#include "../AIController/Actor.h"
+//#include "../AIController/Actor.h"
 
-#include "../AIController/AIController.cpp"
-
-ASDFNJASDKJN
-#pragma warning "FUCKING JAVA"
+#include "../AIController/AIController.h"
 
 #include "../SteeringBehaviors/Vector2D.h"
 
 #include "../SteeringBehaviors/Vector3D.h"
 using namespace std;
+
+class Actor;
 class InfluenceMap {
 private:
 	double **m_dMap;
 	double m_dWidth, m_dHEight;
 	list<Actor*> m_lActors;
-	int m_iMapWidth, m_iMapHeight;
+	int m_iMapWidth;
+	int m_iMapHeight;
 
 public:
 	
@@ -73,47 +73,7 @@ public:
 	
 	}
 
-	void update(double time=0){
-		list<Actor*>::iterator it = this->m_lActors.begin();
-		int c, r;
-		for(c=0; c<this->m_iMapHeight; c++)
-			for(r=0;r<this->m_iMapWidth; r++)
-				this->m_dMap[r][c] = 0;
-
-		for(; it != this->m_lActors.end(); ++it){
-			this->mapCoords((*it)->getVehicle()->getPos(), &c, &r);
-			int inf_rad = (*it)->getController()->getInfluenceRadius();
-			double influence = pow(-1.0, (*it)->getController()->getCategory());
-
-			int up, down, left, right;
-			up = r-inf_rad;
-			down = r+inf_rad;
-			left = c-inf_rad;
-			right = c+inf_rad;
-			while(down >= this->m_iMapHeight)
-				down--;
-			
-			while(up< 0)
-				up++;
-			
-			while(left < 0)
-				left++;
-
-			while(right >= this->m_iMapWidth)
-				right--;
-			
-
-			for(int i=up; i<=down; i++)
-				for(int j=left; j<=right; j++)
-					this->m_dMap[i][j] += influence;
-		}
-	
-	
-	
-	
-	
-	}
-
+	void update(double time=0);
 
 	double getSpot(int r, int c){
 		return this->m_dMap[r][c];
