@@ -86,7 +86,7 @@ private:
 AIController::AIController(Actor* owner, category_t cat, role_t rol, int irad){
 //	m_pFsm = new FSM<Actor>(owner);
 	m_pFsm = new FSM<Actor>(fillFSM(rol), "Idle", owner);	
-	m_pFsm->setStart(new Idle());
+	//m_pFsm->setStart(new Idle());
 	m_pOwner = owner;
 	this->m_pOwner->setController(this);
 	this->m_Category = cat;

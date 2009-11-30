@@ -11,6 +11,7 @@
 //#include "CObjectMesh.cpp"
 #include "../AIController/Actor.h"
 #include "../AIController/AIController.h"
+#include <time.h>
 //#include "Physics.h"
 
 
@@ -32,7 +33,7 @@ bool useDebugging = true;
 
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow)
 {
-	
+	srand(time(0));
 	if(useDebugging)
 	{
 		useConsole();
@@ -123,8 +124,8 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	g->addNbor(h);
 	h->addNbor(i);*/
 
-	a_c.planPath(c);
-	a_c.traversePath();
+	//a_c.planPath(c);
+	//a_c.traversePath();
 	
 	//Start Graphics and Networking threads
 	ThreadHandleGraphics = CreateThread(NULL,0,graphics,&params,0,&ThreadIdGraphics);

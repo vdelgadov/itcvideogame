@@ -1,7 +1,10 @@
 #ifndef BEHAVIORS_H
 #define BEHAVIORS_H
 #include "Vehicle.h"
+#include "../Main/Vector3D.h"
+#include "../Main/Vector2D.h"
 #include <list>
+
 
 using namespace std;
 template <class V>
@@ -72,6 +75,7 @@ V SteeringBehaviors<V>::evade(Vehicle<V>* veh, Vehicle<V>* pursuer){
 
 template <>
 Vector2D SteeringBehaviors<Vector2D>::wander(Vehicle<Vector2D> *veh, double wander_radius, double wander_distance){
+
 		double theta = 	(double(rand())/RAND_MAX)*2*3.1415926535897932;
 		double y = wander_radius * sin(theta);
 		double x = wander_radius * cos(theta);
@@ -83,7 +87,11 @@ Vector2D SteeringBehaviors<Vector2D>::wander(Vehicle<Vector2D> *veh, double wand
 
 template <>
 Vector3D SteeringBehaviors<Vector3D>::wander(Vehicle<Vector3D> *veh, double wander_radius, double wander_distance){
-		double theta = 	(double(rand())/RAND_MAX)*2*3.1415926535897932;
+
+		int ran = rand();
+		cout << ran << endl;
+		double theta = 	(double(ran)/RAND_MAX)*2*3.1415926535897932;
+		
 		double y = wander_radius * sin(theta);
 		double x = wander_radius * cos(theta);
 		Vector3D wander_vec = Vector3D(x, y, veh->getPos().z);
