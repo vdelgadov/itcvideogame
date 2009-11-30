@@ -32,6 +32,10 @@ class FSM {
 		m_pCurrState->execute(m_pOwner);
 	}
 
+	void FSM<T>::setStateMap(map<string, ScriptedState<Actor>, ltstr> m){
+		this->map = m;
+	}
+
 	void FSM<T>::revertToLast(){
 		this->FSM<T>::changeState(this->m_pLastState);
 	}

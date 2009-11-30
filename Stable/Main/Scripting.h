@@ -224,7 +224,8 @@ void inicializaEdos()
 	   contLineas = contLineas + 1; 	   
 	}
 	m[ultimo] = *(new ScriptedState<Actor>(ultimo, lineaInicial, contLineas));	
-	this->owner->getController()->m_pFSM = new FSM<Actor>(m, "caminar", this->owner);
+	m_pFSM = new FSM<Actor>(m, "caminar", actor);
+	this->owner->setStateMap(m_pFSM);
 	//actor -> m_pFSM = new FSM<Actor>(m, "caminar", actor);
 	fclose (archivo);
 }
