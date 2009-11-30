@@ -1,96 +1,65 @@
 xof 0303txt 0032
-template Frame {
- <3d82ab46-62da-11cf-ab39-0020af71e433>
- [...]
-}
 
-template Matrix4x4 {
- <f6f23f45-7686-11cf-8f52-0040333594a3>
- array FLOAT matrix[16];
-}
+// DirectX - from MilkShape3D
 
-template FrameTransformMatrix {
- <f6f23f41-7686-11cf-8f52-0040333594a3>
- Matrix4x4 frameMatrix;
-}
+Frame areaArbol1Frame
+{
+    FrameTransformMatrix
+    {
+        1.000000,0.000000,0.000000,0.000000,
+        0.000000,1.000000,0.000000,0.000000,
+        0.000000,0.000000,1.000000,0.000000,
+        0.000000,0.000000,0.000000,1.000000;;
+    }
 
-template Vector {
- <3d82ab5e-62da-11cf-ab39-0020af71e433>
- FLOAT x;
- FLOAT y;
- FLOAT z;
-}
+    Mesh areaArbol1Mesh
+    {
+        4;
+        5.000100;-4.999900;-0.000100;,
+        5.000100;5.000100;-0.000100;,
+        -4.999900;5.000100;-0.000100;,
+        -4.999900;-4.999900;-0.000100;;
+        2;
+        3;0,2,1;,
+        3;2,0,3;;
 
-template MeshFace {
- <3d82ab5f-62da-11cf-ab39-0020af71e433>
- DWORD nFaceVertexIndices;
- array DWORD faceVertexIndices[nFaceVertexIndices];
-}
+        MeshNormals
+        {
+            1;
+            0.000000;0.000000;-1.000000;;
+            2;
+            3;0,0,0;,
+            3;0,0,0;;
+        }
 
-template Mesh {
- <3d82ab44-62da-11cf-ab39-0020af71e433>
- DWORD nVertices;
- array Vector vertices[nVertices];
- DWORD nFaces;
- array MeshFace faces[nFaces];
- [...]
-}
+        MeshTextureCoords
+        {
+            4;
+            1.000000;1.000000;,
+            1.000000;0.000000;,
+            0.000000;0.000000;,
+            0.000000;1.000000;;
+        }
 
-template MeshNormals {
- <f6f23f43-7686-11cf-8f52-0040333594a3>
- DWORD nNormals;
- array Vector normals[nNormals];
- DWORD nFaceNormals;
- array MeshFace faceNormals[nFaceNormals];
-}
+        MeshMaterialList
+        {
+            1;
+            2;
+            0,
+            0;
 
-template Coords2d {
- <f6f23f44-7686-11cf-8f52-0040333594a3>
- FLOAT u;
- FLOAT v;
-}
+            Material pisoC
+            {
+                0.584314;0.584314;0.584314;1.000000;;
+                12.800000;
+                0.898039;0.898039;0.898039;;
+                0.000000;0.000000;0.000000;;
 
-template MeshTextureCoords {
- <f6f23f40-7686-11cf-8f52-0040333594a3>
- DWORD nTextureCoords;
- array Coords2d textureCoords[nTextureCoords];
-}
-
-
-Frame Model {
- 
-
- FrameTransformMatrix {
-  1.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,0.000000,1.000000;;
- }
-
- Mesh {
-  4;
-  -49.999001;-49.999001;0.001000;,
-  50.000999;-49.999001;0.001000;,
-  -49.999001;50.000999;0.001000;,
-  50.000999;50.000999;0.001000;;
-  2;
-  3;1,3,2;,
-  3;2,0,1;;
-
-  MeshNormals {
-   4;
-   0.000000;0.000000;1.000000;,
-   0.000000;0.000000;1.000000;,
-   0.000000;0.000000;1.000000;,
-   0.000000;0.000000;1.000000;;
-   2;
-   3;1,3,2;,
-   3;2,0,1;;
-  }
-
-  MeshTextureCoords {
-   4;
-   0.000000;0.000000;,
-   1.000000;0.000000;,
-   0.000000;1.000000;,
-   1.000000;1.000000;;
-  }
- }
+                TextureFileName
+                {
+                    "areaArbol1_DIFFUSE.bmp";
+                }
+            }
+        }
+    }
 }
