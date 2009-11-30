@@ -1,12 +1,11 @@
-#ifndef _ActorStates
-#define _ActorStates
+#pragma once
+
 #include "../StateMachine/states.h"
 #include "../AIController/Actor.h"
 #include "../SteeringBehaviors/Behaviors.h"
 
 
-
-class Idle : public AState<Actor>{
+class Idle : public AState<Actor> {
 	void enter(Actor* a){ cout << "Entering Idle" <<endl;}
 	void execute(Actor* a){
 		Actor* Enemy = a->getController()->getEnemy();
@@ -29,5 +28,3 @@ class Idle : public AState<Actor>{
 		cout << "Exiting Idle" << endl;
 	}
 };
-
-#endif

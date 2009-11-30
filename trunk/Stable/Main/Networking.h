@@ -1,5 +1,5 @@
-#ifndef NETWORKING_H_
-#define NETWORKING_H_
+#ifndef NETWORKING_H
+#define NETWORKING_H
 
 //#pragma once
 #include <winsock2.h>

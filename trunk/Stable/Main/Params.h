@@ -1,12 +1,9 @@
-#ifndef PARAMS_H_
-#define PARAMS_H_
+#ifndef PARAMS_H
+#define PARAMS_H
 #include "CObject.h"
 #include "Engine.h"
 
 #include "Physics.h"
-using namespace std;
-
-
 
 class Params
 {

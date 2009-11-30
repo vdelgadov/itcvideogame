@@ -3,6 +3,7 @@
 
 class CObject;
 class Params;
+
 class Physics{
 public:
 /*	Params* params;
@@ -12,7 +13,6 @@ public:
 	}*/
 	static bool checkBoundingSphereCollision(CObject* o);
 	static bool checkBoundingSphereCollision(CObject* o, CObject* o2);
-	
-
 };
+
 #endif
