@@ -28,6 +28,7 @@ class AIController : public Controller{
 		FSM<Actor>* getFSM();
 		Actor* getActor();
 		Actor* getEnemy(){
+			
 			return m_pEnemy;
 		}
 	

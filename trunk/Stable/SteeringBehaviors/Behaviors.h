@@ -89,14 +89,14 @@ template <>
 Vector3D SteeringBehaviors<Vector3D>::wander(Vehicle<Vector3D> *veh, double wander_radius, double wander_distance){
 
 		int ran = rand();
-		cout << ran << endl;
+
 		double theta = 	(double(ran)/RAND_MAX)*2*3.1415926535897932;
 		
 		double y = wander_radius * sin(theta);
 		double x = wander_radius * cos(theta);
 		Vector3D wander_vec = Vector3D(x, y, veh->getPos().z);
 		wander_vec.normalize();
-		wander_vec += (veh->getHeading()*wander_distance);
+		wander_vec += (veh->getHeading()*wander_distance);e
 		return wander_vec;// * veh->getMaxSpeed();// - veh->getPos(); 
 }
 

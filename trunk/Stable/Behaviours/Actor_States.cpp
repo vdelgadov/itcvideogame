@@ -8,7 +8,7 @@
 class Idle : public AState<Actor> {
 	void enter(Actor* a){ cout << "Entering Idle" <<endl;}
 	void execute(Actor* a){
-		cout << "Idling" << endl;
+		//cout << "Idling" << endl;
 		AIController* aic = (AIController*)(a->getController());
 		Actor* Enemy = aic->getEnemy();
 
@@ -17,7 +17,7 @@ class Idle : public AState<Actor> {
 			Vector3D w_v = SteeringBehaviors<Vector3D>::wander(a->getVehicle(), 10 , 10);
 			w_v += a->getVehicle()->getCurrVel();
 			w_v.normalize();
-			cout << w_v.x << " " << w_v.y << " " << w_v.z << endl;
+		//	cout << w_v.x << " " << w_v.y << " " << w_v.z << endl;
 			a->getVehicle()->setCurrVel(w_v*a->getVehicle()->getMaxSpeed());
 			return;
 		}
