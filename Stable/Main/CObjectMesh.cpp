@@ -94,11 +94,6 @@ public:
 			this->getVehicle()->setPos( pos  );
 			o = o->pParent;
 		}
-		
-		Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
-		this->getVehicle()->setPos(pos);
-		CObject::setPosition(pos);
-//		cout << this->getVehicle->getPos().x <<endl;
 	}
 	void initializeBoundingSphere()
 	{
