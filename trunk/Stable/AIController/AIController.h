@@ -4,7 +4,7 @@
 #include <queue>
 #include "../Waypoints/Waypoint.h"
 #include "../StateMachine/FSM.h"
-#include "../../InfluenceMaps/InfluenceMap.h"
+#include "../InfluenceMaps/InfluenceMap.h"
 
 class Actor;
 class VM{
