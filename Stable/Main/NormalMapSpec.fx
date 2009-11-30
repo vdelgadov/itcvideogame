@@ -126,7 +126,7 @@ float4 NormalMapPS(float3 toEyeT    : TEXCOORD0,
 	
 	// Expand from [0, 1] compressed interval to true [-1, 1] interval.
     normalT = 2.0f*normalT - 1.0f;
-	specularT = 2.0f*normalT - 1.0f;
+	//specularT = 2.0f*specularT - 1.0f;
     
     // Make it a unit vector.
 	normalT = normalize(normalT);
@@ -148,7 +148,8 @@ float4 NormalMapPS(float3 toEyeT    : TEXCOORD0,
 	     t = 0.0f;
 	
 	// Compute the ambient, diffuse and specular terms separatly. 
-	float3 spec = t*(gMtrl.spec*gLight.spec*specularT).rgb;
+	float3 spec = t*(gMtrl.spec*gLight.spec).rgb*specularT;
+	//float3 spec2 = t*(gMtrl.spec*gLight.spec).rgb;
 	float3 diffuse = s*(gMtrl.diffuse*gLight.diffuse).rgb;
 	float3 ambient = gMtrl.ambient*gLight.ambient;
 	

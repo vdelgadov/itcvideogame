@@ -79,7 +79,7 @@ case SPECULAR_MAPPING:
 		mhEyePosW    = mFX->GetParameterByName(0, "gEyePosW"); //Eye  Position
 		mhTex        = mFX->GetParameterByName(0, "gTex"); //Texture
 		mhNormalMap  = mFX->GetParameterByName(0, "gNormalMap"); //Normal Map	
-		mhSpecularMap  = mFX->GetParameterByName(0, "gSpecularMap"); //Specular Map	
+		mhSpecularMap  = mFX->GetParameterByName(0, "gSpecMap"); //Specular Map	
 		mFX->SetTechnique(mhTech);
 		break;
 	}
@@ -194,6 +194,7 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 
 				if(pMeshSpecularMapTextures[i] != 0)
 				{
+				
 					mFX->SetTexture(mhSpecularMap, pMeshSpecularMapTextures[i]);
 				}
 				else
