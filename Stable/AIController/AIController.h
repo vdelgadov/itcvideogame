@@ -4,7 +4,7 @@
 #include <queue>
 #include "../Waypoints/Waypoint.h"
 #include "../StateMachine/FSM.h"
-#include "../InfluenceMaps/InfluenceMap.h"
+//#include "../InfluenceMaps/InfluenceMap.h"
 
 
 class Actor;
@@ -16,6 +16,7 @@ public:
 
 };
 
+class InfluenceMap;
 class AIController {  
 
 	public:
@@ -64,14 +65,7 @@ class AIController {
 
 		static list<Waypoint<Vector3D>*> s_lMap;
 		list<Waypoint<Vector3D>*> m_lPath;
-
-
-
-		static list<Waypoint<Vector3D>*> s_lMap;
 		static InfluenceMap* s_InfluenceMap;
-		
-		
-		list<Waypoint<Vector3D>*> m_lPath;
 
 private:
 		Actor* m_pOwner;

@@ -10,7 +10,7 @@
 #include "DirectInput.h"
 //#include "CObjectMesh.cpp"
 #include "../AIController/Actor.h"
-#include "../AIController/AIController.cpp"
+#include "../AIController/AIController.h"
 //#include "Physics.h"
 
 

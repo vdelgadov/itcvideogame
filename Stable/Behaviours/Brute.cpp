@@ -7,7 +7,7 @@ InfluenceMap* AIController::s_InfluenceMap;
 class BruteEngaging : public AState<Actor>{
 private:
 	
-	const double attacking_range = 0.5;
+	static const double attacking_range = 0.5;
  
 public:
 	void enter(Actor* a){ 

@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "TrianguloEngine.h"
 #include "SimpleEngine.h"
-#include "../AIController/AIController.cpp"
+#include "../AIController/AIController.h"
 #include "../Waypoints/Waypoint.h"
 
 // define the screen resolution and keyboard macros
