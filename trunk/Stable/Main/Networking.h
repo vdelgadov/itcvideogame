@@ -34,5 +34,6 @@ void networkSendActiveClients(); //function to send the clients that are active
 void networkActivateClient(char* RecvBuffer); //function to receive and activate clients
 void networkDeactivateClient(char* RecvBuffer); //function to receive and activate clients
 void networkSendDectivatedClient(int client);
+void broadcastPosition(int objectID, float x, float y, float z);
 
 #endif NETWORKING_H_

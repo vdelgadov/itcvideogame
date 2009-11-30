@@ -9,7 +9,6 @@
 //I'M A CLIENT.
 #define SERVER_ADDRESS "10.40.30.158"
 #define SERVER_PORT 17000
-#define SERVER 0 //0 or 1
 #define BUFFLEN 512
 
 
@@ -418,4 +417,23 @@ void networkDeactivateClient(char* RecvBuffer)
 	cout << "Deactivating: " << "id: " << iID  << endl;
 	params->scene->find(iID)->isRendereable = false;
 	params->scene->find(iID)->boundingSphere = false;
+}
+void broadcastPosition(int iID, float x, float y, float z)
+{
+	//generate string to transmite with new coordinates
+	char response[BUFFLEN];
+	strcpy_s(response, BUFFLEN, "Move@");
+	strcat_s(response, BUFFLEN, float_to_str(iID).c_str());
+	strcat_s(response, BUFFLEN, "@");
+	strcat_s(response, BUFFLEN, float_to_str(params->scene->find(iID)->getVehicle()->getPos().x).c_str());
+	strcat_s(response, BUFFLEN, "@");
+	strcat_s(response, BUFFLEN, float_to_str(params->scene->find(iID)->getVehicle()->getPos().y).c_str());
+	strcat_s(response, BUFFLEN, "@");
+	strcat_s(response, BUFFLEN, float_to_str(params->scene->find(iID)->getVehicle()->getPos().z).c_str());
+	for(int i = 0; i < MAXCLIENTS; i++)
+	{
+		if(ClientAddress[i].sin_family)
+			sendto(Socket, response, BUFFLEN, 0, (sockaddr*)&ClientAddress[i],
+				   sizeof(sockaddr));
+	}
 }

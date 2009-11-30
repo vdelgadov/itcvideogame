@@ -2,8 +2,8 @@
 #define _VEHICLE_H
 #include "../Main/Engine.h"
 
-bool networkMove(int objectID, float x, float y, float z, LPVOID param); 
-
+//bool networkMove(int objectID, float x, float y, float z, LPVOID param); 
+void broadcastPosition(int iID, float x, float y, float z);
 
 template <class V>
 class Vehicle{
@@ -67,8 +67,13 @@ public:
 	}
 
 	 void update(double time) {
-		// m_vPos += this->getCurrVel();// * time;
-		 networkMove(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z, NULL); 
+		if(SERVER)
+		{
+			m_vPos += this->getCurrVel();// * time;
+			//networkMove(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z, NULL); 
+			broadcastPosition(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z);
+		}
+		
 		
 	 }
 
