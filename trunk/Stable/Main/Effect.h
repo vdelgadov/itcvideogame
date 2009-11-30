@@ -36,5 +36,5 @@ public:
 						std::vector<Mtrl> mShaderMtrls,
 						LPDIRECT3DTEXTURE9* pMeshTextures,
 						LPDIRECT3DTEXTURE9* pMeshNormalMapTextures,
-						LPDIRECT3DTEXTURE9* pMeshSpecularTextures);
+						LPDIRECT3DTEXTURE9* pMeshSpecularMapTextures);
 };

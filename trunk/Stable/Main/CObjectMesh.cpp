@@ -44,6 +44,7 @@ private:
 	DirLight mLight;	//Se debe quitar de aquí
 
 	LPDIRECT3DTEXTURE9* pMeshNormalMapTextures; //Apuntador a arreglo donde se almacenan los normal maps.
+	LPDIRECT3DTEXTURE9* pMeshSpecularMapTextures; 
 	std::vector<Mtrl> mShaderMtrls;
 	ID3DXBuffer* adjBuffer;
 	//FIN DE DECLARACIONES Y HANDLERS PARA SHADERS
@@ -117,7 +118,7 @@ public:
 
 		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); 
 		
-		effect.renderObject(this->pMesh,this->dwNumMaterials,this->mShaderMtrls,this->pMeshTextures,this->pMeshNormalMapTextures,NULL);
+		effect.renderObject(this->pMesh,this->dwNumMaterials,this->mShaderMtrls,this->pMeshTextures,this->pMeshNormalMapTextures,this->pMeshSpecularMapTextures);
 		
 
 	}
@@ -212,6 +213,10 @@ public:
 		if( pMeshNormalMapTextures == NULL )
 			return E_OUTOFMEMORY;
 
+		pMeshSpecularMapTextures = new LPDIRECT3DTEXTURE9[dwNumMaterials];
+		if( pMeshSpecularMapTextures == NULL )
+			return E_OUTOFMEMORY;
+
 		for( DWORD i = 0; i < dwNumMaterials; i++ )
 		{
 			
@@ -229,6 +234,8 @@ public:
 
 			pMeshTextures[i] = NULL;
 			pMeshNormalMapTextures[i] = NULL;
+			pMeshSpecularMapTextures[i] = NULL;
+
 			if( d3dxMaterials[i].pTextureFilename != NULL &&
 				lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
 			{
@@ -275,6 +282,30 @@ public:
 						pMeshNormalMapTextures[i]=NULL;
 					}
 				}
+
+			const CHAR* strSpecularMapPrefix = "spec_";
+			CHAR strSpecularMapTexture[MAX_PATH];
+			strcpy_s( strSpecularMapTexture, MAX_PATH, strSpecularMapPrefix );
+			strcat_s( strSpecularMapTexture, MAX_PATH, d3dxMaterials[i].pTextureFilename );
+
+				if( FAILED( D3DXCreateTextureFromFileA( this->engine->d3ddev,
+														strSpecularMapTexture,
+														&pMeshSpecularMapTextures[i] ) ) )
+				{
+					// If texture is not in current folder, try parent folder
+					const CHAR* strPrefixNM = "..\\";
+					CHAR strTextureNM[MAX_PATH];
+					strcpy_s( strTextureNM, MAX_PATH, strPrefixNM );
+					strcat_s( strTextureNM, MAX_PATH, strSpecularMapTexture );
+					// If texture is not in current folder, try parent folder
+					if( FAILED( D3DXCreateTextureFromFileA( this->engine->d3ddev,
+															strTextureNM,
+															&pMeshSpecularMapTextures[i] ) ) )
+					{
+						pMeshSpecularMapTextures[i]=NULL;
+					}
+				}
+
 			}
 		}
 
@@ -334,7 +365,7 @@ public:
 		D3DXMatrixIdentity(&mSceneWorldInv);
 
 		//buildFX();
-		effect = Effect(this->engine,BUMP_MAPPING);
+		effect = Effect(this->engine,SPECULAR_MAPPING);
 		return S_OK;
 			
 	}
