@@ -5,6 +5,7 @@
 
 #define BLINN_PHONG 1
 #define BUMP_MAPPING 2
+#define SPECULAR_MAPPING 3
 
 class Effect
 {
@@ -25,6 +26,7 @@ public:
 	D3DXHANDLE   mhMtrl; //Handler del material
 	D3DXHANDLE   mhLight; //Handler de TODAS las luces
 	D3DXHANDLE   mhNormalMap; //Handler para el mapa normal
+	D3DXHANDLE   mhSpecularMap
 	D3DXVECTOR3 eyePosition;
 	IDirect3DTexture9* mWhiteTex;
 	DirLight mLight;	//Struct para todos  los tipos de luces
