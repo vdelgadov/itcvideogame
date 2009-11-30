@@ -23,7 +23,7 @@ class AIController {//: public Controller {
 		Waypoint<Vector3D>* findClosestWaypoint();
 		void traversePath();
 		void buildPath(Waypoint<Vector3D>* w, WaypointEdge<Vector3D> we);
-		
+		void setFSM(FSM<Actor>* fsm);
 		VM* getVM(){
 			return this->m_pVM;
 		}
