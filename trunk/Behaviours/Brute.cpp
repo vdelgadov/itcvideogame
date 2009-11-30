@@ -1,8 +1,10 @@
 #ifndef _BRUTE
 #define _BRUTE
 #include "Actor_States.cpp"
+
 InfluenceMap* AIController::s_InfluenceMap;
-class BruteEngaging : public AState{
+
+class BruteEngaging : public AState<Actor>{
 private:
 	
 	const double attacking_range = 0.5;
@@ -80,7 +82,7 @@ public:
 
 };
 
-class BruteAttack : public AState(){
+class BruteAttack : public AState<Actor>{
 private:
 	Vector3D m_vEnemyPos
 public:

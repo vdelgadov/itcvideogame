@@ -1,6 +1,9 @@
+#ifndef _ActorStates
+#define _ActorStates
 #include "../StateMachine/states.h"
 #include "../AIController/Actor.h"
 #include "../SteeringBehaviors/Behaviors.h"
+
 
 
 class Idle : public AState<Actor>{
@@ -27,3 +30,4 @@ class Idle : public AState<Actor>{
 	}
 };
 
+#endif
