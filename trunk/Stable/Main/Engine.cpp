@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 		o->isRendereable = false;
 		o->boundingSphere = false;
 	}
-	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle.getPos().y,o->vehicle.getPos().z);
+	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle->getPos().y,o->vehicle->getPos().z);
 	//params.scene->AddChild(new CObjectMesh(++params.ID,-2.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
 
 	/*params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
