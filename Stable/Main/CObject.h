@@ -92,7 +92,23 @@ public:
 		}
 		return NULL;
 	}
-	void move(Vector3D deltaMove)
+
+	CObject* findClosestTo(Vector3D& point) {
+		if (lstChilds.empty())
+			return this;
+		CObject *closest = lstChilds.front();
+		double smallestdist = (closest->vehicle.getPos() - point).magnitude();
+
+		for (list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
+			double dist = ((*it)->vehicle.getPos() - point).magnitude() < smallestdist;
+			if (dist < smallestdist) {
+				closest = *it;
+				smallestdist = dist;
+			}
+		}
+		return closest->findClosestTo(point);
+	}
+	void move(Vector3D& deltaMove)
 	{
 		this->getVehicle()->setCurrVel(deltaMove);
 		if(!Physics::checkBoundingSphereCollision(this)) // if no intersections change pos
