@@ -2,25 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StateMachine", "StateMachine\StateMachine.vcproj", "{20A00010-2076-4424-96CB-B14910E943A8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EF138ABB-73AC-4044-ACE1-743B21B89BB6} = {EF138ABB-73AC-4044-ACE1-743B21B89BB6}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SteeringBehaviors", "SteeringBehaviors\SteeringBehaviors.vcproj", "{A2FF8309-AA79-4B7A-A6BF-518AB252A1B3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EF138ABB-73AC-4044-ACE1-743B21B89BB6} = {EF138ABB-73AC-4044-ACE1-743B21B89BB6}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIController", "AIController\AIController.vcproj", "{33632F59-3DAF-49C4-88DC-423EE1425FB8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EF138ABB-73AC-4044-ACE1-743B21B89BB6} = {EF138ABB-73AC-4044-ACE1-743B21B89BB6}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Waypoints", "Waypoints\Waypoints.vcproj", "{0857A020-661F-4D56-861B-C789EEF5A6E3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A2FF8309-AA79-4B7A-A6BF-518AB252A1B3} = {A2FF8309-AA79-4B7A-A6BF-518AB252A1B3}
-		{EF138ABB-73AC-4044-ACE1-743B21B89BB6} = {EF138ABB-73AC-4044-ACE1-743B21B89BB6}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Main", "Main\Main.vcproj", "{EF138ABB-73AC-4044-ACE1-743B21B89BB6}"
 EndProject

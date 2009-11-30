@@ -11,6 +11,8 @@ class Idle : public AState<Actor> {
 		Actor* Enemy = a->getController()->getEnemy();
 
 		int e_x, e_y, m_x, m_y;
+		if(!Enemy)
+			return;
 		AIController::s_InfluenceMap->mapCoords(Enemy->getVehicle()->getPos(), &e_x, &e_y);
 		AIController::s_InfluenceMap->mapCoords(a->getVehicle()->getPos(), &m_x, &m_y);
 		
