@@ -147,9 +147,6 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 		D3DXMatrixRotationY(&matRotateY, index);
 		d3ddev->SetTransform(D3DTS_WORLD, &(matRotateY));
 		*/
-		
-
-
 
 		if(useDebugging)
 		{

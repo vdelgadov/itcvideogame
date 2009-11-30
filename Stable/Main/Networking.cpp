@@ -9,7 +9,7 @@
 //I'M A CLIENT.
 #define SERVER_ADDRESS "10.40.30.158"
 #define SERVER_PORT 17000
-#define SERVER 0 //0 or 1
+#define SERVER 1 //0 or 1
 #define BUFFLEN 512
 
 
@@ -45,9 +45,9 @@ DWORD WINAPI networking(LPVOID Param)
 	}
 	while(params->notQuit)
 	{
-		SendBuffer[0] = 'Q';
-		Buffer[BUFFLEN-1] = '\0';
-	    sendto(Socket, SendBuffer, 1, 0, (sockaddr*)&ServerAddress, sizeof(sockaddr));
+		//SendBuffer[0] = 'Q';
+		//Buffer[BUFFLEN-1] = '\0';
+	    //sendto(Socket, SendBuffer, 1, 0, (sockaddr*)&ServerAddress, sizeof(sockaddr));
 		break;
 	};
 
@@ -229,7 +229,7 @@ void networkServer()
                     if(!ClientAddress[i].sin_family)
                     {
                         ClientAddress[i] = IncomingAddress;
-						networkSendActiveClients(i); //send all active clients to new client
+						networkSendActiveClients(); //send all active clients to new client
 						params->scene->find(i+1)->isRendereable = true;
 						params->scene->find(i+1)->boundingSphere = true;
 						
@@ -268,6 +268,7 @@ void networkServer()
 					networkSendDectivatedClient(i);
                 }
             }
+		   networkSendActiveClients();
         }
     }
 
@@ -343,58 +344,56 @@ void main()
 	{
 	}
 }
-void networkSendActiveClients(int client) //function to send the clients that are active
+void networkSendActiveClients() //function to send the clients that are active
 {
-	 for(int i = 0; i < MAXCLIENTS; i++)
-     {
-		 if(ClientAddress[i].sin_family)
-		 {
-			char message[BUFFLEN];
-			char response[BUFFLEN];
-			//activate client
-			strcpy_s(message, BUFFLEN, "Activate@");
-			strcat_s(message, BUFFLEN, float_to_str(client+1).c_str());
-			sendto(Socket, message, BUFFLEN, 0, (sockaddr*)&ClientAddress[i],sizeof(sockaddr));
-			//set client position
-			strcpy_s(response, BUFFLEN, "Move@");
-			strcat_s(response, BUFFLEN, float_to_str(client+1).c_str());
-			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(client+1)->getVehicle()->getPos().x).c_str());
-			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(client+1)->getVehicle()->getPos().y).c_str());
-			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(client+1)->getVehicle()->getPos().z).c_str());
-			sendto(Socket, response, BUFFLEN, 0, (sockaddr*)&ClientAddress[client],sizeof(sockaddr));
-		 }
+	
+	for(int j = 0; j < MAXCLIENTS; j++)
+    {
+		if(ClientAddress[j].sin_family)
+		{
+			for(int i = 0; i < MAXCLIENTS; i++)
+			{
+				if(ClientAddress[i].sin_family)
+				{
+					char message[BUFFLEN];
+					char response[BUFFLEN];
+					//activate client
+					strcpy_s(message, BUFFLEN, "Activate@");
+					strcat_s(message, BUFFLEN, float_to_str(i+1).c_str());
+					sendto(Socket, message, BUFFLEN, 0, (sockaddr*)&ClientAddress[j],sizeof(sockaddr));
+
+					//set client position
+					strcpy_s(response, BUFFLEN, "Move@");
+					strcat_s(response, BUFFLEN, float_to_str(i+1).c_str());
+					strcat_s(response, BUFFLEN, "@");
+					strcat_s(response, BUFFLEN, float_to_str(params->scene->find(i+1)->getVehicle()->getPos().x).c_str());
+					strcat_s(response, BUFFLEN, "@");
+					strcat_s(response, BUFFLEN, float_to_str(params->scene->find(i+1)->getVehicle()->getPos().y).c_str());
+					strcat_s(response, BUFFLEN, "@");
+					strcat_s(response, BUFFLEN, float_to_str(params->scene->find(i+1)->getVehicle()->getPos().z).c_str());
+					sendto(Socket, response, BUFFLEN, 0, (sockaddr*)&ClientAddress[j],sizeof(sockaddr));
+
+
+					//set clients object
+					char message2[BUFFLEN];
+					strcpy_s(message2, BUFFLEN, "MyObject@");
+					strcat_s(message2, BUFFLEN, float_to_str(j+1).c_str());
+					sendto(Socket, message2, BUFFLEN, 0, (sockaddr*)&ClientAddress[j],sizeof(sockaddr));
+				}
+			}
+			
+		}
 	 }
-	 //set clients object
-	char message[BUFFLEN];
-	strcpy_s(message, BUFFLEN, "MyObject@");
-	strcat_s(message, BUFFLEN, float_to_str(client+1).c_str());
-	sendto(Socket, message, BUFFLEN, 0, (sockaddr*)&ClientAddress[client],sizeof(sockaddr));
+	 
 }
 void networkSendDectivatedClient(int client) //function to send the clients that are active
 {
-	 for(int i = 0; i < MAXCLIENTS; i++)
+	
+	for(int i = 0; i < MAXCLIENTS; i++)
      {
 		 if(ClientAddress[i].sin_family)
 		 {
-			char message[BUFFLEN];
-			char response[BUFFLEN];
-			//activate client
-			strcpy_s(message, BUFFLEN, "Deactivate@");
-			strcat_s(message, BUFFLEN, float_to_str(i+1).c_str());
-			sendto(Socket, message, BUFFLEN, 0, (sockaddr*)&ClientAddress[i],sizeof(sockaddr));
-			//set client position
-			strcpy_s(response, BUFFLEN, "Move@");
-			strcat_s(response, BUFFLEN, float_to_str(i+1).c_str());
-			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(0.0).c_str());
-			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(1.0).c_str());
-			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(0.0).c_str());
-			sendto(Socket, response, BUFFLEN, 0, (sockaddr*)&ClientAddress[client],sizeof(sockaddr));
+			
 		 }
 	 }
 }
@@ -416,7 +415,7 @@ void networkDeactivateClient(char* RecvBuffer)
 	float iID;
 	sID >> iID;
 	
-	cout << "activating: " << "id: " << iID  << endl;
+	cout << "Deactivating: " << "id: " << iID  << endl;
 	params->scene->find(iID)->isRendereable = false;
 	params->scene->find(iID)->boundingSphere = false;
 }
