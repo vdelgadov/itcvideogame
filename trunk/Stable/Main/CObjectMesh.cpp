@@ -114,7 +114,6 @@ public:
 	{
 		//cout << "render" << endl;
 		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
-		cout << this->getVehicle()->getPos().z << endl;
 		D3DXMatrixTranslation(&translation,(float)this->getVehicle()->getPos().x,(float)this->getVehicle()->getPos().y,(float)this->getVehicle()->getPos().z);
 		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
