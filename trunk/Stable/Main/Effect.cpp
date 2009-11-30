@@ -42,6 +42,7 @@ void Effect::buildFX(int effect_type)
 
 		break;
 	case BUMP_MAPPING:
+		{
 		ID3DXBuffer* errors = 0;
 		D3DXCreateEffectFromFile(this->engine->d3ddev, L"NormalMap.fx", 
 			0, 0, D3DXSHADER_DEBUG, 0, &this->mFX, &errors);
@@ -58,9 +59,11 @@ void Effect::buildFX(int effect_type)
 		mhTex        = mFX->GetParameterByName(0, "gTex"); //Texture
 		mhNormalMap  = mFX->GetParameterByName(0, "gNormalMap"); //Normal Map	
 		mFX->SetTechnique(mhTech);
+		}
 		break;
 
 	case SPECULAR_MAPPING:
+		{
 		ID3DXBuffer* errors = 0;
 		D3DXCreateEffectFromFile(this->engine->d3ddev, L"NormalMapSpec.fx", 
 			0, 0, D3DXSHADER_DEBUG, 0, &this->mFX, &errors);
@@ -78,6 +81,7 @@ void Effect::buildFX(int effect_type)
 		mhNormalMap  = mFX->GetParameterByName(0, "gNormalMap"); //Normal Map	
 		mhSpecularMap  = mFX->GetParameterByName(0, "gSpecularMap"); //Specular Map	
 		mFX->SetTechnique(mhTech);
+		}
 		break;
 
 	}
@@ -93,6 +97,7 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 	switch(this->effect_type)
 	{
 		case BUMP_MAPPING:
+			{
 			D3DXMATRIX mSceneWorldInv;
 			D3DXMATRIX matWorld,matView,matProj;
 
@@ -142,8 +147,10 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 			}
 			mFX->EndPass();
 			mFX->End();
+			}
 			break;
 		case SPECULAR_MAPPING:
+			{
 			D3DXMATRIX mSceneWorldInv;
 			D3DXMATRIX matWorld,matView,matProj;
 
@@ -186,9 +193,9 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 					mFX->SetTexture(mhNormalMap, mWhiteTex);
 				}
 
-				if(pMeshSpecularMapTextures[i] != 0)
+				if(pMeshSpecularTextures[i] != 0)
 				{
-					mFX->SetTexture(mhSpecularMap, pMeshSpecularMapTextures[i]);
+					mFX->SetTexture(mhSpecularMap, pMeshSpecularTextures[i]);
 				}
 				else
 				{
@@ -200,6 +207,7 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 			}
 			mFX->EndPass();
 			mFX->End();
+			}
 			break;
 	}
 
