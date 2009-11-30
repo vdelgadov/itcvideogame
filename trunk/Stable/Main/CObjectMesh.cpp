@@ -52,6 +52,7 @@ private:
 	std::vector<Mtrl> mShaderMtrls;
 	ID3DXBuffer* adjBuffer;
 
+protected:
 	Controller* m_pController;
 
 	//FIN DE DECLARACIONES Y HANDLERS PARA SHADERS
