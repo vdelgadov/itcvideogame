@@ -82,8 +82,8 @@ FSM<Actor>* AIController::getFSM(){
 	return m_pFsm;
 }
 
-void AIController::setFSM(FSM<Actor>* m_pFSM){
-	m_pFsm = m_pFSM;
+void AIController::setFSM(FSM<Actor>* fsm){
+	m_pFsm = fsm;
 }
 
 void AIController::update(double time){
