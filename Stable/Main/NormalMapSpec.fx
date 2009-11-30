@@ -122,7 +122,7 @@ float4 NormalMapPS(float3 toEyeT    : TEXCOORD0,
 	
 	// Sample normal and spec map.
 	float3 normalT = tex2D(NormalMapS, tex0);
-	float3 specT = tex2D(SpecularMapS, tex0);
+	float3 specularT = tex2D(SpecularMapS, tex0);
 	
 	// Expand from [0, 1] compressed interval to true [-1, 1] interval.
     normalT = 2.0f*normalT - 1.0f;
@@ -148,7 +148,7 @@ float4 NormalMapPS(float3 toEyeT    : TEXCOORD0,
 	     t = 0.0f;
 	
 	// Compute the ambient, diffuse and specular terms separatly. 
-	float3 spec = t*(specularT*gLight.spec).rgb;
+	float3 spec = t*(gMtrl.spec*gLight.spec*specularT).rgb;
 	float3 diffuse = s*(gMtrl.diffuse*gLight.diffuse).rgb;
 	float3 ambient = gMtrl.ambient*gLight.ambient;
 	
