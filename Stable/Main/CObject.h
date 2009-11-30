@@ -14,7 +14,7 @@ using namespace std;
 class CObject
 {
 private:
-	Vehicle<Vector3D> vehicle;
+	Vehicle<Vector3D>* vehicle;
 public:
 	//ID
 	int ID;
@@ -44,7 +44,7 @@ public:
 	{
 		//id
 		this->ID = 0;
-		this->vehicle = Vehicle<Vector3D>(1,Vector3D(0.0,0.0,0.0));
+		this->vehicle = new Vehicle<Vector3D>(1,Vector3D(0.0,0.0,0.0));
 		D3DXMatrixTranslation(&translation,0.0,0.0,0.0);
 		D3DXMatrixRotationYawPitchRoll(&rotation, 0.0, 0.0, 0.0);
 		D3DXMatrixScaling(&scale, 1.0, 1.0, 1.0);
@@ -97,10 +97,10 @@ public:
 		if (lstChilds.empty())
 			return this;
 		CObject *closest = lstChilds.front();
-		double smallestdist = (closest->vehicle.getPos() - point).magnitude();
+		double smallestdist = (closest->vehicle->getPos() - point).magnitude();
 
 		for (list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
-			double dist = ((*it)->vehicle.getPos() - point).magnitude() < smallestdist;
+			double dist = ((*it)->vehicle->getPos() - point).magnitude() < smallestdist;
 			if (dist < smallestdist) {
 				closest = *it;
 				smallestdist = dist;
@@ -113,7 +113,7 @@ public:
 		this->getVehicle()->setCurrVel(deltaMove);
 		if(!Physics::checkBoundingSphereCollision(this)) // if no intersections change pos
 		{
-			this->vehicle.setPos(this->vehicle.getPos() + deltaMove);
+			this->vehicle->setPos(this->vehicle->getPos() + deltaMove);
 			for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
 			{
 				CObject* o = *it;
@@ -124,13 +124,13 @@ public:
 	void setPosition(Vector3D deltaMove)
 	{
 		this->getVehicle()->setCurrVel(Vector3D(0,0,0));
-		this->vehicle.setPos(deltaMove);
+		this->vehicle->setPos(deltaMove);
 	}
 	void moveOld(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 	{
 		
 		//D3DXMATRIX translationTemp, rotationTemp, scaleTemp;
-		//D3DXMatrixTranslation(&translationTemp,this->vehicle.getPos().x,this->vehicle.getPos().y,this->vehicle.getPos().z);
+		//D3DXMatrixTranslation(&translationTemp,this->vehicle->getPos().x,this->vehicle->getPos().y,this->vehicle->getPos().z);
 		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
 		//if(!Physics::checkBoundingSphere(this)) // if no intersections change pos
@@ -138,8 +138,8 @@ public:
 			//this->translation = this->translation*translationTemp;
 			//Update world and relative coordinates
 			Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
-			pos+=this->vehicle.getPos();
-			this->vehicle.setPos( pos  );
+			pos+=this->vehicle->getPos();
+			this->vehicle->setPos( pos  );
 			this->fPosX += tX;
 			this->fPosY += tY;
 			this->fPosZ += tZ;
@@ -156,7 +156,7 @@ public:
 	void moveNoChecks(Vector3D deltaMove)
 	{
 		this->getVehicle()->setCurrVel(deltaMove);
-		this->vehicle.setPos(this->vehicle.getPos() + deltaMove);
+		this->vehicle->setPos(this->vehicle->getPos() + deltaMove);
 		for(list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it)
 		{
 			CObject* o = *it;
@@ -169,7 +169,7 @@ public:
 		return;
 	}
 	virtual Vehicle<Vector3D>* getVehicle(){
-		return &(this->vehicle);
+		return this->vehicle;
 	}
 	virtual void update(double time=0){
 		//cout << "updating cobject" << endl;
