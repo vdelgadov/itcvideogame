@@ -7,7 +7,7 @@
 
 #pragma comment(lib, "Ws2_32.lib")    // WinSock Library
 //I'M A CLIENT.
-#define SERVER_ADDRESS "192.168.0.2"
+#define SERVER_ADDRESS "10.201.38.239"
 #define SERVER_PORT 17000
 #define SERVER 1 //0 or 1
 #define BUFFLEN 512
@@ -343,7 +343,6 @@ void main()
 }
 void networkSendActiveClients(int client) //function to send the clients that are active
 {
-	
 	 for(int i = 0; i < MAXCLIENTS; i++)
      {
 		 if(ClientAddress[i].sin_family)
@@ -374,7 +373,6 @@ void networkSendActiveClients(int client) //function to send the clients that ar
 }
 void networkSendDectivatedClient(int client) //function to send the clients that are active
 {
-	
 	 for(int i = 0; i < MAXCLIENTS; i++)
      {
 		 if(ClientAddress[i].sin_family)
