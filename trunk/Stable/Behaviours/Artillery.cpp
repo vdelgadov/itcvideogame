@@ -20,7 +20,9 @@ public:
 	
 	}
 	void execute(Actor* a){
-		Actor* Enemy = a->getController()->getEnemy();
+		AIController* aic = (AIController*)(a->getController());
+		Actor* Enemy = aic->getEnemy();
+		
 		if(!Enemy){
 			a->getFSM()->changeState("Idle");
 			return;
@@ -96,7 +98,8 @@ class ArtAttack : public AState<Actor> {
 		cout << "Entering Artillery Attack" << endl;
 	}
 	void execute(Actor* a){
-		Actor* Enemy = a->getController()->getEnemy();
+	    AIController* aic = (AIController*)(a->getController());
+		Actor* Enemy = aic->getEnemy();
 		cout << "Fireball   <<O  " << endl;
 		a->getFSM()->changeState("Engaging");
 

@@ -3,6 +3,7 @@
 
 #include "CObject.h"
 #include "Effect.h"
+#include "Controller.h"
 class CObjectMesh : public CObject
 {
 public:
@@ -50,8 +51,20 @@ private:
 	LPDIRECT3DTEXTURE9* pMeshSpecularMapTextures; 
 	std::vector<Mtrl> mShaderMtrls;
 	ID3DXBuffer* adjBuffer;
+
+	Controller* m_pController;
+
 	//FIN DE DECLARACIONES Y HANDLERS PARA SHADERS
 public:	
+
+	Controller* getController(){
+		return this->m_pController;
+	}
+
+	void setController(Controller* c){
+		this->m_pController = c;
+	}
+
 	CObjectMesh(int ID,float fPosX, float fPosY, float fPosZ, float fRotX, float fRotY, float fRotZ,float fScale, LPCTSTR fileName,CEngine* engine)
 	{
 		//quitar cambiar por vehiculo

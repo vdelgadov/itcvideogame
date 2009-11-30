@@ -1,8 +1,9 @@
 #include "../InfluenceMaps/InfluenceMap.h"
-#include "../AIController/Actor.h"
+#include "CObjectMesh.cpp"
+//#include "../AIController/Actor.h"
 
 void InfluenceMap::update(double time){
-		list<Actor*>::iterator it = this->m_lActors.begin();
+		list<CObjectMesh*>::iterator it = this->m_lActors.begin();
 		int c, r;
 		for(c=0; c<this->m_iMapHeight; c++)
 			for(r=0;r<this->m_iMapWidth; r++)
