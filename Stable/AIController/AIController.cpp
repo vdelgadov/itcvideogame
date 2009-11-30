@@ -1,10 +1,18 @@
 #include "AIController.h"
 #include "Actor.h"
 #include "../SteeringBehaviors/Behaviors.h"
+#include "../Behaviours/RoleFactory.cpp"
 
 list<Waypoint<Vector3D>*> AIController::s_lMap;
+InfluenceMap* AIController::s_InfluenceMap;
 
+map<string, ScriptedState<Actor>, ltstr> fillFSM(role_t rol){
+	map<string, ScriptedState<Actor>, ltstr> states;
+	states["Attack"] = RoleFactory::CreateRoleState(rol, ATTACK);
+	states["Engage"] =  RoleFactory::CreateRoleState(rol, ENGAGE);
 
+	return states;
+}
 class Idle : public AState<Actor>{
 	void enter(Actor* a)
 	{ 
@@ -26,11 +34,6 @@ public:
 	}
 
 	void execute(Actor* actor){
-		/*cout << "executing" << endl;
-		cout << "distance: " << m_pCurrent->sqDistanceTo(actor->getVehicle()->getPos()) << endl;
-		cout << "Pos: "<< actor->getVehicle()->getPos().x << " " << actor->getVehicle()->getPos().y << " " << actor->getVehicle()->getPos().z << endl;
-		cout << "cur pos: "<< m_pCurrent->getPos().x << " " << m_pCurrent->getPos().y << " " << m_pCurrent->getPos().z << endl; 
-		*/
 		if(this->m_pCurrent->sqDistanceTo(actor->getVehicle()->getPos()) < actor->getVehicle()->getMaxSpeed()){
 			if(actor->getController()->m_lPath.size() < 1){
 				actor->getController()->getFSM()->changeState(new Idle());
@@ -44,9 +47,9 @@ public:
 		Vector3D norm_vel = actor->getVehicle()->getCurrVel();
 		norm_vel += stf;
 		norm_vel.normalize();
-		//cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<" "<<actor->getVehicle()->getCurrVel().z << endl;
+		cout << "Going after " << m_pCurrent->getId()<<" " << actor->getVehicle()->getCurrVel().x<<" "<<actor->getVehicle()->getCurrVel().y<<endl;
 		actor->getVehicle()->setCurrVel(norm_vel*actor->getVehicle()->getMaxSpeed());
-		actor->getVehicle()->update(actor->getController()->getFSM()->getTime());
+//		actor->getVehicle()->update(actor->getController()->getFSM()->getTime());
 	}
 
 	
@@ -59,7 +62,7 @@ public:
 
 private:
 	Waypoint<Vector3D>* m_pCurrent;
-	
+
 
 };
 
@@ -67,13 +70,31 @@ private:
 
 
 
-AIController::AIController(Actor* owner){
-	m_pFsm = new FSM<Actor>(owner);
+
+
+
+
+
+
+AIController::AIController(Actor* owner, category_t cat=BAD_GUY, role_t rol=BRUTE, int irad=1){
+//	m_pFsm = new FSM<Actor>(owner);
+	m_pFsm = new FSM<Actor>(fillFSM(rol), "Idle", owner);	
 	m_pFsm->setStart(new Idle());
 	m_pOwner = owner;
 	this->m_pOwner->setController(this);
+	this->m_Category = cat;
+	this->m_Role = rol;
+	if(!AIController::s_InfluenceMap)
+		AIController::s_InfluenceMap = new InfluenceMap(10, 10, 200, 200); //NECESITO PREGUNTARLE AL ENGINE LAS DIMENSIONES DEL MAPA
+	AIController::s_InfluenceMap->addActor(this);
+	this->m_iInfluenceRadius = irad;
 }
 
+AIController::AIController(Actor* owner, FSM<Actor>* f){
+	m_pFsm = f;
+	m_pOwner = owner;
+
+}
 Actor* AIController::getActor(){
 	return m_pOwner;
 }
@@ -87,7 +108,9 @@ void AIController::setFSM(FSM<Actor>* fsm){
 }
 
 void AIController::update(double time){
+	this->m_pEnemy = null; //Engine ...
 	this->m_pFsm->update();
+
 }
 
 void AIController::planPath(Waypoint<Vector3D>* w){
