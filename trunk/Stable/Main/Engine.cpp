@@ -86,14 +86,14 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	o->pScene = params.scene;
 
 
-	params.scene->AddChild(new Actor(++params.ID,-4.0,1.0,0.0,0.0,PI/2,0.0,0.2,L"bote2.x",params.engine));
+	params.scene->AddChild(new Actor(++params.ID,-4.0,-3.0,0.0,0.0,PI/2,0.0,0.2,L"bote2.x",params.engine));
 	o = params.scene->find(params.ID);
 	o->boundingSphere = true;
 	o->pScene = params.scene;
 	AIController a_c(dynamic_cast<Actor*>(params.scene->find(params.ID)));
 	Waypoint<Vector3D>* a = new Waypoint<Vector3D>("a", Vector3D());
-	Waypoint<Vector3D>* b = new Waypoint<Vector3D>("b", Vector3D(0.0f, 1.0f, 1.0f));
-	Waypoint<Vector3D>* c = new Waypoint<Vector3D>("c", Vector3D(4.0f, 1.0f, 5.0f));
+	Waypoint<Vector3D>* b = new Waypoint<Vector3D>("b", Vector3D(0.0f, -2.0f, 1.0f));
+	Waypoint<Vector3D>* c = new Waypoint<Vector3D>("c", Vector3D(4.0f, -1.5f, 5.0f));
 	Waypoint<Vector3D>* d = new Waypoint<Vector3D>("d", Vector3D(1.0f, 1.0f, 0.0f));
 	Waypoint<Vector3D>* e = new Waypoint<Vector3D>("e", Vector3D(1.0f, 1.0f, 1.0f));
 	Waypoint<Vector3D>* f = new Waypoint<Vector3D>("f", Vector3D(1.0f, 1.0f, 2.0f));
