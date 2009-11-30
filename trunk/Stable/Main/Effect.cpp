@@ -59,6 +59,27 @@ void Effect::buildFX(int effect_type)
 		mhNormalMap  = mFX->GetParameterByName(0, "gNormalMap"); //Normal Map	
 		mFX->SetTechnique(mhTech);
 		break;
+
+	case SPECULAR_MAPPING:
+		ID3DXBuffer* errors = 0;
+		D3DXCreateEffectFromFile(this->engine->d3ddev, L"NormalMapSpec.fx", 
+			0, 0, D3DXSHADER_DEBUG, 0, &this->mFX, &errors);
+		if( errors )
+			MessageBox(0, (LPCWSTR)errors->GetBufferPointer(), 0, 0);
+
+		// Obtain handles.
+		mhTech       = mFX->GetTechniqueByName("NormalMapTech");
+		mhWVP        = mFX->GetParameterByName(0, "gWVP"); //World View Projection
+		mhWorldInv   = mFX->GetParameterByName(0, "gWorldInv"); //World Inverse
+		mhMtrl       = mFX->GetParameterByName(0, "gMtrl"); //Matrix Lights
+		mhLight      = mFX->GetParameterByName(0, "gLight"); //Light Direction
+		mhEyePosW    = mFX->GetParameterByName(0, "gEyePosW"); //Eye  Position
+		mhTex        = mFX->GetParameterByName(0, "gTex"); //Texture
+		mhNormalMap  = mFX->GetParameterByName(0, "gNormalMap"); //Normal Map	
+		mhSpecularMap  = mFX->GetParameterByName(0, "gSpecularMap"); //Specular Map	
+		mFX->SetTechnique(mhTech);
+		break;
+
 	}
 }
 void Effect::renderObject(LPD3DXMESH pMesh,
@@ -121,6 +142,65 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 			}
 			mFX->EndPass();
 			mFX->End();
+			break;
+		case SPECULAR_MAPPING:
+			D3DXMATRIX mSceneWorldInv;
+			D3DXMATRIX matWorld,matView,matProj;
+
+			engine->d3ddev->GetTransform(D3DTS_WORLD,&matWorld);
+			engine->d3ddev->GetTransform(D3DTS_VIEW,&matView);
+			engine->d3ddev->GetTransform(D3DTS_PROJECTION,&matProj);
+
+			D3DXVec3Normalize(&mLight.dirW,&mLight.dirW);
+			D3DXVec3Normalize(&eyePosition,&eyePosition);
+			D3DXMATRIX matWorldViewProj = matWorld*matView*matProj;
+			D3DXMatrixInverse(&mSceneWorldInv,NULL,&matWorld);
+
+			mFX->SetValue(mhLight, &mLight, sizeof(DirLight));
+			mFX->SetMatrix(mhWVP, &(matWorldViewProj));
+			mFX->SetMatrix(mhWorldInv, &mSceneWorldInv);
+			mFX->SetValue(mhEyePosW, &eyePosition, sizeof(D3DXVECTOR3));
+		
+			UINT numPasses = 0;
+			mFX->Begin(&numPasses, 0);
+			mFX->BeginPass(0);
+
+			for( DWORD i = 0; i < dwNumMaterials; i++ )
+			{		
+				mFX->SetValue(mhMtrl, &mShaderMtrls[i], sizeof(Mtrl));
+				
+				if(pMeshTextures[i] != 0)
+				{
+					mFX->SetTexture(mhTex, pMeshTextures[i]);
+				}
+				else
+				{
+					mFX->SetTexture(mhTex, mWhiteTex);
+				}
+				if(pMeshNormalMapTextures[i] != 0)
+				{
+					mFX->SetTexture(mhNormalMap, pMeshNormalMapTextures[i]);
+				}
+				else
+				{
+					mFX->SetTexture(mhNormalMap, mWhiteTex);
+				}
+
+				if(pMeshSpecularMapTextures[i] != 0)
+				{
+					mFX->SetTexture(mhSpecularMap, pMeshSpecularMapTextures[i]);
+				}
+				else
+				{
+					mFX->SetTexture(mhSpecularMap, mWhiteTex);
+				}
+
+				mFX->CommitChanges();
+				pMesh->DrawSubset( i );
+			}
+			mFX->EndPass();
+			mFX->End();
+			break;
 	}
 
 }
