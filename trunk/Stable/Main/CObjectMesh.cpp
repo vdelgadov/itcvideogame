@@ -95,6 +95,7 @@ public:
 		//printf ( "Centerx %f,Centery %f,Centerz %f, Radius%f\n", Center.x,Center.y,Center.z,Radius) ;
 		this->boundingSphere = false;
 		this->isRendereable= true;
+		this->setController(new Controller());
 
 	}
 	virtual void initializeWorldCoordinates()
