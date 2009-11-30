@@ -70,16 +70,27 @@ V SteeringBehaviors<V>::evade(Vehicle<V>* veh, Vehicle<V>* pursuer){
 	return SteeringBehaviors<V>::flee(calcSpot, veh);
 }
 
-template <class V>
-V SteeringBehaviors<V>::wander(Vehicle<V> *veh, double wander_radius, double wander_distance){
-		double theta = 	(double(rand())/RAND_MAX)*2*M_PI;
+template <>
+Vector2D SteeringBehaviors<Vector2D>::wander(Vehicle<Vector2D> *veh, double wander_radius, double wander_distance){
+		double theta = 	(double(rand())/RAND_MAX)*2*3.1415926535897932;
 		double y = wander_radius * sin(theta);
 		double x = wander_radius * cos(theta);
-		V wander_vec = V(x, y);
+		Vector2D wander_vec = Vector2D(x, y);
 		wander_vec.normalize();
 		wander_vec += (veh->getHeading()*wander_distance);
 		return wander_vec;// * veh->getMaxSpeed();// - veh->getPos(); 
 } 
+
+template <>
+Vector3D SteeringBehaviors<Vector3D>::wander(Vehicle<Vector3D> *veh, double wander_radius, double wander_distance){
+		double theta = 	(double(rand())/RAND_MAX)*2*3.1415926535897932;
+		double y = wander_radius * sin(theta);
+		double x = wander_radius * cos(theta);
+		Vector3D wander_vec = Vector3D(x, y, veh->getPos().z);
+		wander_vec.normalize();
+		wander_vec += (veh->getHeading()*wander_distance);
+		return wander_vec;// * veh->getMaxSpeed();// - veh->getPos(); 
+}
 
 template <class V>
 V SteeringBehaviors<V>::interpose(Vehicle<V> *veh, Vehicle<V> *to_int1, V point){

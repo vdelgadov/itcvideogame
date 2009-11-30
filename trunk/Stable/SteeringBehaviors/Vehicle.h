@@ -1,6 +1,8 @@
 #ifndef _VEHICLE_H
 #define _VEHICLE_H
 
+
+
 template <class V>
 class Vehicle{
 
@@ -55,7 +57,7 @@ public:
 	}
 
 	 void update(double time) {
-		 m_vPos += this->getCurrVel() * time;
+		 m_vPos += this->getCurrVel();// * time;
 	 }
 
 

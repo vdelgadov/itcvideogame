@@ -11,9 +11,9 @@
 
 #include "../AIController/AIController.h"
 
-#include "../SteeringBehaviors/Vector2D.h"
+#include "../Main/Vector2D.h"
 
-#include "../SteeringBehaviors/Vector3D.h"
+#include "../Main/Vector3D.h"
 using namespace std;
 
 class Actor;

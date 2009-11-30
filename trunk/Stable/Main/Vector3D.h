@@ -1,5 +1,4 @@
-#ifndef _VECTOR3D_H
-#define _VECTOR3D_H
+#pragma once
 #include <math.h>
 
 struct Vector3D{
@@ -70,6 +69,8 @@ struct Vector3D{
 		this->y *= factor;
 		this->z *= factor;
 	}
-};
 
-#endif
+	bool operator== (const Vector3D& v2) const {
+		return this->x == v2.x && this-> y == v2.y && this->z == v2.z;
+	}
+};
