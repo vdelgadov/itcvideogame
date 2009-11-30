@@ -1,5 +1,5 @@
-#ifndef ACTOR_H
-#define ACTOR_H
+#ifndef _VJ_ACTOR_H
+#define _VJ_ACTOR_H
 #include "AIController.h"
 #include "../SteeringBehaviors/Vehicle.h"
 #include "../SteeringBehaviors/Vector3D.h"
