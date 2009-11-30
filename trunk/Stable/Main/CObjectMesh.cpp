@@ -1,3 +1,6 @@
+#ifndef _COBJECT_MESH_CPP
+#define _COBJECT_MESH_CPP
+
 #include "CObject.h"
 #include "Effect.h"
 class CObjectMesh : public CObject
@@ -406,3 +409,5 @@ public:
 		}
 	}
 };
+
+#endif

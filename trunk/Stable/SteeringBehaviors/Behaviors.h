@@ -22,6 +22,7 @@ public:
 	static void align(list<Vehicle<V>*> nbors);
 
 };
+
 template <class V>
 V SteeringBehaviors<V>::seek(V t_pos, Vehicle<V>* veh){
 	

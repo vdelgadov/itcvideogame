@@ -293,7 +293,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\nmap_tiger.jpg"
+				RelativePath=".\nmap_tiger.jp.g"
 				>
 			</File>
 			<File
@@ -327,6 +327,10 @@
 		</File>
 		<File
 			RelativePath=".\NormalMap.fx"
+			>
+		</File>
+		<File
+			RelativePath=".\NormalMapSpec.fx"
 			>
 		</File>
 		<File

@@ -7,6 +7,7 @@
 #include "../InfluenceMaps/InfluenceMap.h"
 
 class Actor;
+
 class VM{
 
 public:
