@@ -9,7 +9,7 @@
 //I'M A CLIENT.
 #define SERVER_ADDRESS "10.40.30.158"
 #define SERVER_PORT 17000
-#define SERVER 1 //0 or 1
+#define SERVER 0 //0 or 1
 #define BUFFLEN 512
 
 
@@ -278,9 +278,9 @@ void networkServer()
 }
 void networkQuit()
 {
-	SendBuffer[0] = 'Q';
-	RecvBuffer[1]='\0';
-    sendto(Socket, SendBuffer, 1, 0, (sockaddr*)&ServerAddress, sizeof(sockaddr));
+	char mensaje[BUFFLEN];
+	strcpy_s(mensaje, BUFFLEN, "Q@");
+    sendto(Socket, mensaje, 1, 0, (sockaddr*)&ServerAddress, sizeof(sockaddr));
 }
 void networkProcessPacket(char* RecvBuffer)
 {
