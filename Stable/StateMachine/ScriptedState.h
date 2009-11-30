@@ -3,7 +3,7 @@
 #include <string.h>
 #include "states.h"
 
-
+using namespace std;
 template <class T>
 class ScriptedState : public AState<T>{
 private:

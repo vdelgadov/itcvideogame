@@ -59,7 +59,7 @@ public:
 	}
 
 	 void update(double time) {
-		 m_vPos += this->getCurrVel() * time;
+		 m_vPos += this->getCurrVel();// * time;
 	 }
 
 

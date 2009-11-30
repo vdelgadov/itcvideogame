@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
-
+#include <stdio.h>
+using namespace std;
 struct Vector3D{
 
 	double x;
@@ -73,4 +74,9 @@ struct Vector3D{
 	bool operator== (const Vector3D& v2) const {
 		return this->x == v2.x && this-> y == v2.y && this->z == v2.z;
 	}
+
+
+	
 };
+
+
