@@ -1,17 +1,7 @@
-
-
 #pragma once
-
-
-
 #include "AIController.h"
-
-
-
 #include "../SteeringBehaviors/Vehicle.h"
-
 #include "../Main/Vector3D.h"
-
 #include "../Main/CObjectMesh.cpp"
 
 
@@ -31,7 +21,7 @@ public:
                 return m_pVeh;
         }
 
-        AIController* getController(){
+        Controller* getController(){
                 return this->m_pController;
         }
 

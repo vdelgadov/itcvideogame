@@ -18,7 +18,8 @@ public:
 	
 	}
 	void execute(Actor* a){
-		Actor* Enemy = a->getController()->getEnemy();
+		AIController* aic = (AIController*)(a->getController());
+		Actor* Enemy = aic->getEnemy();
 		if(!Enemy){
 			a->getFSM()->changeState("Idle");
 			return;
@@ -88,10 +89,13 @@ private:
 	Vector3D m_vEnemyPos;
 public:
 	void enter(Actor* a){
-		m_vEnemyPos = a->getController()->getEnemy()->getVehicle()->getPos();
+		AIController* aic = (AIController*)(a->getController());
+		m_vEnemyPos = aic->getEnemy()->getVehicle()->getPos();
 	}
 	void execute(Actor* a){
-		if(!(m_vEnemyPos == a->getController()->getEnemy()->getVehicle()->getPos())){
+		AIController* aic = (AIController*)(a->getController());
+		
+		if(!(m_vEnemyPos == aic->getEnemy()->getVehicle()->getPos())){
 			a->getFSM()->changeState("Engaging");
 			return;
 		}

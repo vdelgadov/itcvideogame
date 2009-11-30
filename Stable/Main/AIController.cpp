@@ -1,16 +1,6 @@
-
-
 #include "../AIController/AIController.h"
-
-
-
 #include "../AIController/Actor.h"
-
-
-
 #include "../SteeringBehaviors/Behaviors.h"
-
-
 #include "../Behaviours/RoleFactory.cpp"
 
 
@@ -43,18 +33,20 @@ class FollowingWaypoint : public AState<Actor>{
 public:
 	FollowingWaypoint(){}
 	void enter(Actor* actor){
-	
-		this->m_pCurrent = actor->getController()->m_lPath.front();
-		actor->getController()->m_lPath.pop_front();
+		AIController* aic = (AIController*)(actor->getController());
+		this->m_pCurrent = aic->m_lPath.front();
+		aic->m_lPath.pop_front();
 	}
 
 	void execute(Actor* actor){
 		if(this->m_pCurrent->sqDistanceTo(actor->getVehicle()->getPos()) < actor->getVehicle()->getMaxSpeed()){
-			if(actor->getController()->m_lPath.size() < 1){
-				actor->getController()->getFSM()->changeState(new Idle());
+			AIController* aic = (AIController*)(actor->getController());
+		
+			if(aic->m_lPath.size() < 1){
+				aic->getFSM()->changeState(new Idle());
 				return;
 			}
-			actor->getController()->getFSM()->changeState(new FollowingWaypoint());
+			aic->getFSM()->changeState(new FollowingWaypoint());
 			return;
 		}
 

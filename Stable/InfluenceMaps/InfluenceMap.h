@@ -10,10 +10,12 @@
 //#include "../AIController/Actor.h"
 
 #include "../AIController/AIController.h"
+#include "../Main/Controller.h"
 
 #include "../Main/Vector2D.h"
 
 #include "../Main/Vector3D.h"
+#include "../Main/CObjectMesh.cpp"
 using namespace std;
 
 class Actor;
@@ -21,7 +23,7 @@ class InfluenceMap {
 private:
 	double **m_dMap;
 	double m_dWidth, m_dHEight;
-	list<Actor*> m_lActors;
+	list<CObjectMesh*> m_lActors;
 	int m_iMapWidth;
 	int m_iMapHeight;
 
@@ -50,12 +52,12 @@ public:
 	}
 	
 
-	void setActorList(list<Actor*> new_list){
+	void setActorList(list<CObjectMesh*> new_list){
 		this->m_lActors = new_list;
 		this->update();
 	}
 
-	void addActor(Actor* a){
+	void addActor(CObjectMesh* a){
 		this->m_lActors.push_back(a);
 		this->update();
 	}

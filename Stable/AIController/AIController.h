@@ -4,6 +4,7 @@
 #include <queue>
 #include "../Waypoints/Waypoint.h"
 #include "../StateMachine/FSM.h"
+#include "../Main/Controller.h"
 //#include "../InfluenceMaps/InfluenceMap.h"
 
 
@@ -17,7 +18,7 @@ public:
 };
 
 class InfluenceMap;
-class AIController {  
+class AIController : public Controller{  
 
 	public:
 		enum category_t {BAD_GUY, GOOD_GUY};

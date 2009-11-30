@@ -8,7 +8,8 @@
 class Idle : public AState<Actor> {
 	void enter(Actor* a){ cout << "Entering Idle" <<endl;}
 	void execute(Actor* a){
-		Actor* Enemy = a->getController()->getEnemy();
+		AIController* aic = (AIController*)(a->getController());
+		Actor* Enemy = aic->getEnemy();
 
 		int e_x, e_y, m_x, m_y;
 		if(!Enemy)
