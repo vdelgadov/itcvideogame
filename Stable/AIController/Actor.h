@@ -11,9 +11,9 @@ class Actor : public CObjectMesh{
 public:
         Actor(int ID,float fPosX, float fPosY, float fPosZ, float fRotX, float fRotY, float fRotZ,float fScale, LPCTSTR fileName,CEngine* engine):CObjectMesh(ID, fPosX,  fPosY,  fPosZ,  fRotX,  fRotY,  fRotZ, fScale,  fileName, engine){
         
-                this->m_pVeh = new Vehicle<Vector3D>();
+                /*this->m_pVeh = new Vehicle<Vector3D>();
                 this->m_pVeh->setPos(Vector3D(fPosX, fPosY, fPosZ));
-                this->m_pVeh->setMaxSpeed(1);
+                this->m_pVeh->setMaxSpeed(1);*/
                 
         }
 
