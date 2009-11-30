@@ -1,6 +1,6 @@
 #ifndef _ROLEFACT
 #define _ROLEFACT
-#include "Actor_State.cpp"
+#include "Actor_States.cpp"
 #include "Brute.cpp"
 #include "Artillery.cpp"
 #include "Skirk.cpp"
