@@ -62,12 +62,13 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	}
 	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle.getPos().y,o->vehicle.getPos().z);
 	//params.scene->AddChild(new CObjectMesh(++params.ID,-2.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
-	
-	/*params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"Ball.x",params.engine));
+
+	/*params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
 	o = params.scene->find(params.ID);
 	o->pScene = params.scene;
 	o->boundingSphere = true;
 	*/
+
 
 	params.scene->AddChild(new CObjectMesh(++params.ID,-3.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
 	o = params.scene->find(params.ID);
@@ -128,16 +129,8 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	//Start Graphics and Networking threads
 	ThreadHandleGraphics = CreateThread(NULL,0,graphics,&params,0,&ThreadIdGraphics);
 	ThreadHandleNetwork = CreateThread(NULL,0,networking,&params,0,&ThreadIdNetwork);
-	
 
-
-
-
-
-
-
-
-int index = 0; // index+=0.03f;
+    int index = 0; // index+=0.03f;
 	while(engine.ProcessMessages())
 	{
 		if(!DI->Update())// actualizamos los datos de entrada del teclado antes de volver a hacer el rendereo del cuadro
@@ -171,6 +164,3 @@ int index = 0; // index+=0.03f;
 	DI->cleanDInput();    // Liberamos DirectInput
 	return 0;
 }
-
-
-
