@@ -125,7 +125,7 @@ float4 NormalMapPS(float3 toEyeT    : TEXCOORD0,
 	float3 specularT = tex2D(SpecularMapS, tex0);
 	
 	// Expand from [0, 1] compressed interval to true [-1, 1] interval.
-    normalT = 2.0f*normalT - 1.0f;
+    //normalT = 2.0f*normalT - 1.0f;
 	//specularT = 2.0f*specularT - 1.0f;
     
     // Make it a unit vector.
