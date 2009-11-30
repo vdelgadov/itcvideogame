@@ -61,7 +61,7 @@ public:
 
 		this->fRotX = fRotX;
 		this->fRotY = fRotY;
-		this->fPosZ = fRotZ;
+		this->fRotZ = fRotZ;
 		
 		this->fScale = fScale;
 		//this->vehicle = Vehicle(1,Vector3D(fPosX,fPosY,fPosZ));
@@ -94,6 +94,11 @@ public:
 			this->getVehicle()->setPos( pos  );
 			o = o->pParent;
 		}
+		
+		Vector3D pos = Vector3D(this->fPosX,this->fPosY,this->fPosZ);
+		this->getVehicle()->setPos(pos);
+		CObject::setPosition(pos);
+//		cout << this->getVehicle->getPos().x <<endl;
 	}
 	void initializeBoundingSphere()
 	{
@@ -114,6 +119,7 @@ public:
 	{
 		//cout << "render" << endl;
 		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
+		cout << this->getVehicle()->getPos().z << endl;
 		D3DXMatrixTranslation(&translation,(float)this->getVehicle()->getPos().x,(float)this->getVehicle()->getPos().y,(float)this->getVehicle()->getPos().z);
 		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
 		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
