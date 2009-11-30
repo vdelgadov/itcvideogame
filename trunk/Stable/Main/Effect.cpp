@@ -92,17 +92,21 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 						  LPDIRECT3DTEXTURE9* pMeshNormalMapTextures,
 						  LPDIRECT3DTEXTURE9* pMeshSpecularMapTextures)
 {
-
 	switch(this->effect_type)
 	{
+	
 		case BUMP_MAPPING:
 			{
 			D3DXMATRIX mSceneWorldInv;
-			D3DXMATRIX matWorld,matView,matProj;
-
+			D3DXMATRIX matWorld,matView,matProj, iv;
 			engine->d3ddev->GetTransform(D3DTS_WORLD,&matWorld);
 			engine->d3ddev->GetTransform(D3DTS_VIEW,&matView);
 			engine->d3ddev->GetTransform(D3DTS_PROJECTION,&matProj);
+			D3DXMatrixInverse( &iv, NULL, &matView );
+			eyePosition.x = iv._41;
+			eyePosition.y = iv._42;
+			eyePosition.z = iv._43;
+
 
 			D3DXVec3Normalize(&mLight.dirW,&mLight.dirW);
 			D3DXVec3Normalize(&eyePosition,&eyePosition);
@@ -116,10 +120,12 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 		
 			UINT numPasses = 0;
 			mFX->Begin(&numPasses, 0);
-			mFX->BeginPass(0);
-
+			for( UINT j =0; j <numPasses ;j++)
+			{
+				mFX->BeginPass(j);
 			for( DWORD i = 0; i < dwNumMaterials; i++ )
-			{		
+			{	
+				
 				//engine->d3ddev->SetMaterial( &pMeshMaterials[i] );
 				//engine->d3ddev->SetTexture( 0, pMeshTextures[i] );
 				mFX->SetValue(mhMtrl, &mShaderMtrls[i], sizeof(Mtrl));
@@ -145,7 +151,9 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 				pMesh->DrawSubset( i );
 			}
 			mFX->EndPass();
+			}
 			mFX->End();
+			
 			break;
 			}
 		case SPECULAR_MAPPING:
@@ -169,8 +177,10 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 		
 			UINT numPasses = 0;
 			mFX->Begin(&numPasses, 0);
-			mFX->BeginPass(0);
-
+			for( UINT j =0; j <numPasses ;j++)
+			{
+				mFX->BeginPass(j);
+			
 			for( DWORD i = 0; i < dwNumMaterials; i++ )
 			{		
 				mFX->SetValue(mhMtrl, &mShaderMtrls[i], sizeof(Mtrl));
@@ -206,6 +216,7 @@ void Effect::renderObject(LPD3DXMESH pMesh,
 				pMesh->DrawSubset( i );
 			}
 			mFX->EndPass();
+			}
 			mFX->End();
 			break;
 			}
