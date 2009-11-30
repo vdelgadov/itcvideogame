@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include "Networking.h"
 #include <conio.h>
-#include "Params.h"
+#include "Params.h"*
 
 #pragma comment(lib, "Ws2_32.lib")    // WinSock Library
 //I'M A CLIENT.
-#define SERVER_ADDRESS "10.40.27.4"
+#define SERVER_ADDRESS "192.168.0.2"
 #define SERVER_PORT 17000
-#define SERVER 0 //0 or 1
+#define SERVER 1 //0 or 1
 #define BUFFLEN 512
 
 
@@ -58,10 +58,11 @@ DWORD WINAPI RecvThread(LPVOID Whatever)
     {
         // Wait for messages to arrive
         recvfrom(Socket, RecvBuffer, BUFFLEN, 0, (sockaddr*)&ServerAddress, &SizeInt);
+		printf(RecvBuffer);
 
         char msgTail[BUFFLEN];
 		char msgStart[BUFFLEN];
-		//cout << "Recibido: " << RecvBuffer <<endl;
+		cout << "Recibido: " << RecvBuffer <<endl;
 		for(int i =0; i < (strlen(RecvBuffer));i++)
 		//for(int i =strlen(RecvBuffer)-1;i>-1;i--)
 		{
@@ -85,9 +86,15 @@ DWORD WINAPI RecvThread(LPVOID Whatever)
 			//printf(RecvBuffer);
 			networkActivateClient(msgTail);
 		}
+		if(strcmp (msgStart,"Deactivate") == 0)
+		{
+			//printf("Llego activate!\n");
+			//printf(RecvBuffer);
+			networkDeactivateClient(msgTail);
+		}
 		if(strcmp (msgStart,"MyObject") == 0)
 		{
-			std::istringstream sID(msgStart);
+			std::istringstream sID(msgTail);
 			float iID;
 			sID >> iID;
 			//params.myObject = o;
@@ -170,7 +177,9 @@ void networkClient()
 
     // Start the receiver thread
     CreateThread(NULL, 0, RecvThread, NULL, 0, NULL);
-
+	//no quitar!!!!
+	while(true)
+	{}
     // Send the Messages
     /*while(true)
     {
@@ -210,6 +219,7 @@ void networkServer()
     {
         if(recvfrom(Socket, Buffer, BUFFLEN, 0, (sockaddr*)&IncomingAddress, &AddressLen))
         {
+			cout << "Packet received: "<<Buffer<<endl;
             // If the packet is a knock, add the client's address to ClientAddress
             if(Buffer[0] == 1)
             {
@@ -219,6 +229,9 @@ void networkServer()
                     {
                         ClientAddress[i] = IncomingAddress;
 						networkSendActiveClients(i); //send all active clients to new client
+						params->scene->find(i+1)->isRendereable = true;
+						params->scene->find(i+1)->boundingSphere = true;
+						
                         break;
                     }
                 }
@@ -237,7 +250,7 @@ void networkServer()
                     sendto(Socket, Buffer, BUFFLEN, 0, (sockaddr*)&ClientAddress[i],
                            sizeof(sockaddr));
             }*/
-			//cout << "Packet received: "<<Buffer<<endl;
+			
 			networkProcessPacket(Buffer);
 			//----------------------------------
             
@@ -251,7 +264,7 @@ void networkServer()
                         ZeroMemory(&ClientAddress[i], sizeof(sockaddr_in));
 				   }
 					//remove client!!!!!
-
+					networkSendDectivatedClient(i);
                 }
             }
         }
@@ -339,17 +352,17 @@ void networkSendActiveClients(int client) //function to send the clients that ar
 			char response[BUFFLEN];
 			//activate client
 			strcpy_s(message, BUFFLEN, "Activate@");
-			strcat_s(message, BUFFLEN, float_to_str(i+1).c_str());
+			strcat_s(message, BUFFLEN, float_to_str(client+1).c_str());
 			sendto(Socket, message, BUFFLEN, 0, (sockaddr*)&ClientAddress[i],sizeof(sockaddr));
 			//set client position
 			strcpy_s(response, BUFFLEN, "Move@");
-			strcat_s(response, BUFFLEN, float_to_str(i+1).c_str());
+			strcat_s(response, BUFFLEN, float_to_str(client+1).c_str());
 			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(i+1)->getVehicle()->getPos().x).c_str());
+			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(client+1)->getVehicle()->getPos().x).c_str());
 			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(i+1)->getVehicle()->getPos().y).c_str());
+			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(client+1)->getVehicle()->getPos().y).c_str());
 			strcat_s(response, BUFFLEN, "@");
-			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(i+1)->getVehicle()->getPos().z).c_str());
+			strcat_s(response, BUFFLEN, float_to_str(params->scene->find(client+1)->getVehicle()->getPos().z).c_str());
 			sendto(Socket, response, BUFFLEN, 0, (sockaddr*)&ClientAddress[client],sizeof(sockaddr));
 		 }
 	 }
@@ -358,6 +371,32 @@ void networkSendActiveClients(int client) //function to send the clients that ar
 	strcpy_s(message, BUFFLEN, "MyObject@");
 	strcat_s(message, BUFFLEN, float_to_str(client+1).c_str());
 	sendto(Socket, message, BUFFLEN, 0, (sockaddr*)&ClientAddress[client],sizeof(sockaddr));
+}
+void networkSendDectivatedClient(int client) //function to send the clients that are active
+{
+	
+	 for(int i = 0; i < MAXCLIENTS; i++)
+     {
+		 if(ClientAddress[i].sin_family)
+		 {
+			char message[BUFFLEN];
+			char response[BUFFLEN];
+			//activate client
+			strcpy_s(message, BUFFLEN, "Deactivate@");
+			strcat_s(message, BUFFLEN, float_to_str(i+1).c_str());
+			sendto(Socket, message, BUFFLEN, 0, (sockaddr*)&ClientAddress[i],sizeof(sockaddr));
+			//set client position
+			strcpy_s(response, BUFFLEN, "Move@");
+			strcat_s(response, BUFFLEN, float_to_str(i+1).c_str());
+			strcat_s(response, BUFFLEN, "@");
+			strcat_s(response, BUFFLEN, float_to_str(0.0).c_str());
+			strcat_s(response, BUFFLEN, "@");
+			strcat_s(response, BUFFLEN, float_to_str(1.0).c_str());
+			strcat_s(response, BUFFLEN, "@");
+			strcat_s(response, BUFFLEN, float_to_str(0.0).c_str());
+			sendto(Socket, response, BUFFLEN, 0, (sockaddr*)&ClientAddress[client],sizeof(sockaddr));
+		 }
+	 }
 }
 void networkActivateClient(char*  RecvBuffer) //function to receive and activate clients
 {
@@ -369,4 +408,15 @@ void networkActivateClient(char*  RecvBuffer) //function to receive and activate
 	cout << "activating: " << "id: " << iID  << endl;
 	params->scene->find(iID)->isRendereable = true;
 	params->scene->find(iID)->boundingSphere = true;
+}
+void networkDeactivateClient(char* RecvBuffer)
+{
+	char* objID = strtok(RecvBuffer,"@");
+	std::istringstream sID(objID);
+	float iID;
+	sID >> iID;
+	
+	cout << "activating: " << "id: " << iID  << endl;
+	params->scene->find(iID)->isRendereable = false;
+	params->scene->find(iID)->boundingSphere = false;
 }
