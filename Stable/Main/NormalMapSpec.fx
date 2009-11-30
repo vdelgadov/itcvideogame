@@ -164,10 +164,51 @@ float4 NormalMapPS(float3 toEyeT    : TEXCOORD0,
 }
 
 technique NormalMapTech
-{
+{/*
+ pass P0
+    {
+        ZEnable = true; 
+		ZWriteEnable = true; 
+		CullMode = cw; //clockwise culling
+		AlphaBlendEnable = true; //alphablend allows for full range, smooth opacity masking
+		AlphaTestEnable = false;
+        vertexShader = compile vs_2_0 NormalMapVS();
+        pixelShader  = compile ps_2_0 NormalMapPS();
+		//CullMode = CW;
+    }
+	 pass P1
+    {
+       ZEnable = true; 
+		ZWriteEnable = true; 
+		CullMode = cw; //clockwise culling
+		AlphaBlendEnable = true; //alphablend allows for full range, smooth opacity masking
+		AlphaTestEnable = false; 
+		SrcBlend = One; // additive blening of fresnel stuff
+		DestBlend = One;
+        vertexShader = compile vs_2_0 NormalMapVS();
+        pixelShader  = compile ps_2_0 NormalMapPS();
+		//CullMode = CW;
+    }*/
+
     pass P0
     {
         // Specify the vertex and pixel shader associated with this pass.
+		AlphaBlendEnable = TRUE;
+		ZEnable = true;
+		DestBlend = INVSRCALPHA;
+		SrcBlend =SRCALPHA;
+        vertexShader = compile vs_2_0 NormalMapVS();
+        pixelShader  = compile ps_2_0 NormalMapPS();
+		CullMode = CW;
+    }
+	pass P1
+    {
+        // Specify the vertex and pixel shader associated with this pass.
+		AlphaBlendEnable = TRUE;
+		ZEnable = true;
+		DestBlend = INVSRCALPHA;
+		SrcBlend =SRCALPHA;
+		CullMode = CCW;
         vertexShader = compile vs_2_0 NormalMapVS();
         pixelShader  = compile ps_2_0 NormalMapPS();
     }
