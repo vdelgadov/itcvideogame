@@ -61,8 +61,8 @@ class DirectInput
 		}
 		if(keyDown(DIK_SPACE))
 		{	
-			networkMove(params->myObject->ID,0.0f,-1.0f,0.0f,&params);
-			//params->myObject->move(Vector3D(0.0,-1.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
+			networkMove(params->myObject->ID,0.0f,1.0f,0.0f,&params);
+			//params->myObject->move(Vector3D(0.0,1.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
 			
 		}
 		if(keyDown(DIK_LCONTROL))
