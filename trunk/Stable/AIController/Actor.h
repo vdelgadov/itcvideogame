@@ -17,9 +17,9 @@ public:
                 
         }
 
-        Vehicle<Vector3D>* getVehicle(){
+   /*     Vehicle<Vector3D>* getVehicle(){
                 return m_pVeh;
-        }
+        }*/
 
         Controller* getController(){
                 return this->m_pController;
@@ -49,7 +49,7 @@ public:
 	
 
 private:
-	Vehicle<Vector3D>* m_pVeh;
+//	Vehicle<Vector3D>* m_pVeh;
 	AIController* m_pController;
 	unsigned int m_iViewRadius;
 };
