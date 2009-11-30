@@ -14,7 +14,7 @@ class Idle : public AState<Actor> {
 
 		int e_x, e_y, m_x, m_y;
 		if(!Enemy){
-			Vector3D w_v = SteeringBehaviors<Vector3D>::wander(a->getVehicle(), 5, 5);
+			Vector3D w_v = SteeringBehaviors<Vector3D>::wander(a->getVehicle(), 10 , 10);
 			w_v += a->getVehicle()->getCurrVel();
 			w_v.normalize();
 			cout << w_v.x << " " << w_v.y << " " << w_v.z << endl;

@@ -1,18 +1,28 @@
 #ifndef _VEHICLE_H
 #define _VEHICLE_H
+#include "../Main/Engine.h"
 
+bool networkMove(int objectID, float x, float y, float z, LPVOID param); 
 
 
 template <class V>
 class Vehicle{
 
 public:
+
 	Vehicle<V>(double max_sp, V pos){
 		this->m_dMaxSpeed = max_sp;
 		this->m_vVel = V();
 		this->m_vPos = pos;
+	
 		
+	
 	}
+
+	void setId(int id){
+		this->m_iID = id;
+	}
+
 	Vehicle<V>() {
 		this->m_dMaxSpeed = 0;
 		this->m_vVel = V();
@@ -57,8 +67,9 @@ public:
 	}
 
 	 void update(double time) {
-		 m_vPos += this->getCurrVel();// * time;
-		 cout << "Updating " << m_vPos.x << " + " << getCurrVel().x << endl;
+		// m_vPos += this->getCurrVel();// * time;
+		 networkMove(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z, NULL); 
+		
 	 }
 
 
@@ -67,7 +78,7 @@ private:
 	V m_vVel;
 	V m_vPos;
 	V m_vHeading;
-
+	int m_iID;
 	
 
 };

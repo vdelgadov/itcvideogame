@@ -265,10 +265,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Vehicle.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Vertex.h"
 				>
 			</File>
