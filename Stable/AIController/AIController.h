@@ -5,6 +5,8 @@
 #include "../Waypoints/Waypoint.h"
 #include "../StateMachine/FSM.h"
 #include "../Main/Controller.h"
+#include "../Main/CObject.h"
+
 //#include "../InfluenceMaps/InfluenceMap.h"
 
 
@@ -27,10 +29,9 @@ class AIController : public Controller{
 		AIController(Actor* owner, FSM<Actor>* f);
 		FSM<Actor>* getFSM();
 		Actor* getActor();
-		Actor* getEnemy(){
-			
-			return m_pEnemy;
-		}
+		
+		
+		CObject* getEnemy();
 	
 		
 		
@@ -71,7 +72,7 @@ class AIController : public Controller{
 
 private:
 		Actor* m_pOwner;
-		Actor* m_pEnemy;
+		CObject* m_pEnemy;
 		FSM<Actor>* m_pFsm;
 		VM* m_pVM;
 		category_t m_Category;

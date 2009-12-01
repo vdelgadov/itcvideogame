@@ -21,7 +21,7 @@ public:
 	}
 	void execute(Actor* a){
 		AIController* aic = (AIController*)(a->getController());
-		Actor* Enemy = aic->getEnemy();
+		CObject* Enemy = aic->getEnemy();
 		
 		if(!Enemy){
 			a->getFSM()->changeState("Idle");
@@ -99,7 +99,7 @@ class ArtAttack : public AState<Actor> {
 	}
 	void execute(Actor* a){
 	    AIController* aic = (AIController*)(a->getController());
-		Actor* Enemy = aic->getEnemy();
+		CObject* Enemy = aic->getEnemy();
 		cout << "Fireball   <<O  " << endl;
 		a->getFSM()->changeState("Engaging");
 

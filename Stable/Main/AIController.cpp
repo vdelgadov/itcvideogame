@@ -193,6 +193,14 @@ Waypoint<Vector3D>* AIController::findClosestWaypoint(){
 	return closest;
 }
 
+
+CObject* AIController::getEnemy(){
+			CObject* obj = (CObject* )(this->m_pOwner);
+			m_pEnemy =  obj->pScene->findClosestTo(this->m_pOwner->getVehicle()->getPos(), AIController::GOOD_GUY);		
+			return m_pEnemy;
+		}
+
+
 void AIController::traversePath(){
 	this->m_pFsm->changeState(new FollowingWaypoint());
 }

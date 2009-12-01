@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CObject.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CObjectMesh.cpp"
 				>
 			</File>
