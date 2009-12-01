@@ -9,6 +9,7 @@
 #include "Vertex.h"
 #include <iostream>
 #include "../SteeringBehaviors/Vehicle.h"
+
 using namespace std;
 
 class CObject
@@ -93,21 +94,7 @@ public:
 		return NULL;
 	}
 
-	CObject* findClosestTo(Vector3D& point) {
-		if (lstChilds.empty())
-			return this;
-		CObject *closest = lstChilds.front();
-		double smallestdist = (closest->vehicle->getPos() - point).magnitude();
-
-		for (list<CObject*>::iterator it = lstChilds.begin(); it != lstChilds.end(); ++it) {
-			double dist = ((*it)->vehicle->getPos() - point).magnitude() < smallestdist;
-			if (dist < smallestdist) {
-				closest = *it;
-				smallestdist = dist;
-			}
-		}
-		return closest->findClosestTo(point);
-	}
+	CObject* findClosestTo(const Vector3D& point, int t);
 	void move(Vector3D& deltaMove)
 	{
 		this->getVehicle()->setCurrVel(deltaMove);

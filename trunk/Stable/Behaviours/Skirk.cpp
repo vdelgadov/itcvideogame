@@ -17,7 +17,7 @@ public:
 	}
 	void execute(Actor* a){
 		AIController* aic = (AIController*)(a->getController());
-		Actor* Enemy = aic->getEnemy(); //...
+		CObject* Enemy = aic->getEnemy(); //...
 		if(!Enemy){
 			a->getFSM()->changeState("Idle");
 			return;
@@ -98,7 +98,7 @@ class SkirkAttack : public AState<Actor> {
 	}
 	void execute(Actor* a){
 		AIController* aic = (AIController*)(a->getController());
-		Actor* Enemy = aic->getEnemy();
+		CObject* Enemy = aic->getEnemy();
 		Vector3D stf = SteeringBehaviors<Vector3D>::pursuit(a->getVehicle(), Enemy->getVehicle());
 		stf.normalize();
 		a->getVehicle()->setCurrVel(stf*(a->getVehicle()->getMaxSpeed()+0.2));

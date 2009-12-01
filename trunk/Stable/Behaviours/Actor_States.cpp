@@ -10,7 +10,7 @@ class Idle : public AState<Actor> {
 	void execute(Actor* a){
 		//cout << "Idling" << endl;
 		AIController* aic = (AIController*)(a->getController());
-		Actor* Enemy = aic->getEnemy();
+		CObject* Enemy = aic->getEnemy();
 
 		int e_x, e_y, m_x, m_y;
 		if(!Enemy){
