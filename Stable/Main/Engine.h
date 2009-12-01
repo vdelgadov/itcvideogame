@@ -1,6 +1,6 @@
 #ifndef SIMPLE_ENGINE_H
 #define SIMPLE_ENGINE_H
-#define SERVER 0 //0 or 1
+#define SERVER 1 //0 or 1
 
 //#define WIN32_LEAN_AND_MEAN 
 
