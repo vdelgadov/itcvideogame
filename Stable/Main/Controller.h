@@ -1,4 +1,7 @@
 #pragma once
+
+class InfluenceMap;
+class CObjectMesh;
 class Controller{
 
 public:
@@ -10,11 +13,8 @@ public:
 	category_t getCategory(){
 			return this->m_Category;
 	}
-Controller()
-{
-	this->m_Category = GOOD_GUY;
-	this->m_iInfluenceRadius = 1;
-}
+Controller(CObjectMesh* owner);
+static InfluenceMap* s_InfluenceMap;
 private:
 	category_t m_Category;
 	unsigned int m_iInfluenceRadius; //Chevychev Distance

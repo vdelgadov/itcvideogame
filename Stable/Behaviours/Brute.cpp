@@ -33,7 +33,7 @@ public:
 		Vector3D stf = SteeringBehaviors<Vector3D>::seek(Vector3D(real_x, real_y, a->getVehicle()->getPos().z), a->getVehicle());
 		stf += a->getVehicle()->getCurrVel();
 		stf.normalize();
-		a->getVehicle()->setCurrVel(stf);
+		a->getVehicle()->setCurrVel(stf*a->getVehicle()->getMaxSpeed());
 		
 		if((a->getVehicle()->getPos() - Enemy->getVehicle()->getPos()).magnitude() < attacking_range){
 			a->getFSM()->changeState("Attack");

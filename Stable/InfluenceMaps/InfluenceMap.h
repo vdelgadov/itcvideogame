@@ -59,7 +59,7 @@ public:
 
 	void addActor(CObjectMesh* a){
 		this->m_lActors.push_back(a);
-		this->update();
+	//	this->update();
 	}
 
 	void mapCoords(Vector2D pos, int* map_x, int* map_y){

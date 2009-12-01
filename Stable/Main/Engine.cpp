@@ -98,7 +98,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	Waypoint<Vector3D>* h = new Waypoint<Vector3D>("h", Vector3D(2.0f, 1.0f, 1.0f));
 	Waypoint<Vector3D>* i = new Waypoint<Vector3D>("i", Vector3D(2.0f, 1.0f, 2.0f));
 
-	a_c.getActor()->getVehicle()->setMaxSpeed(0.0005);
+	a_c.getActor()->getVehicle()->setMaxSpeed(0.05);
 
 	AIController::s_lMap.push_front(a);
 	AIController::s_lMap.push_front(b);
