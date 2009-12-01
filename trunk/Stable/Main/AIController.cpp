@@ -80,10 +80,7 @@ private:
 
 
 
-
-
-
-AIController::AIController(Actor* owner, category_t cat, role_t rol, int irad){
+AIController::AIController(Actor* owner, category_t cat, role_t rol, int irad):Controller(owner){
 //	m_pFsm = new FSM<Actor>(owner);
 	m_pFsm = new FSM<Actor>(fillFSM(rol), "Idle", owner);	
 	//m_pFsm->setStart(new Idle());
@@ -97,7 +94,7 @@ AIController::AIController(Actor* owner, category_t cat, role_t rol, int irad){
 	this->m_iInfluenceRadius = irad;
 }
 
-AIController::AIController(Actor* owner, FSM<Actor>* f){
+AIController::AIController(Actor* owner, FSM<Actor>* f):Controller(owner){
 	m_pFsm = f;
 	m_pOwner = owner;
 
