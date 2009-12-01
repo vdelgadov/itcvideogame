@@ -44,15 +44,18 @@ class DirectInput
 		{
 			networkMove(params->myObject->ID,-1.0f,0.0f,0.0f,&params);
 			//params->myObject->move(Vector3D(-1.0,0.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
+			//params->scene->find(9)->move(Vector3D(-1.0,0.0,0.0)* params->scene->find(9)->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_D))
 		{	networkMove(params->myObject->ID,1.0f,0.0f,0.0f,&params);
 			//params->myObject->move(Vector3D(1.0,0.0,0.0)* params->myObject->getVehicle()->getMaxSpeed());
+			//params->scene->find(9)->move(Vector3D(1.0,0.0,0.0)* params->scene->find(9)->getVehicle()->getMaxSpeed());
 		}
 		if(keyDown(DIK_W))
 		{	
 			networkMove(params->myObject->ID,0.0f,0.0f,1.0f,&params);
 			//params->myObject->move(Vector3D(0.0,0.0,1.0)* params->myObject->getVehicle()->getMaxSpeed());
+			
 		}
 		if(keyDown(DIK_S))
 		{	
