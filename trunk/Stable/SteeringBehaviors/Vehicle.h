@@ -67,14 +67,14 @@ public:
 	}
 
 	 void update(double time) {
-		cout << "UPD VEH" << endl;
+		//cout << "UPD VEH" << endl;
 		 if(SERVER)
 		{
-			cout << this->getCurrVel().x <<" "<<this->getCurrVel().y<<" " << this->getCurrVel().z << endl;
+			//cout << this->getCurrVel().x <<" "<<this->getCurrVel().y<<" " << this->getCurrVel().z << endl;
 			m_vPos += this->getCurrVel();// * time;
 
 			//networkMove(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z, NULL); 
-			broadcastPosition(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z);
+			broadcastPosition(this->m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z);
 		}
 		
 		
