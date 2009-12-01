@@ -14,7 +14,7 @@ map<string, AState<Actor>*, ltstr> fillFSM(AIController::role_t rol){
 	map<string, AState<Actor>*, ltstr> states;
 	states["Idle"] = new Idle();
 	states["Attack"] = RoleFactory::CreateRoleState(rol, RoleFactory::ATTACK);
-	states["Engage"] = RoleFactory::CreateRoleState(rol, RoleFactory::ENGAGE);
+	states["Engaging"] = RoleFactory::CreateRoleState(rol, RoleFactory::ENGAGE);
 
 	return states;
 }
