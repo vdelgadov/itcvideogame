@@ -64,6 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 		o->getVehicle()->setMaxSpeed(0.05);
 		o->isRendereable = false;
 		o->boundingSphere = false;
+		om->setEffect(&effect);
 		
 	}
 	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle->getPos().y,o->vehicle->getPos().z);
@@ -75,13 +76,13 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	o->boundingSphere = true;
 	*/
 
-	om=new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
+	/*om=new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
 	params.scene->AddChild(om);
 	o = params.scene->find(params.ID);
 	o->pScene = params.scene;
 	o->boundingSphere = true;
 	params.myObject = o;
-	om->setEffect(&effect);
+	om->setEffect(&effect);*/
 	
 	om= new CObjectMesh(++params.ID,4.0,1.0,0.0,-PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
 	params.scene->AddChild(om);
