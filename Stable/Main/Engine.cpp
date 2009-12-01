@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "Debugging.h"
 #include "Graphics.h"
+#include "Effect.h"
 //#include "Scripting.h"
 
 #include "Params.h"
@@ -49,17 +50,21 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	CEngine engine(hInstance, SCREEN_WIDTH, SCREEN_HEIGHT);
 	params.engine = &engine;
 	DirectInput* DI = new DirectInput(&params);
+	Effect effect = Effect(params.engine,SPECULAR_MAPPING);
 
 //*---------------
 	CObject* o;
+	CObjectMesh* om;
 	for(int i=0;i <MAXCLIENTS;i++)//max number of network clients defined in networking.h
 	{
-		params.scene->AddChild(new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
+		om=new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
+		params.scene->AddChild(om);
 		o = params.scene->find(params.ID);
 		o->pScene = params.scene;
 		o->getVehicle()->setMaxSpeed(0.05);
 		o->isRendereable = false;
 		o->boundingSphere = false;
+		
 	}
 	//printf("x:%f y:%f z:%f\n",o->vehicle.getPos().x,o->vehicle->getPos().y,o->vehicle->getPos().z);
 	//params.scene->AddChild(new CObjectMesh(++params.ID,-2.0,1.0,0.0,0.0,0.0,0.0,0.5,L"tiger.x",params.engine));
@@ -70,27 +75,32 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	o->boundingSphere = true;
 	*/
 
-
-	params.scene->AddChild(new CObjectMesh(++params.ID,-3.0,1.0,-6.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
+	om=new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
+	params.scene->AddChild(om);
 	o = params.scene->find(params.ID);
 	o->pScene = params.scene;
 	o->boundingSphere = true;
 	params.myObject = o;
-
-	params.scene->AddChild(new CObjectMesh(++params.ID,4.0,1.0,0.0,-PI/2,0.0,0.0,0.5,L"tiger.x",params.engine));
-	o = params.scene->find(params.ID);
-	o->pScene = params.scene;
-	o->boundingSphere = true;
-
-	params.scene->AddChild(new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine));
+	om->setEffect(&effect);
 	
+	om= new CObjectMesh(++params.ID,4.0,1.0,0.0,-PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
+	params.scene->AddChild(om);
+	o = params.scene->find(params.ID);
+	o->pScene = params.scene;
+	o->boundingSphere = true;
+	om->setEffect(&effect);
+	
+	om = new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine);
+	params.scene->AddChild(om);
+	om->setEffect(&effect);
 	o->pScene = params.scene;
 
-
-	params.scene->AddChild(new Actor(++params.ID,-4.0,-3.0,0.0,0.0,PI/2,0.0,0.2,L"bote2.x",params.engine));
+	om =new Actor(++params.ID,-4.0,-3.0,0.0,0.0,PI/2,0.0,0.2,L"bote2.x",params.engine);
+	params.scene->AddChild(om);
 	o = params.scene->find(params.ID);
 	o->boundingSphere = true;
 	o->pScene = params.scene;
+	om->setEffect(&effect);
 	AIController a_c(dynamic_cast<Actor*>(params.scene->find(params.ID)));
 	Waypoint<Vector3D>* a = new Waypoint<Vector3D>("a", Vector3D());
 	Waypoint<Vector3D>* b = new Waypoint<Vector3D>("b", Vector3D(0.0f, -2.0f, 1.0f));

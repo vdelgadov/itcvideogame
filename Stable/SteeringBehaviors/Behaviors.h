@@ -96,7 +96,7 @@ Vector3D SteeringBehaviors<Vector3D>::wander(Vehicle<Vector3D> *veh, double wand
 		double x = wander_radius * cos(theta);
 		Vector3D wander_vec = Vector3D(x, y, veh->getPos().z);
 		wander_vec.normalize();
-		wander_vec += (veh->getHeading()*wander_distance);e
+		wander_vec += (veh->getHeading()*wander_distance);
 		return wander_vec;// * veh->getMaxSpeed();// - veh->getPos(); 
 }
 
