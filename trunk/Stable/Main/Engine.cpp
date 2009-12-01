@@ -76,10 +76,10 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	o->boundingSphere = true;
 	om->setEffect(&effect);
 	
-	om = new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine);
+	/*om = new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine);
 	params.scene->AddChild(om);
 	om->setEffect(&effect);
-	o->pScene = params.scene;
+	o->pScene = params.scene;*/
 
 	om =new Actor(++params.ID,-4.0,-3.0,0.0,0.0,PI/2,0.0,0.2,L"bote2.x",params.engine);
 	params.scene->AddChild(om);
