@@ -1,9 +1,10 @@
+#pragma once
 #ifndef _COBJECT_MESH_CPP
 #define _COBJECT_MESH_CPP
 
 #include "CObject.h"
-#include "Effect.h"
 #include "Controller.h"
+#include "Effect.h"
 class CObjectMesh : public CObject
 {
 public:
@@ -34,8 +35,9 @@ private:
 	D3DXMATRIX mSceneWorldInv; //Matriz Inversa para calcular el mundo
 
 	IDirect3DTexture9* mWhiteTex; //Textura en blanco para cuando no existen, no truenen los shaders
-	Effect effect;
-	ID3DXEffect* mFX; //EFECTO
+	//Effect* effect;
+	//ID3DXEffect* mFX; //EFECTO
+	Effect* pEffect;
 	D3DXHANDLE   mhTech; //Handler de la tecnica
 	D3DXHANDLE   mhWVP; //Handler World View Projection
 	D3DXHANDLE   mhWorldInv; //Handler Matriz World Inverse
@@ -99,6 +101,10 @@ public:
 		this->setController(new Controller());
 
 	}
+	void setEffect(Effect* effect)
+	{
+		this->pEffect = effect;
+	}
 	virtual void initializeWorldCoordinates()
 	{
 		CObject* o = this;
@@ -127,80 +133,27 @@ public:
 	
 	void render()
 	{
-		//cout << "render" << endl;
-		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
 		D3DXMatrixTranslation(&translation,(float)this->getVehicle()->getPos().x,(float)this->getVehicle()->getPos().y,(float)this->getVehicle()->getPos().z);
-		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
-		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
-		
-
 		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); 
-		
-		effect.renderObject(this->pMesh,this->dwNumMaterials,this->mShaderMtrls,this->pMeshTextures,this->pMeshNormalMapTextures,this->pMeshSpecularMapTextures);
-		
+		if(pEffect==NULL)
+		{
+			render2();
+		}
+		else
+		{
+			pEffect->renderObject(this->pMesh,this->dwNumMaterials,this->mShaderMtrls,this->pMeshTextures,this->pMeshNormalMapTextures,this->pMeshSpecularMapTextures);
+		}
+
 
 	}
 	void render2()
 	{
-		//cout << "render" << endl;
-		//D3DXMATRIX translationTemp;//, rotationTemp, scaleTemp;
-		D3DXMatrixTranslation(&translation,(float)this->getVehicle()->getPos().x,(float)this->getVehicle()->getPos().y,(float)this->getVehicle()->getPos().z);
-		//D3DXMatrixRotationYawPitchRoll(&rotationTemp, rX, rY, rZ);
-		//D3DXMatrixScaling(&scaleTemp, scale, scale, scale);
-		
-
-		engine->d3ddev->SetTransform(D3DTS_WORLD,&( (this->scale) * (this->rotation) * (this->translation)) ); 
-		mLight.dirW.x = 0.0f;
-		mLight.dirW.y = 0.0f;
-		mLight.dirW.z = -5.0f;
-		D3DXVec3Normalize(&mLight.dirW,&mLight.dirW);
-		
-		D3DXMATRIX matWorld,matView,matProj;
-		D3DXVECTOR3 eyePosition;
-		engine->d3ddev->GetTransform(D3DTS_WORLD,&matWorld);
-		engine->d3ddev->GetTransform(D3DTS_VIEW,&matView);
-		engine->d3ddev->GetTransform(D3DTS_PROJECTION,&matProj);
-		
-		eyePosition=D3DXVECTOR3(0.0f, 0.0f, -10.0f);
-		D3DXVec3Normalize(&eyePosition,&eyePosition);
-		D3DXMATRIX matWorldViewProj = matWorld*matView*matProj;
-		mFX->SetValue(mhLight, &mLight, sizeof(DirLight));
-		mFX->SetMatrix(mhWVP, &(mSceneWorld*matWorldViewProj));
-		mFX->SetMatrix(mhWorldInv, &mSceneWorldInv);
-		mFX->SetValue(mhEyePosW, &eyePosition, sizeof(D3DXVECTOR3));
-	
-		UINT numPasses = 0;
-		mFX->Begin(&numPasses, 0);
-		mFX->BeginPass(0);
-
         for( DWORD i = 0; i < dwNumMaterials; i++ )
         {		
-            //engine->d3ddev->SetMaterial( &pMeshMaterials[i] );
-            //engine->d3ddev->SetTexture( 0, pMeshTextures[i] );
-			mFX->SetValue(mhMtrl, &this->mShaderMtrls[i], sizeof(Mtrl));
-	
-			// If there is a texture, then use.
-			if(this->pMeshTextures[i] != 0)
-			{
-				mFX->SetTexture(mhTex, this->pMeshTextures[i]);
-			}
-			else
-			{
-				mFX->SetTexture(mhTex, mWhiteTex);
-			}
-	
-
-			mFX->SetTexture(mhNormalMap, this->pMeshNormalMapTextures[i]);
-
-			mFX->CommitChanges();
-            // Draw the mesh subset
+            engine->d3ddev->SetMaterial( &pMeshMaterials[i] );
+            engine->d3ddev->SetTexture( 0, pMeshTextures[i] );
             pMesh->DrawSubset( i );
         }
-		mFX->EndPass();
-		mFX->End();
-		//render all childs
-		
-
 	}
 	
 	HRESULT initializeMesh()
@@ -383,35 +336,12 @@ public:
 		D3DXMatrixIdentity(&mSceneWorldInv);
 
 		//buildFX();
-		effect = Effect(this->engine,SPECULAR_MAPPING);
+		//effect = Effect(this->engine,SPECULAR_MAPPING);
 		return S_OK;
-			
 	}
 
 
-	void buildFX(){
-		// Create the FX from a .fx file.
-		ID3DXBuffer* errors = 0;
-		D3DXCreateEffectFromFile(engine->d3ddev, L"NormalMap.fx", 
-			0, 0, D3DXSHADER_DEBUG, 0, &mFX, &errors);
-		if( errors )
-			MessageBox(0, (LPCWSTR)errors->GetBufferPointer(), 0, 0);
-
-		// Obtain handles.
-		mhTech       = mFX->GetTechniqueByName("NormalMapTech");
-		mhWVP        = mFX->GetParameterByName(0, "gWVP"); //World View Projection
-		mhWorldInv   = mFX->GetParameterByName(0, "gWorldInv"); //World Inverse
-		mhMtrl       = mFX->GetParameterByName(0, "gMtrl"); //Matrix Lights
-		mhLight      = mFX->GetParameterByName(0, "gLight"); //Light Direction
-		mhEyePosW    = mFX->GetParameterByName(0, "gEyePosW"); //Eye  Position
-		mhTex        = mFX->GetParameterByName(0, "gTex"); //Texture
-		mhNormalMap  = mFX->GetParameterByName(0, "gNormalMap"); //Normal Map
-
-		// Set parameters that do not vary:
-
-		// World is the identity, so inverse is also identity.
-		mFX->SetTechnique(mhTech);
-	}
+	
 	virtual void update(double time=0){
 		//cout << "updating cobject meSH!!!" << endl;
 		if(this->isRendereable)
