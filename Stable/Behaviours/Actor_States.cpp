@@ -21,6 +21,7 @@ class Idle : public AState<Actor> {
 			a->getVehicle()->setCurrVel(w_v*a->getVehicle()->getMaxSpeed());
 			return;
 		}
+		cout << "MOTHER FUCKER!!!" << endl;
 		AIController::s_InfluenceMap->mapCoords(Enemy->getVehicle()->getPos(), &e_x, &e_y);
 		AIController::s_InfluenceMap->mapCoords(a->getVehicle()->getPos(), &m_x, &m_y);
 		if(abs(m_x - e_x) < a->getViewRadius() || abs(m_y - e_y) < a->getViewRadius()){

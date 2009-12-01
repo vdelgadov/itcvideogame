@@ -16,7 +16,8 @@ public:
                 this->m_pVeh->setPos(Vector3D(fPosX, fPosY, fPosZ));
                 this->m_pVeh->setMaxSpeed(1);*/
 				this->getVehicle()->setId(ID);
-				this->setController(new AIController(this, cat, rol, i_rad));	
+				this->setController(new AIController(this, cat, rol, i_rad));
+				this->m_iViewRadius = 1.0;
                 
         }
 

@@ -69,7 +69,9 @@ public:
 	 void update(double time) {
 		if(SERVER)
 		{
+			cout << this->getCurrVel().x <<" "<<this->getCurrVel().y<<" " << this->getCurrVel().z << endl;
 			m_vPos += this->getCurrVel();// * time;
+
 			//networkMove(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z, NULL); 
 			broadcastPosition(m_iID, this->getCurrVel().x, this->getCurrVel().y, this->getCurrVel().z);
 		}
