@@ -14,9 +14,9 @@ public:
 		this->m_dMaxSpeed = max_sp;
 		this->m_vVel = V();
 		this->m_vPos = pos;
-	
+
 		
-	
+		
 	}
 
 	void setId(int id){
@@ -67,7 +67,8 @@ public:
 	}
 
 	 void update(double time) {
-		if(SERVER)
+		cout << "UPD VEH" << endl;
+		 if(SERVER)
 		{
 			cout << this->getCurrVel().x <<" "<<this->getCurrVel().y<<" " << this->getCurrVel().z << endl;
 			m_vPos += this->getCurrVel();// * time;
