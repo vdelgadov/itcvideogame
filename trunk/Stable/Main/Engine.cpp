@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	CObjectMesh* om;
 	for(int i=0;i <MAXCLIENTS;i++)//max number of network clients defined in networking.h
 	{
-		om=new CObjectMesh(++params.ID,0.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
+		om=new CObjectMesh(++params.ID,-20.0,1.0,0.0,PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
 		params.scene->AddChild(om);
 		o = params.scene->find(params.ID);
 		o->pScene = params.scene;
@@ -73,13 +73,13 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	params.scene->AddChild(om);
 	o = params.scene->find(params.ID);
 	o->pScene = params.scene;
-	o->boundingSphere = true;
+	o->boundingSphere = false;
 	om->setEffect(&effect);
 	
-	/*om = new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine);
+	om = new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine);
 	params.scene->AddChild(om);
 	om->setEffect(&effect);
-	o->pScene = params.scene;*/
+	o->pScene = params.scene;
 
 	om =new Actor(++params.ID,-4.0,-3.0,0.0,0.0,PI/2,0.0,0.2,L"bote2.x",params.engine);
 	params.scene->AddChild(om);
