@@ -69,185 +69,17 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine, 
 	}
 
 	
-
-
-  om = new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
-  params.scene->AddChild(om);
-  o = params.scene->find(params.ID);
-  o->pScene = params.scene;
-  om->setEffect(&effect);
-
-	om = new CObjectMesh(++params.ID,-11.0,0.0,0.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
+	om= new CObjectMesh(++params.ID,4.0,1.0,0.0,-PI/2,0.0,0.0,0.5,L"tiger.x",params.engine);
 	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,11.0,0.0,0.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
+	o = params.scene->find(params.ID);
+	o->pScene = params.scene;
+	o->boundingSphere = true;
+	om->setEffect(&effect);
+	
+	om = new CObjectMesh(++params.ID,0.0,0.0,0.0,0.0,0.0,0.0,1.0,L"BasicColumnScene.x", params.engine);
 	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,0.0,0.0,11.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,0.0,0.0,-11.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-
-	om = new CObjectMesh(++params.ID,-15.0,0.0,0.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,15.0,0.0,0.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,0.0,0.0,15.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,0.0,0.0,-15.0,0.0,PI/2,0.0,3.0,L"pisoCaminos.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-om->setEffect(&effect);
-
-
-	/*
-	Botes
-	*/
-	om = new CObjectMesh(++params.ID,-10,0.0,3.0,0.0,PI/2,0.0,0.08,L"bote2.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,-11,0.0,3.0,0.0,PI/2,0.0,0.08,L"bote2.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,-12,0.0,3.0,0.0,PI/2,0.0,0.08,L"bote2.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-
-	/*
-	Bancas
-	*/
-	om = new CObjectMesh(++params.ID,-5.0,0.0,-2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,-2.0,0.0,-2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,-2.0,0.0,-5.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-
-	om = new CObjectMesh(++params.ID,-5.0,0.0,2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,-2.0,0.0,2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,-2.0,0.0,5.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-
-	om = new CObjectMesh(++params.ID,5.0,0.0,-2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,2.0,0.0,-2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,2.0,0.0,-5.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-
-	om = new CObjectMesh(++params.ID,5.0,0.0,2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,2.0,0.0,2.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,2.0,0.0,5.0,0.0,PI/2,0.0,0.07,L"bancasombrilla.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-
-	/*
-	lamparas
-	*/
-
-	om = new CObjectMesh(++params.ID,-5.0,0.0,4.0,0.0,PI/2,0.0,0.3,L"lamparaLarga.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,5.0,0.0,4.0,0.0,PI/2,0.0,0.3,L"lamparaLarga.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,-5.0,0.0,-4.0,0.0,PI/2,0.0,0.3,L"lamparaLarga.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
-	om = new CObjectMesh(++params.ID,5.0,0.0,-4.0,0.0,PI/2,0.0,0.3,L"lamparaLarga.x",params.engine);
-	params.scene->AddChild(om);
-o = params.scene->find(params.ID);
-o->pScene = params.scene;
-o->boundingSphere = true;
-om->setEffect(&effect);
+	om->setEffect(&effect);
+	o->pScene = params.scene;
 
 	om =new Actor(++params.ID,-4.0,-3.0,0.0,0.0,PI/2,0.0,0.2,L"bote2.x",params.engine);
 	params.scene->AddChild(om);
@@ -266,7 +98,7 @@ om->setEffect(&effect);
 	Waypoint<Vector3D>* h = new Waypoint<Vector3D>("h", Vector3D(2.0f, 1.0f, 1.0f));
 	Waypoint<Vector3D>* i = new Waypoint<Vector3D>("i", Vector3D(2.0f, 1.0f, 2.0f));
 
-	a_c.getActor()->getVehicle()->setMaxSpeed(0.005);
+	a_c.getActor()->getVehicle()->setMaxSpeed(0.0005);
 
 	AIController::s_lMap.push_front(a);
 	AIController::s_lMap.push_front(b);
