@@ -30,7 +30,7 @@ template <class V>
 V SteeringBehaviors<V>::seek(V t_pos, Vehicle<V>* veh){
 	
 	V steering_force = (t_pos - veh->getPos());
-	if(steering_force.magnitude() < veh->getMaxSpeed()){
+	if(steering_force.magnitude() < 0.8){
 		veh->setCurrVel(V());
 		return V();
 	}
